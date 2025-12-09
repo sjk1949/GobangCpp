@@ -2,6 +2,7 @@
 
 #include "..\src\Board.h"
 #include "..\src\AI.h"
+#include "..\src\ScoreMap.h"
 
 namespace Test
 {
@@ -15,6 +16,11 @@ namespace Test
                 board.setPos(ai.calculateMove(board, PieceType::BLACK), PieceType::BLACK);
                 std::cout << board.toString() << std::endl;
             }
+        }
+
+        static void testScoreMap() {
+            ScoreMap scoreMap = ScoreMap::createEmptyScoreMap();
+            std::cout << scoreMap.toString() << std::endl;
         }
     };
 };

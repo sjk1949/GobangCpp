@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Board.h"
+#include "ScoreMap.h"
 
 class AI
 {
@@ -12,6 +13,7 @@ public:
     Pos calculateMove(Board& board, PieceType aiPiece);
 
 private:
+    ScoreMap scoreMap;
     /**
      * @brief 一个完全随机的下棋函数，当场上棋子较多时可能比较费时
      * @see 引自DeepSeek
