@@ -20,6 +20,7 @@ namespace Test
 
         static void testScoreMap() {
             ScoreMap scoreMap = ScoreMap::createEmptyScoreMap();
+            scoreMap.initScoreMap();
             std::cout << scoreMap.toString() << std::endl;
         }
     };

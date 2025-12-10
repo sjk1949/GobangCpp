@@ -2,9 +2,11 @@
 
 #include <random>
 
+AI::AI() {}
+
 Pos AI::calculateMove(Board& board, PieceType aiPiece) {
     // @todo 根据棋盘分数图取最大值算出最佳位置
-    return randomMove(board);
+    return maxScoreMove(board, aiPiece);
 }
 
 Pos AI::randomMove(Board& board) {
@@ -18,4 +20,14 @@ Pos AI::randomMove(Board& board) {
     } while (!board.isEmpty(pos));
 
     return pos;
+}
+
+Pos AI::maxScoreMove(Board& board, PieceType aiPiece) {
+    return genScoreMap(board, aiPiece).findMax();
+}
+
+ScoreMap AI::genScoreMap(Board& board, PieceType aiPiece) {
+    ScoreMap scoreMap;
+    scoreMap.initScoreMap();
+    return scoreMap;
 }
