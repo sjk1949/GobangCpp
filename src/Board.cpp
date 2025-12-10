@@ -35,8 +35,12 @@ bool Board::isEmpty(Pos pos) {
 }
 
 LineInfo Board::getLongestLine(Pos pos) const {
+    return getLongestLine(pos, getPos(pos));
+}
+
+LineInfo Board::getLongestLine(Pos pos, PieceType type) const {
     LineInfo longestLine;
-    for (LineInfo info : getAllLines(pos)) {
+    for (LineInfo info : getAllLines(pos, type)) {
         if (info.length >= longestLine.length) {
             longestLine = info;
         }
@@ -44,12 +48,17 @@ LineInfo Board::getLongestLine(Pos pos) const {
     return longestLine;
 }
 
+
 std::array<LineInfo, 4> Board::getAllLines(Pos pos) const {
+    return getAllLines(pos, getPos(pos));
+}
+
+std::array<LineInfo, 4> Board::getAllLines(Pos pos, PieceType type) const {
     std::array<LineInfo, 4> result;
-    result[0] = checkLine(pos, Dir::HORIZONTAL);
-    result[1] = checkLine(pos, Dir::VERTICAL);
-    result[2] = checkLine(pos, Dir::RIGHTUP);
-    result[3] = checkLine(pos, Dir::RIGHTDOWN);
+    result[0] = checkLine(pos, Dir::HORIZONTAL, type);
+    result[1] = checkLine(pos, Dir::VERTICAL, type);
+    result[2] = checkLine(pos, Dir::RIGHTUP, type);
+    result[3] = checkLine(pos, Dir::RIGHTDOWN, type);
     return result;
 }
 
@@ -57,15 +66,24 @@ LineInfo Board::checkLine(Pos pos, Dir dir) const {
     return mergeLineInfo(checkLineToDir(pos, dir, false), checkLineToDir(pos, dir, true));
 }
 
+LineInfo Board::checkLine(Pos pos, Dir dir, PieceType type) const {
+    return mergeLineInfo(checkLineToDir(pos, dir, false, type), checkLineToDir(pos, dir, true, type));
+}
+
 LineInfo Board::checkLineToDir(Pos pos, Dir dir, bool isForward) const {
+    return checkLineToDir(pos, dir, isForward, getPos(pos));
+}
+
+LineInfo Board::checkLineToDir(Pos pos, Dir dir, bool isForward, PieceType type) const {
     LineInfo info;
     info.dir = dir;
-    PieceType type = getPos(pos);
     if (type == PieceType::EMPTY) {
         return info;
     } else {
         int forward = (isForward) ? 1 : -1;
         Pos currPos = pos; //当前检查的位置
+        info.length += 1;
+        currPos += (Pos::toPos(dir) *= forward);
         for (; isOnBoard(currPos) && getPos(currPos) == type; currPos += (Pos::toPos(dir) *= forward)) {
             info.length += 1;
         }
@@ -74,6 +92,54 @@ LineInfo Board::checkLineToDir(Pos pos, Dir dir, bool isForward) const {
             info.openEnds[1] = true;
         }
         return info;
+    }
+}
+
+PatternType Board::parsePatten(LineInfo lineInfo) {
+    int openEnds = 0;
+    if (lineInfo.openEnds[0] == true) {openEnds += 1;}
+    if (lineInfo.openEnds[1] == true) {openEnds += 1;}
+    switch (lineInfo.length)
+    {
+    case 5:
+        return PatternType::FIVE;
+    case 4:
+        switch (openEnds)
+        {
+        case 2:
+            return PatternType::LIVE_FOUR;
+        case 1:
+            return PatternType::SLEEP_FOUR;
+        case 0:
+            return PatternType::BLOCK_FOUR;
+        }
+    case 3:
+        switch (openEnds)
+        {
+        case 2:
+            return PatternType::LIVE_THREE;
+        case 1:
+            return PatternType::SLEEP_THREE;
+        case 0:
+            return PatternType::BLOCK_THREE;
+        }
+    case 2:
+        switch (openEnds)
+        {
+        case 2:
+            return PatternType::LIVE_TWO;
+        case 1:
+            return PatternType::SLEEP_TWO;
+        case 0:
+            return PatternType::BLOCK_TWO;
+        }
+    case 1:
+        return PatternType::ONE;   
+    default:
+        if (lineInfo.length > 5) {
+            return PatternType::OVERLINE;
+        }
+        return PatternType::INVALID;
     }
 }
 
@@ -95,6 +161,10 @@ LineInfo Board::mergeLineInfo(LineInfo info1, LineInfo info2) const {
     info.openEnds[0] = info1.openEnds[0];
     info.openEnds[1] = info2.openEnds[0];
     return info;
+}
+
+PieceType Board::opponentOf(PieceType type) {
+    return (type == PieceType::BLACK) ? PieceType::WHITE : PieceType::BLACK;
 }
 
 std::string Board::toString() const {
