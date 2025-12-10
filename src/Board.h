@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object.h"
+#include <array>
 #include "GameTypes.h"
 #include "Pos.h"
 
@@ -66,7 +67,7 @@ public:
 
 private:
     /* 棋盘数据用PieceType枚举存储，0代表空位，1代表黑子，2代表白子 */
-    PieceType board[BOARD_SIZE][BOARD_SIZE];
+    std::array<std::array<PieceType, BOARD_SIZE>, BOARD_SIZE> board;
     Board();
     /* 清空棋盘 */
     void clearBoard();

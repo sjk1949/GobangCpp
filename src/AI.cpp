@@ -29,5 +29,12 @@ Pos AI::maxScoreMove(Board& board, PieceType aiPiece) {
 ScoreMap AI::genScoreMap(Board& board, PieceType aiPiece) {
     ScoreMap scoreMap;
     scoreMap.initScoreMap();
+    for (int x = 0; x < Board::BOARD_SIZE; x++) {
+        for (int y = 0; y < Board::BOARD_SIZE; y++) {
+            if (!board.isEmpty(Pos(x, y))) {
+                scoreMap.setScore(Pos(x, y), -1);
+            }
+        }
+    }
     return scoreMap;
 }

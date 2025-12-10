@@ -27,4 +27,5 @@ private:
      * @brief 根据给定棋盘和持子方生成分数图
      */
     ScoreMap genScoreMap(Board& board, PieceType aiPiece);
+    void updateScoreMap(ScoreMap& scoreMap);
 };
