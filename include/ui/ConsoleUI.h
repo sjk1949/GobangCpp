@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Board.h"
-#include "GameConfig.h"
+#include "core/Board.h"
+#include "core/GameConfig.h"
 
 class ConsoleUI
 {

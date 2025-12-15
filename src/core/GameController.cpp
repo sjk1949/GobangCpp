@@ -1,8 +1,8 @@
-#include "GameController.h"
+#include "core/GameController.h"
 
-#include "Game.h"
-#include "HumanPlayer.h"
-#include "AIPlayer.h"
+#include "core/Game.h"
+#include "player/HumanPlayer.h"
+#include "player/AIPlayer.h"
 
 GameController::GameController(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = GameControllerState::MAIN_MENU;

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "..\src\Board.h"
+#include "core/Board.h"
 
 namespace Test
 {

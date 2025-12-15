@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pos.h"
+#include "core/Pos.h"
 
 /**
  * 所有可能的输入命令

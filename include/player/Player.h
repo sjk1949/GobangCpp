@@ -1,7 +1,7 @@
 #pragma once
 
-#include "InputDevice.h"
-#include "AI.h"
+#include "input/InputDevice.h"
+#include "ai/AI.h"
 
 enum class ActionType
 {

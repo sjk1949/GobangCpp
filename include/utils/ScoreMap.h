@@ -3,8 +3,8 @@
 #include "Object.h"
 
 #include <array>
-#include "Pos.h"
-#include "Board.h"
+#include "core/Pos.h"
+#include "core/Board.h"
 
 class ScoreMap : public Object
 {

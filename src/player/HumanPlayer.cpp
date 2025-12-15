@@ -1,4 +1,4 @@
-#include "HumanPlayer.h"
+#include "player/HumanPlayer.h"
 
 HumanPlayer::HumanPlayer(InputDevice& input) : input(input) {}
 

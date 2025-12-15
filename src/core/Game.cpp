@@ -1,7 +1,7 @@
-#include "Game.h"
-#include "Board.h"
-#include "HumanPlayer.h"
-#include "AIPlayer.h"
+#include "core/Game.h"
+#include "core/Board.h"
+#include "player/HumanPlayer.h"
+#include "player/AIPlayer.h"
 
 Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : board(Board::createEmptyBoard()), judge(Judge()) {
     this -> player1 = std::move(player1);

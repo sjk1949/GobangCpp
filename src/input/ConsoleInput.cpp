@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <regex>
 
-#include "ConsoleInput.h"
-#include "Board.h"
+#include "input/ConsoleInput.h"
+#include "core/Board.h"
 
 InputResult ConsoleInput::getMenuInput() {
     std::string input;

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "GameController.h"
-#include "ConsoleInput.h"
+#include "core/GameController.h"
+#include "input/ConsoleInput.h"
 
 // ======测试时使用======
 #include "..\test\Test.h"

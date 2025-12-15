@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-#include "Pos.h"
+#include "core/Pos.h"
 
 Pos::Pos(int x, int y) : x(x), y(y) {}
 

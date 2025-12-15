@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ConsoleUI.h"
-#include "InputDevice.h"
-#include "Game.h"
+#include "ui/ConsoleUI.h"
+#include "input/InputDevice.h"
+#include "core/Game.h"
 
 enum class GameControllerState
 {

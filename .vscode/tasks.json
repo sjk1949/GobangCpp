@@ -7,9 +7,17 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/src/core/*.cpp",
+                "${workspaceFolder}/src/ai/*.cpp",
+                "${workspaceFolder}/src/input/*.cpp",
+                "${workspaceFolder}/src/player/*.cpp",
+                "${workspaceFolder}/src/ui/*.cpp",
+                "${workspaceFolder}/src/utils/*.cpp",
+                "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/test/*",
+                "-I${workspaceFolder}/include",
                 //"*.cpp",
+                "-std=c++17",
                 "-o",
                 //"${fileDirname}\\${fileBasenameNoExtension}.exe"
                 "${workspaceFolder}/out.exe"

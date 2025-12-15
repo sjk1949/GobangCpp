@@ -1,10 +1,10 @@
-#include "ConsoleUI.h"
+#include "ui/ConsoleUI.h"
 
 #include <iostream>
 #include <iomanip>
 
-#include "Game.h"
-#include "Pos.h"
+#include "core/Game.h"
+#include "core/Pos.h"
 
 void ConsoleUI::clearScreen() {
     // ANSI 转义码：\033[2J 清屏，\033[H 光标移到左上角

@@ -3,11 +3,11 @@
 #include <iostream>
 #include <memory>
 
-#include "Board.h"
-#include "Judge.h"
-#include "Player.h"
-#include "ConsoleUI.h"
-#include "InputDevice.h"
+#include "core/Board.h"
+#include "core/Judge.h"
+#include "player/Player.h"
+#include "ui/ConsoleUI.h"
+#include "input/InputDevice.h"
 
 enum class GameState
 {
