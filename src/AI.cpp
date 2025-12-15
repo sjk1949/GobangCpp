@@ -47,11 +47,11 @@ int AI::scorePattern(const PatternType pattern) {
     switch (pattern)
     {
     case PatternType::FIVE:
-        return 1000;
+        return 10000;
     case PatternType::OVERLINE:
-        return 1000;
+        return 10000;
     case PatternType::LIVE_FOUR:
-        return 800;
+        return 3000;
     case PatternType::SLEEP_FOUR:
         return 600;
     case PatternType::BLOCK_FOUR:
