@@ -1,6 +1,7 @@
 #include "ai/AI.h"
 
 #include <random>
+#include <stdexcept>
 
 AI::AI() {}
 
@@ -71,7 +72,7 @@ int AI::scorePattern(const PatternType pattern) {
     case PatternType::ONE:
         return 1;
     default:
-        break;
+        throw std::invalid_argument("Unknow pattern");
     }
 }
 
