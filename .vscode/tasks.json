@@ -13,7 +13,7 @@
                 "${workspaceFolder}/src/player/*.cpp",
                 "${workspaceFolder}/src/ui/*.cpp",
                 "${workspaceFolder}/src/utils/*.cpp",
-                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/src/app/*.cpp",
                 "${workspaceFolder}/test/*",
                 "-I${workspaceFolder}/include",
                 //"*.cpp",

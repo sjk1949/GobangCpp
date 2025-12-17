@@ -1,14 +1,14 @@
-#include "core/GameController.h"
+#include "app/Application.h"
 
 #include "core/Game.h"
 #include "player/HumanPlayer.h"
 #include "player/AIPlayer.h"
 
-GameController::GameController(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
-    state = GameControllerState::MAIN_MENU;
+Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
+    state = AppState::MAIN_MENU;
 }
 
-GameConfig GameController::getGameConfig() {
+GameConfig Application::getGameConfig() {
     GameConfig config = createDefaultConfig();
     bool isAI;
     isAI = input.getInput("Player1 AI(0/1)?") == "1";
@@ -18,7 +18,7 @@ GameConfig GameController::getGameConfig() {
     return config;
 }
 
-Game GameController::initGame(GameConfig config) {
+Game Application::initGame(GameConfig config) {
     std::unique_ptr<Player> player1;
     std::unique_ptr<Player> player2;
     if (config.player1IsAI) {
@@ -35,9 +35,9 @@ Game GameController::initGame(GameConfig config) {
 }
 
 /*
-Game GameController::initGame() {
+Game Application::initGame() {
     GameConfig config = createDefaultConfig();
-    while (state == GameControllerState::MAIN_MENU) {
+    while (state == ApplicationState::MAIN_MENU) {
         ui.displayStartMenu(config);
         InputResult result = input.getMenuInput();
         switch (result.command)
@@ -49,22 +49,20 @@ Game GameController::initGame() {
 }
 */
 
-void GameController::runGameLoop(Game game) {
+void Application::runGameLoop(Game game) {
     Board& board = game.getBoard();
-    GameState state = GameState::PLAYING;
+    state = AppState::GAME_RUNNING;
+    GameState gameState;
     ui.clearScreen();
     ui.displayBoard(board);
-    while (state == GameState::PLAYING) { 
-        state = game.run();
+    // todo: 这个循环不应只是游戏的循环，而应该修改为应用的大循环，只有AppState = EXIT的条件下才退出
+    while (state == AppState::GAME_RUNNING) {
+        gameState = game.run();
         ui.clearScreen();
-        ui.displayBoard(board);
-        std::string& message = game.getMessage();
-        if (!message.empty()) {
-            ui.print(message);
-            message.clear();
-        }
+        ui.displayGame(game);
+        changeState(gameState);
     }
-    switch (state)
+    switch (gameState)
     {
     case GameState::BLACK_WIN:
         std::cout << "黑棋赢了!" <<std::endl;
@@ -77,6 +75,14 @@ void GameController::runGameLoop(Game game) {
     }
 }
 
-GameConfig GameController::createDefaultConfig() {
+GameConfig Application::createDefaultConfig() {
     return GameConfig();
+}
+
+void Application::changeState(GameState gameState) {
+    if (gameState == GameState::PLAYING) {
+        state = AppState::GAME_RUNNING;
+    } else {
+        state = AppState::GAME_OVER;
+    }
 }

@@ -28,6 +28,15 @@ void ConsoleUI::displayBoard(Board& board) {
     std::cout << board.toString() << std::endl;
 }
 
+void ConsoleUI::displayGame(Game& game) {
+    displayBoard(game.getBoard());
+    std::string& message = game.getMessage();
+    if (!message.empty()) {
+        print(message);
+        message.clear();
+    }
+}
+
 void ConsoleUI::print(const std::string& str) {
     std::cout << str << std::endl;
 }

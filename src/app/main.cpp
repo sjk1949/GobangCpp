@@ -1,5 +1,5 @@
 #include <iostream>
-#include "core/GameController.h"
+#include "app/Application.h"
 #include "input/ConsoleInput.h"
 
 // ======测试时使用======
@@ -9,16 +9,16 @@ using namespace Test;
 
 int main() {
     // ======测试用例======
-    InputTest::testNonBlockingInput();
+    //InputTest::testNonBlockingInput();
     // ======测试用例======
 
     // ======主程序======
-    /*
+    //
     ConsoleUI ui;
     ConsoleInput input;
-    GameController gameController(ui, input);
-    gameController.runGameLoop(gameController.initGame(gameController.getGameConfig()));
-    */
+    Application app(ui, input);
+    app.runGameLoop(app.initGame(app.getGameConfig()));
+    //
    // ======主程序======
    
     return 0;

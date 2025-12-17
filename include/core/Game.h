@@ -6,8 +6,6 @@
 #include "core/Board.h"
 #include "core/Judge.h"
 #include "player/Player.h"
-#include "ui/ConsoleUI.h"
-#include "input/InputDevice.h"
 
 enum class GameState
 {
