@@ -10,5 +10,5 @@ private:
 public:
     HumanPlayer(InputDevice& input);
     ~HumanPlayer() = default;
-    PlayerAction getAction(Board& board, PieceType type) override;
+    //PlayerAction getAction(Board& board, PieceType type) override;
 };

@@ -5,5 +5,5 @@
 class AIPlayer : public Player
 {
 public:
-    PlayerAction getAction(Board& board, PieceType type) override;
+    //PlayerAction getAction(Board& board, PieceType type) override;
 };

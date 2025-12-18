@@ -9,7 +9,8 @@ enum class InputCommand {
     SELECT_FROM_MENU,
     PLACE_PIECE,
     QUIT,
-    INVALID
+    INVALID,
+    NONE
 };
 
 /**
@@ -30,7 +31,7 @@ class InputDevice
 {   
 public:
     virtual ~InputDevice() = default;
-    virtual InputResult getMenuInput() = 0;
-    virtual InputResult getInput() = 0;
+    virtual bool hasInput() = 0;
+    virtual char getInput() = 0;
     virtual std::string getInput(const std::string& str) = 0;
 };

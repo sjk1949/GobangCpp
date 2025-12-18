@@ -21,11 +21,13 @@ public:
     void displayGameResult(const GameState& state);
     /* 输出信息 */
     void print(const std::string& str);
+    void print(const int& num);
     /**
      * @brief 将缓冲区的内容输出到屏幕上
      */
     void flip();
 
 private:
+    bool saveHistoryDraw = false; // 是否保存之前所有的绘制不清屏
     std::stringstream buffer; // 缓冲区
 };

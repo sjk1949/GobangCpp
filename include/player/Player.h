@@ -23,7 +23,7 @@ public:
     virtual ~Player() =default;
     Player(std::string name);
     std::string getName() const;
-    virtual PlayerAction getAction(Board& board, PieceType type) = 0;
+    //virtual PlayerAction getAction(Board& board, PieceType type) = 0;
     Pos calculateMove(Board& board, PieceType aiPiece);
 
 private:

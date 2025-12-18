@@ -10,16 +10,16 @@ Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : b
     state = GameState::PLAYING;
 }
 
-void Game::update() {
-    PlayerAction action = currentPlayer->getAction(board, getPieceType(currentPlayer));
-    switch (action.type)
+void Game::update(InputResult result) {
+    //PlayerAction action = currentPlayer->getAction(board, getPieceType(currentPlayer));
+    switch (result.command)
     {
-    case ActionType::QUIT:
+    case InputCommand::QUIT:
         state = GameState::QUIT;
         break;
-    case ActionType::PLACE_PIECE:
-        if (placePiece(action.pos, currentPlayer)) {
-            switch (judge.ckeckWin(board, action.pos))
+    case InputCommand::PLACE_PIECE:
+        if (placePiece(result.pos, currentPlayer)) {
+            switch (judge.ckeckWin(board, result.pos))
             {
             case GameResult::NO_WINNER:
                 changePlayer();
@@ -38,7 +38,7 @@ void Game::update() {
             setMessage("不能在该处落子！");
         }
         break;
-    case ActionType::INVALID:
+    case InputCommand::INVALID:
         setMessage("非法输入");
         break;
     default:

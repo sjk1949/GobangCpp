@@ -1,3 +1,4 @@
+#pragma once
 /**
  * @brief 这段代码来自deepseek关于非阻塞式跨平台输入读取的生成代码
  * @author DeepSeek

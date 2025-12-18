@@ -4,6 +4,7 @@
 #include "ui/ConsoleUI.h"
 #include "input/InputDevice.h"
 #include "core/Game.h"
+#include "input/InputContext.h"
 
 enum class AppState
 {
@@ -16,10 +17,12 @@ enum class AppState
 class Application
 {
 private:
-    int i = 0;
+    int frame = 0;
     std::chrono::steady_clock::time_point initTime;
     AppState state;
     std::unique_ptr<Game> game;
+    std::string inputBuffer = "";
+    std::unique_ptr<InputContext> inputContext;
     ConsoleUI& ui;
     InputDevice& input;
 
@@ -36,7 +39,7 @@ private:
     void sleep(std::chrono::milliseconds milliseconds);
 
 public:
-    static const int FPS = 10;
+    static const int FPS = 5;
     static constexpr std::chrono::milliseconds MS_PER_FRAME = std::chrono::milliseconds(1000 / FPS);
 
     Application(ConsoleUI& ui, InputDevice& input);
@@ -44,5 +47,4 @@ public:
     GameConfig getGameConfig();
     std::unique_ptr<Game> initGame(GameConfig config);
     void mainLoop();
-    void runGameLoop(Game game);
 };

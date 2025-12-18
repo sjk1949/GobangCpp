@@ -5,10 +5,12 @@
 #include "core/Game.h"
 #include "player/HumanPlayer.h"
 #include "player/AIPlayer.h"
+#include "input/GameInputContext.h"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
     initTime = std::chrono::steady_clock::now();
+    inputContext = std::make_unique<GameInputContext>();
 }
 
 GameConfig Application::getGameConfig() {
@@ -65,34 +67,6 @@ void Application::mainLoop() {
     }
 }
 
-void Application::runGameLoop(Game game) {
-    const Board& board = game.getBoard();
-    state = AppState::GAME_RUNNING;
-    GameState gameState;
-    ui.clear();
-    ui.displayBoard(board);
-    ui.flip();
-    // todo: 这个循环不应只是游戏的循环，而应该修改为应用的大循环，只有AppState = EXIT的条件下才退出
-    while (state == AppState::GAME_RUNNING) {
-        game.update();
-        ui.clear();
-        ui.displayGame(game);
-        ui.flip();
-        changeState(game.getGameState());
-    }
-    switch (gameState)
-    {
-    case GameState::BLACK_WIN:
-        std::cout << "黑棋赢了!" <<std::endl;
-        break;
-    case GameState::WHITE_WIN:
-        std::cout << "白棋赢了!" <<std::endl;
-        break;
-    default:
-        break;
-    }
-}
-
 GameConfig Application::createDefaultConfig() {
     return GameConfig();
 }
@@ -109,12 +83,25 @@ void Application::changeState(AppState state) {
     this->state = state;
 }
 
-void Application::processInput() {}
+void Application::processInput() {
+    if (state == AppState::GAME_RUNNING) {
+        if (input.hasInput()) {
+            char c = input.getInput();
+            //std::cout << int(c) << std::endl;
+            inputContext -> onInput(c);
+        }
+    }
+}
 
 void Application::update() {
+    frame++;
     if (state == AppState::GAME_RUNNING) {
+        ui.print("OK");
         GameState gameState;
-        game -> update();
+        ui.print(inputContext -> hasCommand());
+        if (inputContext -> hasCommand()) {
+            game -> update(inputContext -> popCommand());
+        }
         changeState(game -> getGameState());
     } else if (state == AppState::GAME_OVER) {
         changeState(AppState::EXIT);
@@ -125,6 +112,9 @@ void Application::render() {
     ui.clear();
     if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
+        ui.print(inputContext -> getBuffer());
+        ui.print("Frame:");
+        ui.print(frame);
     } else if (state == AppState::GAME_OVER) {
         ui.displayGame(*game);
         ui.displayGameResult(game -> getGameState());

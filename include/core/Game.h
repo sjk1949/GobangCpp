@@ -20,7 +20,7 @@ class Game
 {
 public:
     Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2);
-    void update();
+    void update(InputResult result);
     const Board& getBoard() const;
     std::string& getMessage();
     const GameState& getGameState() const;

@@ -2,9 +2,10 @@
 
 HumanPlayer::HumanPlayer(InputDevice& input) : input(input) {}
 
+/*
 PlayerAction HumanPlayer::getAction(Board& board, PieceType type) {
-    InputResult result = input.getInput();
     PlayerAction action;
+    // @todo 将Player和输入解耦
     switch (result.command)
     {
     case InputCommand::PLACE_PIECE:
@@ -15,3 +16,4 @@ PlayerAction HumanPlayer::getAction(Board& board, PieceType type) {
         return {ActionType::INVALID};
     }
 }
+    */

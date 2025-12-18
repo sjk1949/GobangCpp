@@ -12,6 +12,8 @@
 
 ConsoleUI::ConsoleUI() {
     std::cout << "\033[?25l"; // 将光标设置为隐藏模式
+    // @todo 先把清屏语句加上，这样至少暂时会好看一些
+    std::cout << "\033[2J\033[H";
 }
 
 void ConsoleUI::clear() {
@@ -65,6 +67,10 @@ void ConsoleUI::displayGameResult(const GameState& state) {
 
 void ConsoleUI::print(const std::string& str) {
     buffer << str << std::endl;
+}
+
+void ConsoleUI::print(const int& num) {
+    buffer << num << std::endl;
 }
 
 void ConsoleUI::flip() {
