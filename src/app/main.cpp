@@ -17,7 +17,8 @@ int main() {
     ConsoleUI ui;
     ConsoleInput input;
     Application app(ui, input);
-    app.runGameLoop(app.initGame(app.getGameConfig()));
+    app.mainLoop();
+    //app.runGameLoop(app.initGame(app.getGameConfig()));
     //
    // ======主程序======
    

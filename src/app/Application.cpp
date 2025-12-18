@@ -1,11 +1,14 @@
 #include "app/Application.h"
 
+#include <chrono>
+#include <thread>
 #include "core/Game.h"
 #include "player/HumanPlayer.h"
 #include "player/AIPlayer.h"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
+    initTime = std::chrono::steady_clock::now();
 }
 
 GameConfig Application::getGameConfig() {
@@ -49,6 +52,17 @@ Game Application::initGame() {
 }
 */
 
+void Application::mainLoop() {
+    while (state != AppState::EXIT) {
+        std::chrono::milliseconds startTime = getCurrentTime();
+        processInput();
+        update();
+        render();
+
+        sleep(startTime + MS_PER_FRAME - getCurrentTime());
+    }
+}
+
 void Application::runGameLoop(Game game) {
     Board& board = game.getBoard();
     state = AppState::GAME_RUNNING;
@@ -85,4 +99,24 @@ void Application::changeState(GameState gameState) {
     } else {
         state = AppState::GAME_OVER;
     }
+}
+
+void Application::processInput() {}
+
+void Application::update() {
+    i++;
+}
+
+void Application::render() {
+    ui.clearScreen();
+    std::cout << i << std::endl;
+    std::cout << getCurrentTime().count() << std::endl;
+}
+
+std::chrono::milliseconds Application::getCurrentTime() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - initTime);
+}
+
+void Application::sleep(std::chrono::milliseconds milliseconds) {
+    std::this_thread::sleep_for(milliseconds);
 }
