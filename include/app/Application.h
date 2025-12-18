@@ -19,6 +19,7 @@ private:
     int i = 0;
     std::chrono::steady_clock::time_point initTime;
     AppState state;
+    std::unique_ptr<Game> game;
     ConsoleUI& ui;
     InputDevice& input;
 
@@ -27,6 +28,7 @@ private:
      * @brief 根据游戏状态改变App运行状态
      */
     void changeState(GameState gameState);
+    void changeState(AppState state);
     void processInput();
     void update();
     void render();
@@ -34,13 +36,13 @@ private:
     void sleep(std::chrono::milliseconds milliseconds);
 
 public:
-    static const int FPS = 20;
+    static const int FPS = 10;
     static constexpr std::chrono::milliseconds MS_PER_FRAME = std::chrono::milliseconds(1000 / FPS);
 
     Application(ConsoleUI& ui, InputDevice& input);
     ~Application() = default;
     GameConfig getGameConfig();
-    Game initGame(GameConfig config);
+    std::unique_ptr<Game> initGame(GameConfig config);
     void mainLoop();
     void runGameLoop(Game game);
 };

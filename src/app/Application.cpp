@@ -21,7 +21,7 @@ GameConfig Application::getGameConfig() {
     return config;
 }
 
-Game Application::initGame(GameConfig config) {
+std::unique_ptr<Game> Application::initGame(GameConfig config) {
     std::unique_ptr<Player> player1;
     std::unique_ptr<Player> player2;
     if (config.player1IsAI) {
@@ -34,7 +34,7 @@ Game Application::initGame(GameConfig config) {
     } else {
         player2 = std::make_unique<HumanPlayer>(input);
     }
-    return Game(std::move(player1), std::move(player2));
+    return std::make_unique<Game>(std::move(player1), std::move(player2));
 }
 
 /*
@@ -53,6 +53,8 @@ Game Application::initGame() {
 */
 
 void Application::mainLoop() {
+    game = initGame(getGameConfig());
+    changeState(AppState::GAME_RUNNING);
     while (state != AppState::EXIT) {
         std::chrono::milliseconds startTime = getCurrentTime();
         processInput();
@@ -64,17 +66,19 @@ void Application::mainLoop() {
 }
 
 void Application::runGameLoop(Game game) {
-    Board& board = game.getBoard();
+    const Board& board = game.getBoard();
     state = AppState::GAME_RUNNING;
     GameState gameState;
-    ui.clearScreen();
+    ui.clear();
     ui.displayBoard(board);
+    ui.flip();
     // todo: 这个循环不应只是游戏的循环，而应该修改为应用的大循环，只有AppState = EXIT的条件下才退出
     while (state == AppState::GAME_RUNNING) {
-        gameState = game.run();
-        ui.clearScreen();
+        game.update();
+        ui.clear();
         ui.displayGame(game);
-        changeState(gameState);
+        ui.flip();
+        changeState(game.getGameState());
     }
     switch (gameState)
     {
@@ -101,16 +105,31 @@ void Application::changeState(GameState gameState) {
     }
 }
 
+void Application::changeState(AppState state) {
+    this->state = state;
+}
+
 void Application::processInput() {}
 
 void Application::update() {
-    i++;
+    if (state == AppState::GAME_RUNNING) {
+        GameState gameState;
+        game -> update();
+        changeState(game -> getGameState());
+    } else if (state == AppState::GAME_OVER) {
+        changeState(AppState::EXIT);
+    }
 }
 
 void Application::render() {
-    ui.clearScreen();
-    std::cout << i << std::endl;
-    std::cout << getCurrentTime().count() << std::endl;
+    ui.clear();
+    if (state == AppState::GAME_RUNNING) {
+        ui.displayGame(*game);
+    } else if (state == AppState::GAME_OVER) {
+        ui.displayGame(*game);
+        ui.displayGameResult(game -> getGameState());
+    }
+    ui.flip();
 }
 
 std::chrono::milliseconds Application::getCurrentTime() {

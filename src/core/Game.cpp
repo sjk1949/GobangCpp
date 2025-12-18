@@ -10,7 +10,7 @@ Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : b
     state = GameState::PLAYING;
 }
 
-GameState Game::run() {
+void Game::update() {
     PlayerAction action = currentPlayer->getAction(board, getPieceType(currentPlayer));
     switch (action.type)
     {
@@ -44,15 +44,18 @@ GameState Game::run() {
     default:
         break;
     }
-    return state;   
 }
 
-Board& Game::getBoard() {
+const Board& Game::getBoard() const {
     return board;
 }
 
 std::string& Game::getMessage() {
     return message;
+}
+
+const GameState& Game::getGameState() const {
+    return state;
 }
 
 PieceType Game::getPieceType(Player* player) {
