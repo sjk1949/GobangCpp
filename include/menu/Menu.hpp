@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "command/MenuCommand.hpp"
 #include "task/Task.hpp"
 
 class MenuItem : public Object
@@ -28,6 +29,7 @@ private:
 public:
     Menu() = default;
     Menu& addItem(MenuItem&& item);
+    void handleInput(std::unique_ptr<MenuCommand> command);
     void selectNext();
     void selectPrev();
     void confirm();

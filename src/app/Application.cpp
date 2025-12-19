@@ -6,13 +6,15 @@
 #include "menu/MenuSet.hpp"
 #include "player/HumanPlayer.hpp"
 #include "player/AIPlayer.hpp"
+#include "command/MenuCommand.hpp"
 #include "input/GameInputContext.hpp"
+#include "input/MenuInputContext.hpp"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
     menu = MenuSet::mainMenu;
     initTime = std::chrono::steady_clock::now();
-    inputContext = std::make_unique<GameInputContext>();
+    inputContext = std::make_unique<MenuInputContext>();
 }
 
 GameConfig Application::getGameConfig() {
@@ -82,12 +84,28 @@ void Application::changeState(GameState gameState) {
 }
 
 void Application::changeState(AppState state) {
+    if (state == AppState::MAIN_MENU) {
+        inputContext = std::make_unique<MenuInputContext>();
+    } else if (state == AppState::GAME_RUNNING) {
+        inputContext = std::make_unique<GameInputContext>();
+    }
     this->state = state;
 }
 
 void Application::processInput() {
     if (state == AppState::MAIN_MENU) {
-
+        if (input.hasInput()) {
+            char c = input.getInput();
+            inputContext->onInput(c);
+            std::unique_ptr<Command> command = inputContext->popCommand();
+            if (!command) return;
+            if (auto* menuCommand = dynamic_cast<MenuCommand*>(command.get()))
+            {
+                command.release(); // 释放基类指针的所有权
+                std::unique_ptr<MenuCommand> mc(menuCommand); // 用派生类型重新接管
+                menu.handleInput(std::move(mc));
+            }
+        }
     } else if (state == AppState::GAME_RUNNING) {
         if (input.hasInput()) {
             char c = input.getInput();

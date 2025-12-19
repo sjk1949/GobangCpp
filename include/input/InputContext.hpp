@@ -14,6 +14,4 @@ public:
 
 protected:
     std::unique_ptr<Command> commandBuffer;
-    /* 解析字符串输入 */
-    std::unique_ptr<Command> parseMenuInput(const std::string& input);
 };

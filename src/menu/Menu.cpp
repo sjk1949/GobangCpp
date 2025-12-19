@@ -1,10 +1,15 @@
 #include "menu/Menu.hpp"
 
 #include <sstream>
+#include "command/MenuCommand.hpp"
 
 Menu& Menu::addItem(MenuItem&& item) {
     items.push_back(std::move(item));
     return *this;
+}
+
+void Menu::handleInput(std::unique_ptr<MenuCommand> command) {
+    command->execute(*this);
 }
 
 void Menu::selectNext() {
