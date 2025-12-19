@@ -1,9 +1,9 @@
 #include "input/GameInputContext.h"
 
-#include <iostream>
+#include <utils/Logger.h>
 
 void GameInputContext::onInput(const char& c) {
-    std::cerr << "[DEBUG] PRESSED: " << int(c) << std::endl;
+    Logger::debug("PRESSED: ", int(c));
     if (c == 13) {
         result = parseInput(buffer);
         buffer = "";

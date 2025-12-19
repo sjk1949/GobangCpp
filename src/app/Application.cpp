@@ -116,6 +116,7 @@ void Application::render() {
         ui.displayGame(*game);
         ui.displayGameResult(game->getGameState());
     }
+    ui.drawDebugPanel();
     ui.flip();
 }
 

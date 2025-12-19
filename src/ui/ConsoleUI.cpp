@@ -9,6 +9,7 @@
 #endif
 #include "core/Game.h"
 #include "core/Pos.h"
+#include "utils/Logger.h"
 
 ConsoleUI::ConsoleUI() {
     std::cout << "\033[?25l"; // 将光标设置为隐藏模式
@@ -73,7 +74,17 @@ void ConsoleUI::print(const int& num) {
     buffer << num << std::endl;
 }
 
+void ConsoleUI::drawDebugPanel() {
+    buffer << "[DEBUG LOG]\n";
+    for (auto log : Logger::getRecentLogs(2)) {
+        buffer << log << "\n";
+    }
+}
+
 void ConsoleUI::flip() {
-    std::cout << "\033[H";
+    if (saveHistoryDraw == false) {
+        std::cout << "\033[H";
+        std::cout << "\033[J";
+    }
     std::cout << buffer.str() << std::endl;
 }

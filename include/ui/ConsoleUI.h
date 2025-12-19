@@ -22,6 +22,8 @@ public:
     /* 输出信息 */
     void print(const std::string& str);
     void print(const int& num);
+    /* 输出调试信息 */
+    void drawDebugPanel();
     /**
      * @brief 将缓冲区的内容输出到屏幕上
      */

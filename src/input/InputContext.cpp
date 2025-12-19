@@ -1,9 +1,9 @@
 #include "input/InputContext.h"
 
-#include <iostream>
 #include <algorithm>
 #include <regex>
 #include "core/Board.h"
+#include "utils/Logger.h"
 
 InputContext::InputContext() {}
 
@@ -18,7 +18,7 @@ InputResult InputContext::popCommand() {
 }
 
 InputResult InputContext::parseInput(const std::string& input) {
-    std::cerr << "[DEBUG] input: " << input << std::endl;
+    Logger::debug("INPUT: ", input);
     InputResult result;
     int n;
     char c;
