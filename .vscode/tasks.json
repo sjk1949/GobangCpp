@@ -15,6 +15,7 @@
                 "${workspaceFolder}/src/utils/*.cpp",
                 "${workspaceFolder}/src/app/*.cpp",
                 "${workspaceFolder}/src/command/*.cpp",
+                "${workspaceFolder}/src/menu/*.cpp",
                 "-I${workspaceFolder}/include",
                 //"*.cpp",
                 "-std=c++17",

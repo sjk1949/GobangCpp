@@ -6,14 +6,16 @@
 #include "core/Board.hpp"
 #include "core/GameConfig.hpp"
 
+class Menu;
+
 class ConsoleUI
 {
 public:
     ConsoleUI();
     /* 清屏 */
     void clear();
-    /* 展示开始菜单 */
-    void displayStartMenu(const GameConfig config);
+    /* 展示菜单 */
+    void displayMenu(Menu& menu);
     /* 展示给定的棋盘 */
     void displayBoard(const Board& board);
     /* 展示游戏 */

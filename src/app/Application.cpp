@@ -3,12 +3,14 @@
 #include <chrono>
 #include <thread>
 #include "core/Game.hpp"
+#include "menu/MenuSet.hpp"
 #include "player/HumanPlayer.hpp"
 #include "player/AIPlayer.hpp"
 #include "input/GameInputContext.hpp"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
+    menu = MenuSet::mainMenu;
     initTime = std::chrono::steady_clock::now();
     inputContext = std::make_unique<GameInputContext>();
 }
@@ -55,8 +57,8 @@ Game Application::initGame() {
 */
 
 void Application::mainLoop() {
-    game = initGame(getGameConfig());
-    changeState(AppState::GAME_RUNNING);
+    //game = initGame(getGameConfig());
+    //changeState(AppState::GAME_RUNNING);
     while (state != AppState::EXIT) {
         std::chrono::milliseconds startTime = getCurrentTime();
         processInput();
@@ -84,7 +86,9 @@ void Application::changeState(AppState state) {
 }
 
 void Application::processInput() {
-    if (state == AppState::GAME_RUNNING) {
+    if (state == AppState::MAIN_MENU) {
+
+    } else if (state == AppState::GAME_RUNNING) {
         if (input.hasInput()) {
             char c = input.getInput();
             inputContext->onInput(c);
@@ -112,7 +116,9 @@ void Application::update() {
 
 void Application::render() {
     ui.clear();
-    if (state == AppState::GAME_RUNNING) {
+    if (state == AppState::MAIN_MENU) {
+        ui.displayMenu(menu);
+    } else if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
         ui.print(inputContext->getBuffer(), "\n");
         ui.print("Frame: ", frame, "\n");

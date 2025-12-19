@@ -4,6 +4,7 @@
 #include "ui/ConsoleUI.hpp"
 #include "input/InputDevice.hpp"
 #include "core/Game.hpp"
+#include "menu/Menu.hpp"
 #include "input/InputContext.hpp"
 
 enum class AppState
@@ -21,6 +22,7 @@ private:
     std::chrono::steady_clock::time_point initTime;
     AppState state;
     std::unique_ptr<Game> game;
+    Menu menu;
     std::string inputBuffer = "";
     std::unique_ptr<InputContext> inputContext;
     ConsoleUI& ui;

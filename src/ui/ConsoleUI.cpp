@@ -9,6 +9,7 @@
 #endif
 #include "core/Game.hpp"
 #include "core/Pos.hpp"
+#include "menu/Menu.hpp"
 #include "utils/Logger.hpp"
 
 ConsoleUI::ConsoleUI() {
@@ -27,10 +28,11 @@ void ConsoleUI::clear() {
     buffer.str("");
 }
 
+/*
 void ConsoleUI::displayStartMenu(const GameConfig config) {
     buffer << "======================================" << std::endl;
     buffer << "=             五子棋小游戏            =" << std::endl;
-    buffer << "=               @copyright 韩书钰     =" << std::endl;
+    buffer << "=               @copyright           =" << std::endl;
     buffer << "======================================" << std::endl;
     buffer << "==============开始菜单================" << std::endl;
     buffer << "1.开始游戏" << std::endl;
@@ -38,6 +40,11 @@ void ConsoleUI::displayStartMenu(const GameConfig config) {
     buffer << "      Player1            " << config.player1IsAI << std::endl;
     buffer << "      Player2            " << std::endl;
     buffer << "3.退出游戏" << std::endl;
+}
+    */
+
+void ConsoleUI::displayMenu(Menu& menu) {
+    print(menu.toString(), "\n");
 }
 
 void ConsoleUI::displayBoard(const Board& board) {
