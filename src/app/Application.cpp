@@ -12,7 +12,7 @@
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
-    menu = MenuSet::mainMenu;
+    menu = MenuSet::mainMenu.setApp(*this);
     initTime = std::chrono::steady_clock::now();
     inputContext = std::make_unique<MenuInputContext>();
 }
@@ -148,6 +148,15 @@ void Application::render() {
     }
     ui.drawDebugPanel();
     ui.flip();
+}
+
+void Application::startGame() {
+    game = initGame(getGameConfig());
+    changeState(AppState::GAME_RUNNING);
+}
+
+void Application::exit() {
+    changeState(AppState::EXIT);
 }
 
 std::chrono::milliseconds Application::getCurrentTime() {

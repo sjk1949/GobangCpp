@@ -1,10 +1,15 @@
 #include "menu/Menu.hpp"
 
 #include <sstream>
+#include "app/Application.hpp"
 #include "command/MenuCommand.hpp"
 
 Menu& Menu::addItem(MenuItem&& item) {
     items.push_back(std::move(item));
+    return *this;
+}
+Menu& Menu::setApp(Application& app) {
+    this->app = &app;
     return *this;
 }
 
@@ -27,7 +32,8 @@ void Menu::selectPrev() {
 }
 
 void Menu::confirm() {
-    items[selectedItem].onSelected();
+    if (!app) {return;}
+    items[selectedItem].onSelected(*app);
 }
 
 std::string Menu::toString() const {

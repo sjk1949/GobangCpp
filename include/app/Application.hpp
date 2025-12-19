@@ -7,6 +7,8 @@
 #include "menu/Menu.hpp"
 #include "input/InputContext.hpp"
 
+class Menu;
+
 enum class AppState
 {
     MAIN_MENU,
@@ -49,4 +51,6 @@ public:
     GameConfig getGameConfig();
     std::unique_ptr<Game> initGame(GameConfig config);
     void mainLoop();
+    void startGame();
+    void exit();
 };
