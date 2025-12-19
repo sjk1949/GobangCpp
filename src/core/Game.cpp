@@ -1,9 +1,9 @@
-#include "core/Game.h"
+#include "core/Game.hpp"
 
 #include <chrono>
-#include "core/Board.h"
-#include "player/HumanPlayer.h"
-#include "player/AIPlayer.h"
+#include "core/Board.hpp"
+#include "player/HumanPlayer.hpp"
+#include "player/AIPlayer.hpp"
 
 Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : board(Board::createEmptyBoard()), judge(Judge()) {
     this->player1 = std::move(player1);

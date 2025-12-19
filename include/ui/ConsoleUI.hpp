@@ -2,9 +2,9 @@
 
 #include <sstream>
 #include <utility>
-#include "core/Game.h"
-#include "core/Board.h"
-#include "core/GameConfig.h"
+#include "core/Game.hpp"
+#include "core/Board.hpp"
+#include "core/GameConfig.hpp"
 
 class ConsoleUI
 {

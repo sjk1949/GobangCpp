@@ -1,10 +1,10 @@
 #pragma once
 
 #include <chrono>
-#include "ui/ConsoleUI.h"
-#include "input/InputDevice.h"
-#include "core/Game.h"
-#include "input/InputContext.h"
+#include "ui/ConsoleUI.hpp"
+#include "input/InputDevice.hpp"
+#include "core/Game.hpp"
+#include "input/InputContext.hpp"
 
 enum class AppState
 {

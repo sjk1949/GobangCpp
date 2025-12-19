@@ -1,10 +1,10 @@
-#include "input/GameInputContext.h"
+#include "input/GameInputContext.hpp"
 
 #include <algorithm>
 #include <regex>
-#include "core/Board.h"
-#include "command/GameCommand.h"
-#include "utils/Logger.h"
+#include "core/Board.hpp"
+#include "command/GameCommand.hpp"
+#include "utils/Logger.hpp"
 
 void GameInputContext::onInput(const char& c) {
     Logger::debug("PRESSED: ", int(c));

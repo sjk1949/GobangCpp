@@ -1,6 +1,6 @@
-#include "input/InputContext.h"
+#include "input/InputContext.hpp"
 
-#include "command/Command.h"
+#include "command/Command.hpp"
 
 InputContext::InputContext() {}
 

@@ -1,11 +1,11 @@
-#include "app/Application.h"
+#include "app/Application.hpp"
 
 #include <chrono>
 #include <thread>
-#include "core/Game.h"
-#include "player/HumanPlayer.h"
-#include "player/AIPlayer.h"
-#include "input/GameInputContext.h"
+#include "core/Game.hpp"
+#include "player/HumanPlayer.hpp"
+#include "player/AIPlayer.hpp"
+#include "input/GameInputContext.hpp"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;

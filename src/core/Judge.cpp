@@ -1,6 +1,6 @@
-#include "core/Judge.h"
+#include "core/Judge.hpp"
 
-#include "core/Board.h"
+#include "core/Board.hpp"
 
 bool Judge::isValidMove(const Board& board, const Pos pos) {
     if (Board::isOnBoard(pos) && board.getPos(pos) == PieceType::EMPTY) {

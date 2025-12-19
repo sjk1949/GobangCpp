@@ -1,7 +1,7 @@
 #pragma once
 
-#include "InputDevice.h"
-#include "NonBlockingInput.h"
+#include "InputDevice.hpp"
+#include "NonBlockingInput.hpp"
 
 class ConsoleInput : public InputDevice
 {

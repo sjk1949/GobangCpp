@@ -1,4 +1,4 @@
-#include "input/NonBlockingInput.h"
+#include "input/NonBlockingInput.hpp"
 
  namespace Test {
     class InputTest

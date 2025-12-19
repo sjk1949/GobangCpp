@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "input/ConsoleInput.h"
-#include "core/Board.h"
+#include "input/ConsoleInput.hpp"
+#include "core/Board.hpp"
 
 /*
 InputResult ConsoleInput::getMenuInput() {

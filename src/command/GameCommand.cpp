@@ -1,6 +1,6 @@
-#include "command/GameCommand.h"
+#include "command/GameCommand.hpp"
 
-#include "core/Game.h"
+#include "core/Game.hpp"
 
 void PlacePieceCommand::execute(Game& game) {game.placePieceAndCheck(pos);};
 

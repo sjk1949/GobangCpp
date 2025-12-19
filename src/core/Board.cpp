@@ -2,8 +2,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "core/Board.h"
-#include "core/GameTypes.h"
+#include "core/Board.hpp"
+#include "core/GameTypes.hpp"
 
 Board::Board() {
     clearBoard();

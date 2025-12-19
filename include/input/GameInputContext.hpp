@@ -1,10 +1,10 @@
 #pragma once
 
-#include "InputContext.h"
+#include "InputContext.hpp"
 
 #include <string>
-#include "core/Pos.h"
-#include "command/Command.h"
+#include "core/Pos.hpp"
+#include "command/Command.hpp"
 
 class GameInputContext : public InputContext
 {

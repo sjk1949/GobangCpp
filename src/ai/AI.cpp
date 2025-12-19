@@ -1,4 +1,4 @@
-#include "ai/AI.h"
+#include "ai/AI.hpp"
 
 #include <random>
 #include <stdexcept>

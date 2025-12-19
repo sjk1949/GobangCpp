@@ -1,4 +1,4 @@
-#include "ui/ConsoleUI.h"
+#include "ui/ConsoleUI.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -7,9 +7,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include "core/Game.h"
-#include "core/Pos.h"
-#include "utils/Logger.h"
+#include "core/Game.hpp"
+#include "core/Pos.hpp"
+#include "utils/Logger.hpp"
 
 ConsoleUI::ConsoleUI() {
     std::cout << "\033[?25l"; // 将光标设置为隐藏模式

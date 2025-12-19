@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Object.h"
+#include "Object.hpp"
 
 #include <array>
-#include "core/Pos.h"
-#include "core/Board.h"
+#include "core/Pos.hpp"
+#include "core/Board.hpp"
 
 class ScoreMap : public Object
 {

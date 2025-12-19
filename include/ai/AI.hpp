@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/Board.h"
-#include "utils/ScoreMap.h"
+#include "core/Board.hpp"
+#include "utils/ScoreMap.hpp"
 
 class AI
 {

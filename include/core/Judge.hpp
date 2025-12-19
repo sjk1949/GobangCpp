@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Pos.h"
-#include "Board.h"
+#include "Pos.hpp"
+#include "Board.hpp"
 
 class Judge
 {

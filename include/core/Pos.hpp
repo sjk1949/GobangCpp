@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils/Object.h"
+#include "utils/Object.hpp"
 
 /**
  * 这个枚举类表示棋盘上的八种方向

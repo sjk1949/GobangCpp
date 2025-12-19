@@ -1,4 +1,4 @@
-#include "player/AIPlayer.h"
+#include "player/AIPlayer.hpp"
 
 std::unique_ptr<GameCommand> AIPlayer::getCommand(Board& board, PieceType type) {
     return std::make_unique<PlacePieceCommand>(calculateMove(board, type));

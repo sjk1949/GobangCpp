@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "core/Board.h"
-#include "ai/AI.h"
-#include "utils/ScoreMap.h"
+#include "core/Board.hpp"
+#include "ai/AI.hpp"
+#include "utils/ScoreMap.hpp"
 
 namespace Test
 {

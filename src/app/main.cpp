@@ -1,9 +1,9 @@
 #include <iostream>
-#include "app/Application.h"
-#include "input/ConsoleInput.h"
+#include "app/Application.hpp"
+#include "input/ConsoleInput.hpp"
 
 // ======测试时使用======
-#include "..\test\Test.h"
+#include "..\test\Test.hpp"
 using namespace Test;
 // ======测试时使用======
 

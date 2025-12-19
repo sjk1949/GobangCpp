@@ -1,7 +1,7 @@
 #pragma once
 
-#include "command/Command.h"
-#include "core/Pos.h"
+#include "command/Command.hpp"
+#include "core/Pos.hpp"
 
 class Game;
 

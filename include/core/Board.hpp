@@ -1,9 +1,9 @@
 #pragma once
 
-#include "utils/Object.h"
+#include "utils/Object.hpp"
 #include <array>
-#include "core/GameTypes.h"
-#include "core/Pos.h"
+#include "core/GameTypes.hpp"
+#include "core/Pos.hpp"
 
 enum class PatternType
 {

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "command/GameCommand.h"
-#include "ai/AI.h"
+#include "command/GameCommand.hpp"
+#include "ai/AI.hpp"
 
 class Player
 {

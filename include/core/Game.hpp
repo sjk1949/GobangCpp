@@ -3,10 +3,10 @@
 #include <chrono>
 #include <memory>
 
-#include "core/Board.h"
-#include "core/Judge.h"
-#include "command/GameCommand.h"
-#include "player/Player.h"
+#include "core/Board.hpp"
+#include "core/Judge.hpp"
+#include "command/GameCommand.hpp"
+#include "player/Player.hpp"
 
 enum class GameState
 {

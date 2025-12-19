@@ -1,4 +1,4 @@
-#include "utils/ScoreMap.h"
+#include "utils/ScoreMap.hpp"
 
 #include <cmath>
 #include <sstream>
