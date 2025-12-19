@@ -109,12 +109,13 @@ void Application::render() {
     ui.clear();
     if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
-        ui.print(inputContext->getBuffer());
-        ui.print("Frame:");
-        ui.print(frame);
+        ui.print(inputContext->getBuffer(), "\n");
+        ui.print("Frame: ", frame, "\n");
     } else if (state == AppState::GAME_OVER) {
         ui.displayGame(*game);
         ui.displayGameResult(game->getGameState());
+    } else if (state == AppState::EXIT) { // 应用退出的时候不再刷新屏幕
+        return;
     }
     ui.drawDebugPanel();
     ui.flip();

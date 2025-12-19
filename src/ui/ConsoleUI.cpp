@@ -37,29 +37,32 @@ void ConsoleUI::displayStartMenu(const GameConfig config) {
 }
 
 void ConsoleUI::displayBoard(const Board& board) {
-    buffer << board.toString() << std::endl;
+    print(board.toString(), "\n");
 }
 
 void ConsoleUI::displayGame(Game& game) {
     displayBoard(game.getBoard());
-    std::string& message = game.getMessage();
-    if (!message.empty()) {
-        print(message);
-        message.clear();
+    print("Current Player: ");
+    if (game.getCurrentPieceType() == PieceType::BLACK) {
+        print("BLACK ●");
+    } else {
+        print("WHITE ○");
     }
+    print("              Time Left: ", game.getRemainingTime(), "s\n");
+    print(game.getMessage(), "\n");
 }
 
 void ConsoleUI::displayGameResult(const GameState& state) {
     switch (state)
     {
     case GameState::BLACK_WIN:
-        buffer << "黑棋赢了!" << std::endl;
+        print("黑棋赢了!\n");
         break;
     case GameState::WHITE_WIN:
-        buffer << "白棋赢了!" << std::endl;
+        print("白棋赢了!\n");
         break;
     case GameState::DRAW:
-        buffer << "平局！" << std::endl;
+        print("平局\n");
         break;
     default:
         break;
@@ -67,17 +70,13 @@ void ConsoleUI::displayGameResult(const GameState& state) {
 }
 
 void ConsoleUI::print(const std::string& str) {
-    buffer << str << std::endl;
-}
-
-void ConsoleUI::print(const int& num) {
-    buffer << num << std::endl;
+    buffer << str;
 }
 
 void ConsoleUI::drawDebugPanel() {
-    buffer << "[DEBUG LOG]\n";
+    print("[DEBUG LOG]\n");
     for (auto log : Logger::getRecentLogs(2)) {
-        buffer << log << "\n";
+        print(log, "\n");
     }
 }
 
@@ -86,5 +85,7 @@ void ConsoleUI::flip() {
         std::cout << "\033[H";
         std::cout << "\033[J";
     }
-    std::cout << buffer.str() << std::endl;
+    std::cout << buffer.str();
+    std::cout.flush();
+    ;
 }

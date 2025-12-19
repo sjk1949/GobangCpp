@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include <utility>
 #include "core/Game.h"
 #include "core/Board.h"
 #include "core/GameConfig.h"
@@ -21,7 +22,14 @@ public:
     void displayGameResult(const GameState& state);
     /* 输出信息 */
     void print(const std::string& str);
-    void print(const int& num);
+
+    template<typename... Args>
+    void print(Args&&... args) {
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args));
+        print(static_cast<const std::string&>(oss.str()));
+    }
+
     /* 输出调试信息 */
     void drawDebugPanel();
     /**
