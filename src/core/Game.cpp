@@ -29,36 +29,48 @@ void Game::update() {
     case InputCommand::NONE: // 如果没有接收到指令
         return;
     case InputCommand::QUIT:
-        state = GameState::QUIT;
+        quit();
         break;
     case InputCommand::PLACE_PIECE:
-        if (placePiece(result.pos, currentPlayer)) {
-            switch (judge.ckeckWin(board, result.pos))
-            {
-            case GameResult::NO_WINNER:
-                changePlayer();
-                break;
-            case GameResult::BLACK_WIN:
-                state = GameState::BLACK_WIN;
-                break;
-            case GameResult::WHITE_WIN:
-                state = GameState::WHITE_WIN;
-                break;
-            case GameResult::DRAW:
-                state = GameState::DRAW;
-                break;
-            }
-            setMessage("");
-        } else {
-            setMessage("不能在该处落子！");
-        }
+        placePieceAndCheck(result.pos);
         break;
     case InputCommand::INVALID:
-        setMessage("非法输入");
+        recievedInvalidCommand();
         break;
     default:
         break;
     }
+}
+
+void Game::placePieceAndCheck(Pos pos) {
+    if (placePiece(pos, currentPlayer)) {
+        switch (judge.ckeckWin(board, pos))
+        {
+        case GameResult::NO_WINNER:
+            changePlayer();
+            break;
+        case GameResult::BLACK_WIN:
+            state = GameState::BLACK_WIN;
+            break;
+        case GameResult::WHITE_WIN:
+            state = GameState::WHITE_WIN;
+            break;
+        case GameResult::DRAW:
+            state = GameState::DRAW;
+            break;
+        }
+        setMessage("");
+    } else {
+        setMessage("不能在该处落子！");
+    }
+}
+
+void Game::quit() {
+    state = GameState::QUIT;
+}
+
+void Game::recievedInvalidCommand() {
+    setMessage("非法输入");
 }
 
 const Board& Game::getBoard() const {

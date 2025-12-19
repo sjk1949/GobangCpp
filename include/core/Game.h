@@ -28,7 +28,14 @@ public:
     const std::string& getMessage() const;
     const GameState& getGameState() const;
     PieceType getCurrentPieceType() const;
+    /**
+     * @brief 获得以秒为单位表示的当前回合剩余时间
+     */
     int getRemainingTime() const;
+
+    void placePieceAndCheck(Pos pos);
+    void quit();
+    void recievedInvalidCommand();
 
 private:
     Board board;
@@ -51,6 +58,10 @@ private:
      * @brief 轮换正在下棋的玩家
      */
     void changePlayer();
+    /**
+     * @brief 检查当前回合是否超时
+     * @return 如果当前剩余时间小于等于0，设为true
+     */
     bool checkTimeout() const;
     void setMessage(const std::string& msg);
 };
