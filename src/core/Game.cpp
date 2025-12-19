@@ -13,8 +13,8 @@ Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : b
     startTurnTime = std::chrono::steady_clock::now();
 }
 
-void Game::handleInput(InputResult result) {
-    currentPlayer->push(result);
+void Game::handleInput(std::unique_ptr<GameCommand> command) {
+    currentPlayer->push(std::move(command));
 }
 
 void Game::update() {
@@ -23,23 +23,11 @@ void Game::update() {
         state = (getPieceType(currentPlayer) == PieceType::BLACK) ? GameState::WHITE_WIN : GameState::BLACK_WIN;
         return;
     }
-    InputResult result = currentPlayer -> getCommand(board, getPieceType(currentPlayer));
-    switch (result.command)
-    {
-    case InputCommand::NONE: // 如果没有接收到指令
+    std::unique_ptr<GameCommand> command = currentPlayer -> getCommand(board, getPieceType(currentPlayer));
+    if (command == nullptr) {
         return;
-    case InputCommand::QUIT:
-        quit();
-        break;
-    case InputCommand::PLACE_PIECE:
-        placePieceAndCheck(result.pos);
-        break;
-    case InputCommand::INVALID:
-        recievedInvalidCommand();
-        break;
-    default:
-        break;
     }
+    command->execute(*this);
 }
 
 void Game::placePieceAndCheck(Pos pos) {

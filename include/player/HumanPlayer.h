@@ -9,5 +9,5 @@ private:
 public:
     HumanPlayer() = default;
     ~HumanPlayer() = default;
-    InputResult getCommand(Board& board, PieceType type) override;
+    std::unique_ptr<GameCommand> getCommand(Board& board, PieceType type) override;
 };

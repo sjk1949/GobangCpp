@@ -12,10 +12,6 @@ Pos Player::calculateMove(Board& board, PieceType aiPiece) {
     return ai.calculateMove(board, aiPiece);
 }
 
-void Player::push(InputResult result) {
-    this->result = result;
-}
-
-bool Player::hasCommand() {
-    return result.command != InputCommand::NONE;
+void Player::push(std::unique_ptr<GameCommand> command) {
+    commandBuffer = std::move(command);
 }

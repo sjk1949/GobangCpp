@@ -1,18 +1,14 @@
 #pragma once
 
-#include "Game.h"
+#include "command/Command.h"
+#include "core/Pos.h"
 
-class GameCommand
+class Game;
+
+class GameCommand : public Command
 {
 public:
-    virtual ~GameCommand() = default;
     virtual void execute(Game& game) = 0;
-};
-
-class NoneGameCommand : public GameCommand
-{
-public:
-    void execute(Game& game) override;
 };
 
 class PlacePieceCommand : public GameCommand

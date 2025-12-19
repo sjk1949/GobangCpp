@@ -1,7 +1,7 @@
 #include "player/HumanPlayer.h"
 
-InputResult HumanPlayer::getCommand(Board& board, PieceType type) {
-    InputResult out = result;
-    result.command = InputCommand::NONE;
-    return out;
+std::unique_ptr<GameCommand> HumanPlayer::getCommand(Board& board, PieceType type) {
+    std::unique_ptr<GameCommand> command = std::move(commandBuffer);
+    commandBuffer = nullptr;
+    return std::move(command);
 }

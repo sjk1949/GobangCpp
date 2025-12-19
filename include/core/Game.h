@@ -5,6 +5,7 @@
 
 #include "core/Board.h"
 #include "core/Judge.h"
+#include "command/GameCommand.h"
 #include "player/Player.h"
 
 enum class GameState
@@ -22,7 +23,7 @@ public:
     static const int TURN_TIME_LIMIT = 15; // 每回合时间限制，单位为s
     
     Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2);
-    void handleInput(InputResult result);
+    void handleInput(std::unique_ptr<GameCommand> command);
     void update();
     const Board& getBoard() const;
     const std::string& getMessage() const;

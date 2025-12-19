@@ -88,8 +88,13 @@ void Application::processInput() {
         if (input.hasInput()) {
             char c = input.getInput();
             inputContext->onInput(c);
-            if (inputContext->hasCommand()) {
-                game->handleInput(inputContext->popCommand());
+            std::unique_ptr<Command> command = inputContext->popCommand();
+            if (!command) return;
+            if (auto* gameCommand = dynamic_cast<GameCommand*>(command.get()))
+            {
+                command.release(); // 释放基类指针的所有权
+                std::unique_ptr<GameCommand> gc(gameCommand); // 用派生类型重新接管
+                game->handleInput(std::move(gc));
             }
         }
     }

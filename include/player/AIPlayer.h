@@ -5,5 +5,5 @@
 class AIPlayer : public Player
 {
 public:
-    InputResult getCommand(Board& board, PieceType type) override;
+    std::unique_ptr<GameCommand> getCommand(Board& board, PieceType type) override;
 };
