@@ -16,11 +16,13 @@ enum class InputCommand {
 /**
  * 具体输入的结果
  */
-struct InputResult
+class InputResult
 {
+public:
     InputCommand command;
     Pos pos;
     int order;
+    InputResult() : command(InputCommand::NONE) {}
 };
 
 

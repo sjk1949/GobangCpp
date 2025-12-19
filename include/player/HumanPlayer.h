@@ -5,10 +5,9 @@
 class HumanPlayer : public Player
 {
 private:
-    InputDevice& input;
 
 public:
-    HumanPlayer(InputDevice& input);
+    HumanPlayer() = default;
     ~HumanPlayer() = default;
-    //PlayerAction getAction(Board& board, PieceType type) override;
+    InputResult getCommand(Board& board, PieceType type) override;
 };

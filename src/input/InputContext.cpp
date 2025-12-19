@@ -5,9 +5,7 @@
 #include <regex>
 #include "core/Board.h"
 
-InputContext::InputContext() {
-    result.command = InputCommand::NONE;
-}
+InputContext::InputContext() {}
 
 bool InputContext::hasCommand() {
     return result.command != InputCommand::NONE;

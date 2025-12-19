@@ -3,19 +3,6 @@
 #include "input/InputDevice.h"
 #include "ai/AI.h"
 
-enum class ActionType
-{
-    PLACE_PIECE,
-    QUIT,
-    INVALID
-};
-
-struct PlayerAction
-{
-    ActionType type;
-    Pos pos;
-};
-
 class Player
 {
 public:
@@ -23,11 +10,15 @@ public:
     virtual ~Player() =default;
     Player(std::string name);
     std::string getName() const;
-    //virtual PlayerAction getAction(Board& board, PieceType type) = 0;
-    Pos calculateMove(Board& board, PieceType aiPiece);
+    void push(InputResult result);
+    bool hasCommand();
+    virtual InputResult getCommand(Board& board, PieceType type) = 0;
 
-private:
+protected:
     std::string name;
     bool isAI;
     AI ai;
+    InputResult result;
+    
+    Pos calculateMove(Board& board, PieceType aiPiece);
 };

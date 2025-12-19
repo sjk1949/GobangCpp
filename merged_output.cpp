@@ -718,9 +718,9 @@ private:
 #include "AIPlayer.h"
 
 Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : board(Board::createEmptyBoard()), judge(Judge()) {
-    this -> player1 = std::move(player1);
-    this -> player2 = std::move(player2);
-    currentPlayer = this -> player1.get();
+    this->player1 = std::move(player1);
+    this->player2 = std::move(player2);
+    currentPlayer = this->player1.get();
     state = GameState::PLAYING;
 }
 

@@ -29,12 +29,12 @@ std::unique_ptr<Game> Application::initGame(GameConfig config) {
     if (config.player1IsAI) {
         player1 = std::make_unique<AIPlayer>();
     } else {
-        player1 = std::make_unique<HumanPlayer>(input);
+        player1 = std::make_unique<HumanPlayer>();
     }
     if (config.player2IsAI) {
         player2 = std::make_unique<AIPlayer>();
     } else {
-        player2 = std::make_unique<HumanPlayer>(input);
+        player2 = std::make_unique<HumanPlayer>();
     }
     return std::make_unique<Game>(std::move(player1), std::move(player2));
 }
@@ -87,8 +87,10 @@ void Application::processInput() {
     if (state == AppState::GAME_RUNNING) {
         if (input.hasInput()) {
             char c = input.getInput();
-            //std::cout << int(c) << std::endl;
-            inputContext -> onInput(c);
+            inputContext->onInput(c);
+            if (inputContext->hasCommand()) {
+                game->handleInput(inputContext->popCommand());
+            }
         }
     }
 }
@@ -96,13 +98,8 @@ void Application::processInput() {
 void Application::update() {
     frame++;
     if (state == AppState::GAME_RUNNING) {
-        ui.print("OK");
-        GameState gameState;
-        ui.print(inputContext -> hasCommand());
-        if (inputContext -> hasCommand()) {
-            game -> update(inputContext -> popCommand());
-        }
-        changeState(game -> getGameState());
+        game->update();
+        changeState(game->getGameState());
     } else if (state == AppState::GAME_OVER) {
         changeState(AppState::EXIT);
     }
@@ -112,12 +109,12 @@ void Application::render() {
     ui.clear();
     if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
-        ui.print(inputContext -> getBuffer());
+        ui.print(inputContext->getBuffer());
         ui.print("Frame:");
         ui.print(frame);
     } else if (state == AppState::GAME_OVER) {
         ui.displayGame(*game);
-        ui.displayGameResult(game -> getGameState());
+        ui.displayGameResult(game->getGameState());
     }
     ui.flip();
 }

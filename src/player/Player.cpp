@@ -11,3 +11,11 @@ std::string Player::getName() const {
 Pos Player::calculateMove(Board& board, PieceType aiPiece) {
     return ai.calculateMove(board, aiPiece);
 }
+
+void Player::push(InputResult result) {
+    this->result = result;
+}
+
+bool Player::hasCommand() {
+    return result.command != InputCommand::NONE;
+}
