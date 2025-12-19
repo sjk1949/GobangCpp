@@ -12,6 +12,10 @@
 #include "utils/Logger.hpp"
 
 ConsoleUI::ConsoleUI() {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
     std::cout << "\033[?25l"; // 将光标设置为隐藏模式
     // @todo 先把清屏语句加上，这样至少暂时会好看一些
     std::cout << "\033[2J\033[H";
