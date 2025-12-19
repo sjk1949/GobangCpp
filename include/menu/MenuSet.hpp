@@ -7,7 +7,9 @@
 class MenuSet
 {
 public:
-    inline static Menu mainMenu = Menu().
-        addItem(MenuItem("开始游戏", std::make_unique<StartGameTask>()))
+    inline static Menu mainMenu = Menu()
+        .addItem(MenuItem("开始游戏", std::make_unique<StartGameTask>()))
+        .addItem(MenuItem("加载游戏"))
+        .addItem(MenuItem("  设置  "))
         .addItem(MenuItem("退出游戏", std::make_unique<ExitTask>()));
 };

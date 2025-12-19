@@ -9,6 +9,7 @@
 #include "command/MenuCommand.hpp"
 #include "input/GameInputContext.hpp"
 #include "input/MenuInputContext.hpp"
+#include "utils/Logger.hpp"
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
@@ -59,8 +60,6 @@ Game Application::initGame() {
 */
 
 void Application::mainLoop() {
-    //game = initGame(getGameConfig());
-    //changeState(AppState::GAME_RUNNING);
     while (state != AppState::EXIT) {
         std::chrono::milliseconds startTime = getCurrentTime();
         processInput();
@@ -124,6 +123,7 @@ void Application::processInput() {
 
 void Application::update() {
     frame++;
+    //Logger::info("Frame: ", frame);
     if (state == AppState::GAME_RUNNING) {
         game->update();
         changeState(game->getGameState());

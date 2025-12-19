@@ -40,7 +40,13 @@ std::string Menu::toString() const {
     std::stringstream ss;
     int i = 0;
     for (auto& item : items) {
-        ss << i + 1 << ". " << item.toString();
+        ss << i + 1 << ". ";
+        if (selectedItem == i) {
+            ss << ">";
+        } else {
+            ss << " ";
+        }
+        ss << item.toString();
         if (selectedItem == i) {
             ss << "<--selected";
         }
