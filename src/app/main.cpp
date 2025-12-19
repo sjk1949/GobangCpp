@@ -3,7 +3,7 @@
 #include "input/ConsoleInput.hpp"
 
 // ======测试时使用======
-#include "..\test\Test.hpp"
+#include "test\Test.hpp"
 using namespace Test;
 // ======测试时使用======
 
