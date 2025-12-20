@@ -25,6 +25,7 @@ private:
     AppState state;
     std::unique_ptr<Game> game;
     Menu menu;
+    GameConfig gameConfig;
     std::string inputBuffer = "";
     std::unique_ptr<InputContext> inputContext;
     ConsoleUI& ui;
@@ -48,7 +49,8 @@ public:
 
     Application(ConsoleUI& ui, InputDevice& input);
     ~Application() = default;
-    GameConfig getGameConfig();
+    GameConfig& getGameConfig();
+    const GameConfig& getGameConfig() const;
     std::unique_ptr<Game> initGame(GameConfig config);
     void mainLoop();
     void startGame();

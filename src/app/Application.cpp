@@ -13,19 +13,19 @@
 
 Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
     state = AppState::MAIN_MENU;
-    menu = MenuSet::mainMenu.setApp(*this);
+    menu = MenuSet::createMainMenu();
+    menu.setApp(*this);
+    gameConfig = createDefaultConfig();
     initTime = std::chrono::steady_clock::now();
     inputContext = std::make_unique<MenuInputContext>();
 }
 
-GameConfig Application::getGameConfig() {
-    GameConfig config = createDefaultConfig();
-    bool isAI;
-    isAI = input.getInput("Player1 AI(0/1)?") == "1";
-    config.player1IsAI = isAI;
-    isAI = input.getInput("Player2 AI(0/1)?") == "1";
-    config.player2IsAI = isAI;
-    return config;
+GameConfig& Application::getGameConfig() {
+    return gameConfig;
+}
+
+const GameConfig& Application::getGameConfig() const {
+    return gameConfig;
 }
 
 std::unique_ptr<Game> Application::initGame(GameConfig config) {
@@ -139,13 +139,13 @@ void Application::render() {
     } else if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
         ui.print(inputContext->getBuffer(), "\n");
-        ui.print("Frame: ", frame, "\n");
     } else if (state == AppState::GAME_OVER) {
         ui.displayGame(*game);
         ui.displayGameResult(game->getGameState());
     } else if (state == AppState::EXIT) { // 应用退出的时候不再刷新屏幕
         return;
     }
+    ui.print("Frame: ", frame, "\n");
     ui.drawDebugPanel();
     ui.flip();
 }

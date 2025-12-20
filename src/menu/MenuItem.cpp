@@ -1,10 +1,15 @@
 #include "menu/Menu.hpp"
 
+#include <sstream>
 #include "app/Application.hpp"
 #include "task/Task.hpp"
 
-MenuItem::MenuItem(std::string text, std::shared_ptr<Task> taskPtr) : text(text), task(std::move(taskPtr)) {};
+std::string MenuItem::toString() const {return text;}
 
-void MenuItem::onSelected(Application& app) {if(!task) {return;} task->execuate(app);};
+std::string MenuItem::toString(const Application& app) const {return toString();}
 
-std::string MenuItem::toString() const {return text;};
+MenuTaskItem::MenuTaskItem(std::string text, std::shared_ptr<Task> taskPtr) : MenuItem(text), task(std::move(taskPtr)) {}
+
+void MenuTaskItem::onSelected(Application& app) {if(!task) {return;} task->execuate(app);}
+
+void MenuTaskItem::onAdjust(Application& app, int dir) {}

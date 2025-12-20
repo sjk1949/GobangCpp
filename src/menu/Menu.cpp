@@ -4,7 +4,7 @@
 #include "app/Application.hpp"
 #include "command/MenuCommand.hpp"
 
-Menu& Menu::addItem(MenuItem&& item) {
+Menu& Menu::addItem(std::unique_ptr<MenuItem> item) {
     items.push_back(std::move(item));
     return *this;
 }
@@ -33,7 +33,7 @@ void Menu::selectPrev() {
 
 void Menu::confirm() {
     if (!app) {return;}
-    items[selectedItem].onSelected(*app);
+    items[selectedItem]->onSelected(*app);
 }
 
 std::string Menu::toString() const {
@@ -46,7 +46,7 @@ std::string Menu::toString() const {
         } else {
             ss << " ";
         }
-        ss << item.toString();
+        ss << item->toString(*app);
         if (selectedItem == i) {
             ss << "<--selected";
         }
