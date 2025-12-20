@@ -45,6 +45,7 @@ void ConsoleUI::displayStartMenu(const GameConfig config) {
 
 void ConsoleUI::displayMenu(Menu& menu) {
     print(menu.toString(), "\n");
+    print("\'w\'\'s\'键上下滚动，\'a\'\'d\'键修改值\n");
 }
 
 void ConsoleUI::displayBoard(const Board& board) {
@@ -61,6 +62,10 @@ void ConsoleUI::displayGame(Game& game) {
     }
     print("              Time Left: ", game.getRemainingTime(), "s\n");
     print(game.getMessage(), "\n");
+    if (game.getGameState() != GameState::PLAYING) {
+        displayGameResult(game.getGameState());
+        print("按[ENTER]键回到菜单\n");
+    }
 }
 
 void ConsoleUI::displayGameResult(const GameState& state) {

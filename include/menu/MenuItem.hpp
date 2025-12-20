@@ -69,3 +69,12 @@ protected:
     Adjuster adjuster;
     Formatter formatter;
 };
+
+class MenuBoolItem : public MenuValItem<bool>
+{
+public:
+    using Getter = std::function<bool(const Application&)>;
+    using Setter = std::function<void(Application&, const bool&)>;
+    MenuBoolItem(std::string text, Getter getter, Setter setter, std::string on, std::string off);
+    void onSelected(Application& app) override;
+};

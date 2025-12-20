@@ -12,14 +12,14 @@ public:
         Menu menu;
         menu.addItem(std::make_unique<MenuTaskItem>("开始游戏", std::make_unique<StartGameTask>()))
             .addItem(std::make_unique<MenuTaskItem>("加载游戏"))
-            .addItem(MenuItemFactory::makeBool("玩家1: ",
+            .addItem(std::make_unique<MenuBoolItem>("玩家1: ",
                 [](const Application& app) {
                     return app.getGameConfig().player1IsAI;
                 },
                 [](Application& app, bool val) {
                     app.getGameConfig().player1IsAI = val;
                 }, "AI", "人类"))
-            .addItem(MenuItemFactory::makeBool("玩家2: ",
+            .addItem(std::make_unique<MenuBoolItem>("玩家2: ",
                 [](const Application& app) {
                     return app.getGameConfig().player2IsAI;
                 },

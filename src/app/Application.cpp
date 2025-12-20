@@ -59,14 +59,6 @@ GameConfig Application::createDefaultConfig() {
     return GameConfig();
 }
 
-void Application::changeState(GameState gameState) {
-    if (gameState == GameState::PLAYING) {
-        state = AppState::GAME_RUNNING;
-    } else {
-        state = AppState::GAME_OVER;
-    }
-}
-
 void Application::changeState(AppState state) {
     if (state == AppState::MAIN_MENU) {
         inputContext = std::make_unique<MenuInputContext>();
@@ -111,9 +103,9 @@ void Application::update() {
     //Logger::info("Frame: ", frame);
     if (state == AppState::GAME_RUNNING) {
         game->update();
-        changeState(game->getGameState());
-    } else if (state == AppState::GAME_OVER) {
-        changeState(AppState::EXIT);
+        if (game->getGameState() == GameState::QUIT) {
+            changeState(AppState::MAIN_MENU);
+        }
     }
 }
 
@@ -124,9 +116,6 @@ void Application::render() {
     } else if (state == AppState::GAME_RUNNING) {
         ui.displayGame(*game);
         ui.print(inputContext->getBuffer(), "\n");
-    } else if (state == AppState::GAME_OVER) {
-        ui.displayGame(*game);
-        ui.displayGameResult(game->getGameState());
     } else if (state == AppState::EXIT) { // 应用退出的时候不再刷新屏幕
         return;
     }

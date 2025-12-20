@@ -14,10 +14,20 @@ Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : b
 }
 
 void Game::handleInput(std::unique_ptr<GameCommand> command) {
-    currentPlayer->push(std::move(command));
+    if (state == GameState::PLAYING) {
+        currentPlayer->push(std::move(command));
+    } else { // 如果游戏结束，输入任意指令视为退出
+        if (command) {
+            quit();
+        }
+    }
+    
 }
 
 void Game::update() {
+    if (state != GameState::PLAYING) {
+        return;
+    }
     if (checkTimeout()) {
         setMessage("时间到，自动认输！");
         state = (getPieceType(currentPlayer) == PieceType::BLACK) ? GameState::WHITE_WIN : GameState::BLACK_WIN;

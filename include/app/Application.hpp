@@ -13,7 +13,6 @@ enum class AppState
 {
     MAIN_MENU,
     GAME_RUNNING,
-    GAME_OVER,
     EXIT
 };
 
