@@ -44,21 +44,6 @@ std::unique_ptr<Game> Application::initGame(GameConfig config) {
     return std::make_unique<Game>(std::move(player1), std::move(player2));
 }
 
-/*
-Game Application::initGame() {
-    GameConfig config = createDefaultConfig();
-    while (state == ApplicationState::MAIN_MENU) {
-        ui.displayStartMenu(config);
-        InputResult result = input.getMenuInput();
-        switch (result.command)
-        {
-        case InputCommand::SELECT_FROM_MENU:
-            break;
-        }
-    }
-}
-*/
-
 void Application::mainLoop() {
     while (state != AppState::EXIT) {
         std::chrono::milliseconds startTime = getCurrentTime();
