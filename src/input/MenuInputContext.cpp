@@ -13,8 +13,15 @@ void MenuInputContext::onInput(const char& c) {
     case 's':
         commandBuffer = std::make_unique<MoveDownCommand>();
         break;
-    case 13:
+    case 13: // ENTER键
         commandBuffer = std::make_unique<ConfirmCommand>();
+        break;
+    // 左右调整设置值
+    case 'a':
+        commandBuffer = std::make_unique<AdjustCommand>(-1);
+        break;
+    case 'd':
+        commandBuffer = std::make_unique<AdjustCommand>(1);
         break;
     }
 }

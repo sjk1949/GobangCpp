@@ -18,6 +18,9 @@ public:
                 [](Application& app, bool val) {
                     app.getGameConfig().player1IsAI = val;
                 },
+                [](const bool& originVal, int dir) {
+                    return !originVal;
+                },
                 [](const bool& val) {
                     return (val == true) ? "AI" : "人类";
                 }))

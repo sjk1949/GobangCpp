@@ -27,3 +27,12 @@ class ConfirmCommand : public MenuCommand
 public:
     void execute(Menu& menu) override;
 };
+
+class AdjustCommand : public MenuCommand
+{
+public:
+    AdjustCommand(int dir) : dir(dir) {};
+    void execute(Menu& menu) override;
+private:
+    int dir;
+};

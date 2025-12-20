@@ -36,6 +36,11 @@ void Menu::confirm() {
     items[selectedItem]->onSelected(*app);
 }
 
+void Menu::adjust(int dir) {
+    if (!app) {return;}
+    items[selectedItem]->onAdjust(*app, dir);
+}
+
 std::string Menu::toString() const {
     std::stringstream ss;
     int i = 0;
