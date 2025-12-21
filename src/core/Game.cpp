@@ -5,9 +5,28 @@
 #include "player/HumanPlayer.hpp"
 #include "player/AIPlayer.hpp"
 
+/*
 Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : board(Board::createEmptyBoard()), judge(Judge()) {
     this->player1 = std::move(player1);
     this->player2 = std::move(player2);
+    currentPlayer = this->player1.get();
+    state = GameState::PLAYING;
+    startTurnTime = std::chrono::steady_clock::now();
+}
+*/
+
+Game::Game(GameConfig config) : board(Board::createEmptyBoard()), judge(Judge()) {
+    if (config.player1IsAI) {
+        player1 = std::make_unique<AIPlayer>();
+    } else {
+        player1 = std::make_unique<HumanPlayer>();
+    }
+    if (config.player2IsAI) {
+        player2 = std::make_unique<AIPlayer>();
+    } else {
+        player2 = std::make_unique<HumanPlayer>();
+    }
+    useTimeLimit = config.useTimeLimit;
     currentPlayer = this->player1.get();
     state = GameState::PLAYING;
     startTurnTime = std::chrono::steady_clock::now();
@@ -28,7 +47,7 @@ void Game::update() {
     if (state != GameState::PLAYING) {
         return;
     }
-    if (checkTimeout()) {
+    if (hasTimeLimit() && checkTimeout()) {
         setMessage("时间到，自动认输！");
         state = (getPieceType(currentPlayer) == PieceType::BLACK) ? GameState::WHITE_WIN : GameState::BLACK_WIN;
         return;
@@ -100,6 +119,10 @@ int Game::getRemainingTime() const {
 
 bool Game::checkTimeout() const {
     return getRemainingTime() <= 0;
+}
+
+const bool Game::hasTimeLimit() const {
+    return useTimeLimit;
 }
 
 bool Game::placePiece(Pos pos, Player* player) {

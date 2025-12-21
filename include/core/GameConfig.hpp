@@ -14,8 +14,10 @@ public:
     std::string player2Name;
     bool player1IsAI;
     bool player2IsAI;
+    bool useTimeLimit;
 
     GameConfig(std::string player1Name = "Player1", std::string player2Name = "Player2",
-         bool player1IsAI = false, bool player2IsAI = false) : 
-         player1Name(player1Name), player1IsAI(player1IsAI), player2Name(player2Name), player2IsAI(player2IsAI) {};
+         bool player1IsAI = false, bool player2IsAI = false, bool useTimeLimit = false) 
+         : player1Name(player1Name), player1IsAI(player1IsAI)
+         , player2Name(player2Name), player2IsAI(player2IsAI), useTimeLimit(useTimeLimit) {};
 };

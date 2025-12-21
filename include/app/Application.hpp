@@ -31,10 +31,6 @@ private:
     InputDevice& input;
 
     GameConfig createDefaultConfig();
-    /**
-     * @brief 根据游戏状态改变App运行状态
-     */
-    void changeState(GameState gameState);
     void changeState(AppState state);
     void processInput();
     void update();
@@ -50,7 +46,6 @@ public:
     ~Application() = default;
     GameConfig& getGameConfig();
     const GameConfig& getGameConfig() const;
-    std::unique_ptr<Game> initGame(GameConfig config);
     void mainLoop();
     void startGame();
     void exit();

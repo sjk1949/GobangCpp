@@ -28,22 +28,6 @@ const GameConfig& Application::getGameConfig() const {
     return gameConfig;
 }
 
-std::unique_ptr<Game> Application::initGame(GameConfig config) {
-    std::unique_ptr<Player> player1;
-    std::unique_ptr<Player> player2;
-    if (config.player1IsAI) {
-        player1 = std::make_unique<AIPlayer>();
-    } else {
-        player1 = std::make_unique<HumanPlayer>();
-    }
-    if (config.player2IsAI) {
-        player2 = std::make_unique<AIPlayer>();
-    } else {
-        player2 = std::make_unique<HumanPlayer>();
-    }
-    return std::make_unique<Game>(std::move(player1), std::move(player2));
-}
-
 void Application::mainLoop() {
     while (state != AppState::EXIT) {
         std::chrono::milliseconds startTime = getCurrentTime();
@@ -125,7 +109,7 @@ void Application::render() {
 }
 
 void Application::startGame() {
-    game = initGame(getGameConfig());
+    game = std::make_unique<Game>(getGameConfig());
     changeState(AppState::GAME_RUNNING);
 }
 

@@ -60,7 +60,10 @@ void ConsoleUI::displayGame(Game& game) {
     } else {
         print("WHITE ○");
     }
-    print("              Time Left: ", game.getRemainingTime(), "s\n");
+    if (game.hasTimeLimit()) {
+        print("              Time Left: ", game.getRemainingTime(), "s");
+    }
+    print("\n");
     print(game.getMessage(), "\n");
     if (game.getGameState() != GameState::PLAYING) {
         displayGameResult(game.getGameState());

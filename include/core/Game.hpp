@@ -3,6 +3,7 @@
 #include <chrono>
 #include <memory>
 
+#include "core/GameConfig.hpp"
 #include "core/Board.hpp"
 #include "core/Judge.hpp"
 #include "command/GameCommand.hpp"
@@ -22,7 +23,8 @@ class Game
 public:
     static const int TURN_TIME_LIMIT = 15; // 每回合时间限制，单位为s
     
-    Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2);
+    //Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2);
+    Game(GameConfig config);
     void handleInput(std::unique_ptr<GameCommand> command);
     void update();
     const Board& getBoard() const;
@@ -33,6 +35,7 @@ public:
      * @brief 获得以秒为单位表示的当前回合剩余时间
      */
     int getRemainingTime() const;
+    const bool hasTimeLimit() const;
 
     void placePieceAndCheck(Pos pos);
     void quit();
@@ -47,6 +50,7 @@ private:
     std::chrono::steady_clock::time_point startTurnTime;
     GameState state;
     std::string message;
+    bool useTimeLimit;
     
 
     /**
