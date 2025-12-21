@@ -4,6 +4,11 @@
 #include "app/Application.hpp"
 #include "command/MenuCommand.hpp"
 
+Menu& Menu::setTitle(std::string title) {
+    this->title = std::move(title);
+    return *this;
+}
+
 Menu& Menu::addItem(std::unique_ptr<MenuItem> item) {
     items.push_back(std::move(item));
     return *this;
@@ -43,6 +48,7 @@ void Menu::adjust(int dir) {
 
 std::string Menu::toString() const {
     std::stringstream ss;
+    ss << title;
     int i = 0;
     for (auto& item : items) {
         ss << i + 1 << ". ";

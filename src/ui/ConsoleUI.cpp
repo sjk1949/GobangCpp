@@ -28,21 +28,6 @@ void ConsoleUI::clear() {
     buffer.str("");
 }
 
-/*
-void ConsoleUI::displayStartMenu(const GameConfig config) {
-    buffer << "======================================" << std::endl;
-    buffer << "=             五子棋小游戏            =" << std::endl;
-    buffer << "=               @copyright           =" << std::endl;
-    buffer << "======================================" << std::endl;
-    buffer << "==============开始菜单================" << std::endl;
-    buffer << "1.开始游戏" << std::endl;
-    buffer << "2.玩家设置                AI" << std::endl;
-    buffer << "      Player1            " << config.player1IsAI << std::endl;
-    buffer << "      Player2            " << std::endl;
-    buffer << "3.退出游戏" << std::endl;
-}
-    */
-
 void ConsoleUI::displayMenu(Menu& menu) {
     print(menu.toString(), "\n");
     print("\'w\'\'s\'键上下滚动，\'a\'\'d\'键修改值\n");

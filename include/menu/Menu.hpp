@@ -13,6 +13,7 @@ class Application;
 class Menu : public Object
 {
 private:
+    std::string title;
     std::vector<std::unique_ptr<MenuItem>> items;
     int selectedItem = 0; // 菜单维护着现在被选中的菜单项
     Application* app = nullptr;
@@ -25,6 +26,8 @@ public:
     // 允许移动
     Menu(Menu&&) = default;
     Menu& operator=(Menu&&) = default;
+
+    Menu& setTitle(std::string title);
     Menu& addItem(std::unique_ptr<MenuItem> item);
     Menu& setApp(Application& app);
     void handleInput(std::unique_ptr<MenuCommand> command);
