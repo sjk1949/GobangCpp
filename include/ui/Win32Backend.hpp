@@ -1,36 +1,35 @@
 #pragma once
-#include "ui/IConsoleBackend.hpp"
-
 #ifdef _WIN32
-#include <windows.h>
-#endif
 
-class Win32Backend : public IConsoleBackend
-{
+#include "ui/ConsoleBackend.hpp"
+#include <windows.h>
+#include <vector>
+#include <string>
+
+class Win32Backend : public ConsoleBackend {
 public:
     Win32Backend();
     ~Win32Backend();
 
-    void clear() override;
-    void draw(const std::string& frame) override;
-    void present() override;
-
-    int width() const override;
-    int height() const override;
+    void beginFrame() override;
+    void draw(const std::string& utf8Text) override;
+    void endFrame() override;
+    void onResize() override;
 
 private:
-#ifdef _WIN32
-    void checkResize();
-    void recreateBackBuffer();
+    HANDLE hOut;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
 
-    HANDLE hFront = INVALID_HANDLE_VALUE;
-    HANDLE hBack  = INVALID_HANDLE_VALUE;
+    int width = 0;
+    int height = 0;
 
-    COORD visibleSize{};
+    std::vector<CHAR_INFO> buffer;
 
-    SHORT lastW = 0;
-    SHORT lastH = 0;
+    int cursorX = 0;
+    int cursorY = 0;
 
-    std::string buffer;
-#endif
+    void resizeBuffer();
+    static std::wstring utf8ToUtf16(const std::string& s);
 };
+
+#endif

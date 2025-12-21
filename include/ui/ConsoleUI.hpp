@@ -6,10 +6,10 @@
 #include <windows.h>
 #endif
 
+#include "ui/ConsoleBackend.hpp"
 #include "core/Game.hpp"
 #include "core/Board.hpp"
 #include "core/GameConfig.hpp"
-#include "ui/IConsoleBackend.hpp"
 
 class Menu;
 
@@ -45,7 +45,9 @@ public:
     void flip();
 
 private:
-    std::unique_ptr<IConsoleBackend> backend;
+    std::unique_ptr<ConsoleBackend> backend;
     bool saveHistoryDraw = false; // 是否保存之前所有的绘制不清屏
     std::stringstream buffer; // 缓冲区
+
+    void detectBackend();
 };

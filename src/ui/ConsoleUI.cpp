@@ -15,17 +15,16 @@
 #include "utils/Logger.hpp"
 
 ConsoleUI::ConsoleUI() {
+    detectBackend();
+}
+
+void ConsoleUI::detectBackend() {
 #ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
-
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD mode;
-
-    if (GetConsoleMode(hOut, &mode)) {
-        backend = std::make_unique<Win32Backend>();
-    } else {
+    // Git Bash / MSYS 会设置这些
+    if (std::getenv("MSYSTEM") || std::getenv("TERM")) {
         backend = std::make_unique<AnsiBackend>();
+    } else {
+        backend = std::make_unique<Win32Backend>();
     }
 #else
     backend = std::make_unique<AnsiBackend>();
@@ -33,11 +32,8 @@ ConsoleUI::ConsoleUI() {
 }
 
 void ConsoleUI::clear() {
-    // ANSI 转义码：\033[2J 清屏，\033[H 光标移到左上角, 已废弃
-    //std::cout << "\033[2J\033[H";
     buffer.str("");
     buffer.clear();
-    backend->clear();
 }
 
 void ConsoleUI::displayMenu(Menu& menu) {
@@ -97,6 +93,7 @@ void ConsoleUI::drawDebugPanel() {
 }
 
 void ConsoleUI::flip() {
+    backend->beginFrame();
     backend->draw(buffer.str());
-    backend->present();
+    backend->endFrame();
 }

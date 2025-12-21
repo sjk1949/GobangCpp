@@ -1,19 +1,20 @@
 #pragma once
-#include "ui/IConsoleBackend.hpp"
+#include "ui/ConsoleBackend.hpp"
 #include <string>
+#include <vector>
 
-class AnsiBackend : public IConsoleBackend
-{
+class AnsiBackend : public ConsoleBackend {
 public:
     AnsiBackend();
 
-    void clear() override;
-    void draw(const std::string& frame) override;
-    void present() override;
-
-    int width() const override;
-    int height() const override;
+    void beginFrame() override;
+    void draw(const std::string& utf8Text) override;
+    void endFrame() override;
+    void onResize() override;
 
 private:
     std::string buffer;
+    int lastLineCount = 0;
+
+    static std::vector<std::string> splitLines(const std::string& s);
 };
