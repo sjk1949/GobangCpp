@@ -2,9 +2,14 @@
 
 #include <sstream>
 #include <utility>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "core/Game.hpp"
 #include "core/Board.hpp"
 #include "core/GameConfig.hpp"
+#include "ui/IConsoleBackend.hpp"
 
 class Menu;
 
@@ -40,6 +45,7 @@ public:
     void flip();
 
 private:
+    std::unique_ptr<IConsoleBackend> backend;
     bool saveHistoryDraw = false; // 是否保存之前所有的绘制不清屏
     std::stringstream buffer; // 缓冲区
 };

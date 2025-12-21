@@ -6,7 +6,9 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include "ui/Win32Backend.hpp"
 #endif
+#include "ui/AnsiBackend.hpp"
 #include "core/Game.hpp"
 #include "core/Pos.hpp"
 #include "menu/Menu.hpp"
@@ -16,16 +18,26 @@ ConsoleUI::ConsoleUI() {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
+
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode;
+
+    if (GetConsoleMode(hOut, &mode)) {
+        backend = std::make_unique<Win32Backend>();
+    } else {
+        backend = std::make_unique<AnsiBackend>();
+    }
+#else
+    backend = std::make_unique<AnsiBackend>();
 #endif
-    std::cout << "\033[?25l"; // 将光标设置为隐藏模式
-    // @todo 先把清屏语句加上，这样至少暂时会好看一些
-    std::cout << "\033[2J\033[H";
 }
 
 void ConsoleUI::clear() {
     // ANSI 转义码：\033[2J 清屏，\033[H 光标移到左上角, 已废弃
     //std::cout << "\033[2J\033[H";
     buffer.str("");
+    buffer.clear();
+    backend->clear();
 }
 
 void ConsoleUI::displayMenu(Menu& menu) {
@@ -85,11 +97,6 @@ void ConsoleUI::drawDebugPanel() {
 }
 
 void ConsoleUI::flip() {
-    if (saveHistoryDraw == false) {
-        std::cout << "\033[H";
-        std::cout << "\033[J";
-    }
-    std::cout << buffer.str();
-    std::cout.flush();
-    ;
+    backend->draw(buffer.str());
+    backend->present();
 }
