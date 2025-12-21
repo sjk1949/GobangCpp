@@ -170,7 +170,7 @@ PieceType Board::opponentOf(PieceType type) {
 std::string Board::toString() const {
     std::stringstream ss;
     for (int i = BOARD_SIZE; i >= 1; i--) {
-        ss << std::setw(2) << i << toStringRow(i) << std::endl;
+        ss << std::setw(2) << i << toStringRow(i) << "\n";
     }
     ss << "  ";
     for (int i = 0; i < BOARD_SIZE; i++) {

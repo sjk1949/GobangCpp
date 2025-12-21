@@ -55,7 +55,7 @@ std::string ScoreMap::toString() const {
         for (int j = 0; j < scoreMap.size(); j++) {
             ss << std::setw(3) << getScore(Pos(i, j));
         }
-        ss << std::endl;
+        ss << "\n";
     }
     ss << "   ";
     for (int i = 0; i < scoreMap.size(); i++) {

@@ -11,5 +11,4 @@ public:
     virtual ~InputDevice() = default;
     virtual bool hasInput() = 0;
     virtual char getInput() = 0;
-    virtual std::string getInput(const std::string& str) = 0;
 };
