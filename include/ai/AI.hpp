@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/Board.hpp"
+#include "core/GameTypes.hpp"
 #include "utils/ScoreMap.hpp"
 
 class AI

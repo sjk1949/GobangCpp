@@ -1,49 +1,11 @@
 #pragma once
 
 #include "utils/Object.hpp"
+
 #include <array>
-#include <vector>
 #include <unordered_map>
 #include "core/GameTypes.hpp"
 #include "core/Pos.hpp"
-
-enum class PatternType
-{
-    FIVE,               // 连五
-    OVERLINE,
-    LIVE_FOUR,          // 活四
-    SLEEP_FOUR,         // 冲四/眠四
-    LIVE_THREE,         // 活三
-    SLEEP_THREE,        // 眠三
-    LIVE_TWO,           // 活二
-    SLEEP_TWO,          // 眠二
-    ONE,
-
-    // 防守相关
-    BLOCK_FOUR,         // 挡四
-    BLOCK_THREE,
-    BLOCK_TWO,
-    INVALID
-};
-
-/**
- * 这个类表示连子的结构，如三连，四连以及死活等
- */
-class LineInfo : public Object
-{
-public:
-    int length = 0;
-    bool openEnds[2] = {false, false};
-    Dir dir;
-    std::vector<Pos> extension; // 两端可用的拓展点（不能出棋盘，不能有棋子阻挡，不考虑禁手）
-    std::string toString() const override {
-        std::string str = "LineInfo@";
-        str += "length: " + std::to_string(length) + "\n";
-        str += "openEnds: " + std::to_string(openEnds[0]) + ", " + std::to_string(openEnds[1]) + "\n";
-        str += "Direction: " + Pos::toPos(dir).toString();
-        return str;
-    }
-};
 
 /**
  * 这个类代表一个棋盘
@@ -65,48 +27,7 @@ public:
     bool setPos(Pos pos, PieceType type);
     /* 返回该位置是否没有棋子 */
     bool isEmpty(Pos pos);
-    /**
-     * @brief 检查给定位置连子数量最多的方向
-     */
-    LineInfo getLongestLine(Pos pos) const;
-    /**
-     * @brief 检查如果给定位置是给定类型，连子数量最多的方向
-     */
-    LineInfo getLongestLine(Pos pos, PieceType type) const;
-    /**
-     * @brief 获得给定位置所有方向的连子情况
-     */
-    std::array<LineInfo, 4> getAllLines(Pos pos) const;
-    /**
-     * @brief 获得如果给定位置是给定类型，所有方向的连子情况
-     */
-    std::array<LineInfo, 4> getAllLines(Pos pos, PieceType type) const;
-    /** 
-     * @brief 检查给定位置在给定方向的连子数量，这里的方向包含两边
-     * @param dir 一共四个方向HORIZONTAL, VAERTICAL, RIGHTUP, RIGHTDOWN
-     */
-    LineInfo checkLine(Pos pos, Dir dir) const;
-    /** 
-     * @brief 检查如果给定位置是给定类型棋子，在给定方向的连子数量，这里的方向包含两边
-     * @param dir 一共四个方向HORIZONTAL, VAERTICAL, RIGHTUP, RIGHTDOWN
-     */
-    LineInfo checkLine(Pos pos, Dir dir, PieceType type) const;
-    /**
-     * @brief 检查给定位置在给定方向的连子数量
-     * @param dir           只能在HERIZONTAL, VERTICAL, RIGHTUP, RIGHTDOWN四个方向中选择
-     * @param isForward     以Pos坐标增大的方向为前方，说明是往前统计还是往后统计, 如果是true, 向前统计
-     * @return              返回值length包含子本身，如果在该方向上被堵死，openEnds全为false，若没有，则全为true
-     */
-    LineInfo checkLineToDir(Pos pos, Dir dir, bool isForward) const;
-    /**
-     * @brief 检查给定位置如果是给定棋子类型，则在给定方向的连子数量
-     * @param dir           只能在HERIZONTAL, VERTICAL, RIGHTUP, RIGHTDOWN四个方向中选择
-     * @param isForward     以Pos坐标增大的方向为前方，说明是往前统计还是往后统计, 如果是true, 向前统计
-     * @param type          仅支持BLACK, WHITE两种类型
-     * @return              返回值length包含子本身，如果在该方向上被堵死，openEnds全为false，若没有，则全为true
-     */
-    LineInfo checkLineToDir(Pos pos, Dir dir, bool isForward, PieceType type) const;
-    static PatternType parsePatten(LineInfo lineInfo);
+    
     static PieceType opponentOf(PieceType type);
     std::string toString() const override;
     std::string toString(const std::unordered_map<Pos, std::string, PosHash>* highlights) const;
@@ -117,8 +38,6 @@ private:
     Board();
     /* 清空棋盘 */
     void clearBoard();
-    /* 将Pos两边的连子情况合并 */
-    LineInfo mergeLineInfo(LineInfo info1, LineInfo info2) const;
     std::string pieceToString(const PieceType type) const;
     //std::string toStringRow(int row) const;
     std::string toStringRow(int row, const std::unordered_map<Pos, std::string, PosHash>* highlights = nullptr) const;

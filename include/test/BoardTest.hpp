@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "core/Board.hpp"
+#include "core/LineInfo.hpp"
 
 namespace Test
 {
@@ -16,8 +17,8 @@ namespace Test
             board.setPos(Pos(3, 7), PieceType::BLACK);
             board.setPos(Pos(3, 8), PieceType::WHITE);
             std::cout << board.toString() << std::endl;
-            std::cout << board.checkLine(Pos(3, 4), Dir::HORIZONTAL).toString() << std::endl;
-            std::cout << board.checkLine(Pos(3, 4), Dir::VERTICAL).toString() << std::endl;
+            std::cout << LineInfo::checkLine(board, Pos(3, 4), Dir::HORIZONTAL).toString() << std::endl;
+            std::cout << LineInfo::checkLine(board, Pos(3, 4), Dir::VERTICAL).toString() << std::endl;
         }
     };
 };

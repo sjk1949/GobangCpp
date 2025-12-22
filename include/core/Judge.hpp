@@ -52,5 +52,5 @@ private:
     static std::vector<ChessPattern> getChessPatternInDir(const Board& board, Pos pos, Dir dir);
     static std::vector<ChessPattern> getChessPattern(const Board& board, Pos pos);
     static std::vector<ChessPatternType> getChessPatternType(const Board& board, Pos pos);
-    static std::vector<Pos> searchForAvailablePos(ChessPattern pattern) {};
+    static std::vector<Pos> searchForAvailablePos(ChessPattern pattern) {return std::vector<Pos>();};
 };

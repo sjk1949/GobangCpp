@@ -2,6 +2,8 @@
 
 #include <random>
 #include <stdexcept>
+#include "core/GameTypes.hpp"
+#include "core/LineInfo.hpp"
 
 AI::AI() {}
 
@@ -78,11 +80,11 @@ int AI::scorePattern(const PatternType pattern) {
 
 int AI::getPosScore(Board& board, Pos pos, PieceType aiPiece) {
     int score = 0;
-    for (auto lineInfo : board.getAllLines(pos, aiPiece)) { //考虑自己走哪里能赢
-        score += scorePattern(Board::parsePatten(lineInfo));
+    for (auto lineInfo : LineInfo::getAllLines(board, pos, aiPiece)) { //考虑自己走哪里能赢
+        score += scorePattern(LineInfo::parsePatten(lineInfo));
     }
-    for (auto lineInfo : board.getAllLines(pos, Board::opponentOf(aiPiece))) { //考虑如何阻止对方赢
-        score += 0.9 * scorePattern(Board::parsePatten(lineInfo)); 
+    for (auto lineInfo : LineInfo::getAllLines(board, pos, Board::opponentOf(aiPiece))) { //考虑如何阻止对方赢
+        score += 0.9 * scorePattern(LineInfo::parsePatten(lineInfo)); 
     }
     return score;
 }

@@ -1,6 +1,7 @@
 #include "core/Judge.hpp"
 
 #include "core/Board.hpp"
+#include "core/LineInfo.hpp"
 
 bool Judge::isValidMove(const Board& board, const Pos pos) {
     if (Board::isOnBoard(pos) && board.getPos(pos) == PieceType::EMPTY) {
@@ -10,14 +11,14 @@ bool Judge::isValidMove(const Board& board, const Pos pos) {
 }
 
 GameResult Judge::ckeckWin(const Board& board, Pos lastDrop) {
-    if (board.getLongestLine(lastDrop).length >= 5) {
+    if (LineInfo::getLongestLine(board, lastDrop).length >= 5) {
         return (board.getPos(lastDrop) == PieceType::BLACK) ? GameResult::BLACK_WIN : GameResult::WHITE_WIN;
     }
     return GameResult::NO_WINNER;
 }
 
 bool Judge::checkFive(const Board& board, Pos pos) {
-    for (auto lineInfo : board.getAllLines(pos)) {
+    for (auto lineInfo : LineInfo::getAllLines(board, pos)) {
         if (lineInfo.length == 5) {
             return true;
         }
@@ -26,7 +27,7 @@ bool Judge::checkFive(const Board& board, Pos pos) {
 }
 
 bool Judge::checkOverLine(const Board& board, Pos pos) {
-    if (board.getLongestLine(pos).length > 5) {
+    if (LineInfo::getLongestLine(board, pos).length > 5) {
         return true;
     }
     return false;
