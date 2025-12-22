@@ -2,6 +2,7 @@
 
 #include "utils/Object.hpp"
 #include <array>
+#include <vector>
 #include <unordered_map>
 #include "core/GameTypes.hpp"
 #include "core/Pos.hpp"
@@ -34,6 +35,7 @@ public:
     int length = 0;
     bool openEnds[2] = {false, false};
     Dir dir;
+    std::vector<Pos> extension; // 两端可用的拓展点（不能出棋盘，不能有棋子阻挡，不考虑禁手）
     std::string toString() const override {
         std::string str = "LineInfo@";
         str += "length: " + std::to_string(length) + "\n";

@@ -30,12 +30,27 @@ public:
     static GameResult ckeckWin(const Board& board, Pos lastDrop);
     /**
      * @brief 检测黑棋下在给定的位置会不会形成禁手
+     * @param board 这里的棋盘是已经落上子之后的棋盘
      * @return 返回禁手类型，如果没有禁手，返回ForbiddenType::NONE
      */
     static ForbiddenType checkForbidden(const Board& board, Pos pos);
+    static bool isForbidden(const Board& board, Pos pos);
 private:
     /**
      * @brief 根据给定的棋型，检查所属的类型
      */
-    static ChessPatternType checkChessPatternType(ChessPattern pattern);
+    static ChessPatternType checkChessPatternType(const ChessPattern& pattern);
+    static bool checkFive(const Board& board, Pos pos);
+    static bool checkOverLine(const Board& board, Pos pos);
+    static bool checkDoubleFour(const Board& board, Pos pos);
+    static bool checkDoubleThree(const Board& board, Pos pos);
+    /**
+     * @brief 获取给定棋盘给定位置在给定方向组成的全部棋型
+     * @param pos 返回的棋型一定包含这个位置的棋子
+     * @return 返回值是个可变数组，这是因为同一个棋子可能在给定位置同时构成多种棋型，比如--B-BXB-B--黑棋落在X处时同时构成两个冲四
+     */
+    static std::vector<ChessPattern> getChessPatternInDir(const Board& board, Pos pos, Dir dir);
+    static std::vector<ChessPattern> getChessPattern(const Board& board, Pos pos);
+    static std::vector<ChessPatternType> getChessPatternType(const Board& board, Pos pos);
+    static std::vector<Pos> searchForAvailablePos(ChessPattern pattern) {};
 };

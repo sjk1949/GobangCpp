@@ -33,9 +33,26 @@ public:
     std::vector<Pos> pieceList; // 棋型的位置一定在一条直线上, 且默认从一端到另一端顺序排列
     Board board; // 棋型和当时的棋局有关，同样的布局在不同的周边环境下意义可能会变
     ChessPatternType type = ChessPatternType::NONE;
+    PieceType pieceType = PieceType::BLACK;
     
     ChessPattern(Board board);
+    /**
+     * @brief 加入一颗在棋盘上已有的棋子
+     */
     ChessPattern& addPiece(Pos pos);
+    /**
+     * @brief 在棋盘上放置一颗棋子，并将它加入棋型
+     */
+    ChessPattern& placePiece(Pos pos);
+    /**
+     * @brief 延伸棋型，即加入与现在的棋型相连的同色子
+     * 举几个例子，比如对于 
+     *  处理前              处理后
+     * ● ●●●▲●●● ●      ● ▲▲▲▲▲▲▲ ●
+     *  ● ●▲● ●          ● ▲▲▲ ● 
+     *  ● ●▲ ▲●●●       ● ▲▲ ▲▲▲▲
+     */
+    ChessPattern& expandPattern();
 
     /**
      * @brief 棋型两端的最大距离

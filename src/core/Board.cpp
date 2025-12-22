@@ -90,6 +90,7 @@ LineInfo Board::checkLineToDir(Pos pos, Dir dir, bool isForward, PieceType type)
         if (isOnBoard(currPos) && getPos(currPos) == PieceType::EMPTY) {
             info.openEnds[0] = true;
             info.openEnds[1] = true;
+            info.extension.push_back(currPos);
         }
         return info;
     }

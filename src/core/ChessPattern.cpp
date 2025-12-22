@@ -20,6 +20,12 @@ ChessPattern& ChessPattern::addPiece(Pos pos) {
     return *this;
 }
 
+ChessPattern& ChessPattern::placePiece(Pos pos) {
+    board.setPos(pos, pieceType);
+    addPiece(pos);
+    return *this;
+}
+
 bool ChessPattern::compare(Pos pos1, Pos pos2) {
     if (pos1.x == pos2.x) {
         return pos1.y < pos2.y;
