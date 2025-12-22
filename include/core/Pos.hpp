@@ -34,10 +34,18 @@ public:
     Pos operator+(const Pos& other) const;
     Pos operator-(const Pos& other) const;
     Pos operator*(const int scalar) const;
+    bool operator==(const Pos& other) const;
     Pos& operator+=(const Pos& other);
     Pos& operator-=(const Pos& other);
     Pos& operator*=(const int scalar);
     /* 将给定坐标向给定方向移动一个单位 */
     Pos& to(const Dir dir);
     std::string toString() const override;
+};
+
+struct PosHash {
+    std::size_t operator()(const Pos& p) const noexcept {
+        return (static_cast<std::size_t>(p.x) << 32)
+             ^ static_cast<std::size_t>(p.y);
+    }
 };

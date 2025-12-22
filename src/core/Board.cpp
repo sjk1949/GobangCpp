@@ -179,6 +179,33 @@ std::string Board::toString() const {
     return ss.str();
 }
 
+std::string Board::toString(const std::unordered_map<Pos, std::string, PosHash>* highlights) const {
+    std::stringstream ss;
+    for (int i = BOARD_SIZE; i >= 1; i--) {
+        ss << std::setw(2) << i << toStringRow(i, highlights) << "\n";
+    }
+    ss << "  ";
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        ss << " " << char('A' + i) << " ";
+    }
+    return ss.str();
+}
+
+std::string Board::pieceToString(const PieceType type) const {
+    switch (type)
+    {
+    case PieceType::EMPTY:
+        return " . ";
+    case PieceType::BLACK:
+        return " ● ";
+    case PieceType::WHITE:
+        return " ○ ";
+    default:
+        return " ? ";
+    }
+}
+
+/*
 std::string Board::toStringRow(int row) const {
     std::stringstream ss;
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -196,6 +223,20 @@ std::string Board::toStringRow(int row) const {
         default:
             ss << " ? ";
             break;
+        }
+    }
+    return ss.str();
+}
+    */
+
+std::string Board::toStringRow(int row, const std::unordered_map<Pos, std::string, PosHash>* highlights) const {
+    std::stringstream ss;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        Pos pos(i, BOARD_SIZE - row);
+        if (highlights && highlights->count(pos)) {
+            ss << (*highlights).at(pos);
+        } else {
+            ss << pieceToString(getPos(pos));
         }
     }
     return ss.str();

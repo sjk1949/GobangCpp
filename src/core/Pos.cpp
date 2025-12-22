@@ -16,6 +16,10 @@ Pos Pos::operator*(const int scalar) const {
     return Pos(x * scalar, y * scalar);
 }
 
+bool Pos::operator==(const Pos& other) const {
+    return other.x == x && other.y == y;
+}
+
 Pos& Pos::operator+=(const Pos& other) {
     x += other.x;
     y += other.y;

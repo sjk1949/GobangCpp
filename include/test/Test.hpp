@@ -1,3 +1,4 @@
-#include "BoardTest.hpp"
-#include "AITest.hpp"
-#include "NonBlockingInputTest.hpp"
+#include "test/BoardTest.hpp"
+#include "test/AITest.hpp"
+#include "test/NonBlockingInputTest.hpp"
+#include "test/JudgeTest.hpp"

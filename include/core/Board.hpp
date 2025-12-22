@@ -2,6 +2,7 @@
 
 #include "utils/Object.hpp"
 #include <array>
+#include <unordered_map>
 #include "core/GameTypes.hpp"
 #include "core/Pos.hpp"
 
@@ -106,6 +107,7 @@ public:
     static PatternType parsePatten(LineInfo lineInfo);
     static PieceType opponentOf(PieceType type);
     std::string toString() const override;
+    std::string toString(const std::unordered_map<Pos, std::string, PosHash>* highlights) const;
 
 private:
     /* 棋盘数据用PieceType枚举存储，0代表空位，1代表黑子，2代表白子 */
@@ -115,5 +117,8 @@ private:
     void clearBoard();
     /* 将Pos两边的连子情况合并 */
     LineInfo mergeLineInfo(LineInfo info1, LineInfo info2) const;
-    std::string toStringRow(int row) const;
+    std::string pieceToString(const PieceType type) const;
+    //std::string toStringRow(int row) const;
+    std::string toStringRow(int row, const std::unordered_map<Pos, std::string, PosHash>* highlights = nullptr) const;
 };
+

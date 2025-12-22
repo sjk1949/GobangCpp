@@ -15,3 +15,17 @@ GameResult Judge::ckeckWin(const Board& board, Pos lastDrop) {
     }
     return GameResult::NO_WINNER;
 }
+
+ChessPatternType Judge::checkChessPatternType(ChessPattern pattern) {
+    if (pattern.maxDist() >= 5) {
+        if (pattern.maxDist() + 1 == pattern.pieceNum()) {
+            return ChessPatternType::OVERLINE;
+        } else { // 按理来说不会出现这种情况
+            return ChessPatternType::NONE;
+        }
+    } else if (pattern.maxDist() == 4 && pattern.pieceNum() == 5) {
+        return ChessPatternType::FIVE;
+    }
+    // @todo
+    return ChessPatternType::NONE;
+}
