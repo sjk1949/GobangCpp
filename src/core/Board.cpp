@@ -21,6 +21,12 @@ bool Board::isOnBoard(Pos pos) {
     return pos.x >= 0 && pos.x < BOARD_SIZE && pos.y >= 0 && pos.y < BOARD_SIZE;
 }
 
+Board Board::afterDrop(Pos pos, PieceType type) const {
+    Board board = *this;
+    board.setPos(pos, type);
+    return board;
+}
+
 PieceType Board::getPos(Pos pos) const {
     return board[pos.x][pos.y];
 }

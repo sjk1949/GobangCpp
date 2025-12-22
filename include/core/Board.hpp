@@ -21,6 +21,8 @@ public:
     static int rowToPosY(int row);
     /* 判断给定坐标是否在棋盘上 */
     static bool isOnBoard(Pos pos);
+    /* 根据新落子情况产生一张新的棋盘 */
+    Board afterDrop(Pos pos, PieceType type) const;
     /* 访问棋盘数据 */
     PieceType getPos(Pos pos) const;
     /* 设置棋盘数据，返回值表示是否设置成功 */

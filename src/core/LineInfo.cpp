@@ -120,6 +120,10 @@ LineInfo LineInfo::mergeLineInfo(LineInfo info1, LineInfo info2) {
     info.length = info1.length + info2.length - 1;
     info.openEnds[0] = info1.openEnds[0];
     info.openEnds[1] = info2.openEnds[0];
+    std::vector<Pos> extension;
+    extension.insert(extension.end(), info1.extension.begin(), info1.extension.end());
+    extension.insert(extension.end(), info2.extension.begin(), info2.extension.end());
+    info.extension = extension;
     return info;
 }
 
@@ -127,6 +131,12 @@ std::string LineInfo::toString() const {
     std::string str = "LineInfo@";
     str += "length: " + std::to_string(length) + "\n";
     str += "openEnds: " + std::to_string(openEnds[0]) + ", " + std::to_string(openEnds[1]) + "\n";
-    str += "Direction: " + Pos::toPos(dir).toString();
+    str += "Extension Points: ";
+    for (Pos pos : extension) {
+        str += pos.toString();
+        str += ", ";
+    }
+    str += "\nDirection: " + Pos::toPos(dir).toString();
+    
     return str;
 }

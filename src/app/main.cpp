@@ -9,17 +9,17 @@ using namespace Test;
 
 int main() {
     // ======测试用例======
-    //JudgeTest::testChessPattern();
+    JudgeTest::testChessPatternTypeWithoutForbidden();
     // ======测试用例======
 
     // ======主程序======
-    //
+    /*
     ConsoleUI ui;
     ConsoleInput input;
     Application app(ui, input);
     app.mainLoop();
     //app.runGameLoop(app.initGame(app.getGameConfig()));
-    //
+    */
    // ======主程序======
    
     return 0;

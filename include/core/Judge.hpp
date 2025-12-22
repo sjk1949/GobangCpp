@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Pos.hpp"
-#include "Board.hpp"
+#include "core/Pos.hpp"
+#include "core/Board.hpp"
 #include "core/ChessPattern.hpp"
+#include "core/LineInfo.hpp"
 
 /**
  * 禁手包括三三，三四，长连禁手
@@ -35,6 +36,25 @@ public:
      */
     static ForbiddenType checkForbidden(const Board& board, Pos pos);
     static bool isForbidden(const Board& board, Pos pos);
+    std::array<ChessPatternType, 4> analyse(const Board& board, Pos pos, PieceType type);
+    ChessPatternType analyse(const Board& board, LineInfo info, PieceType type);
+    bool isLiveThree(const Board& board, LineInfo info, PieceType type);
+    /**
+     * @brief 检查一个棋型在可扩展位置落一子后能否变成活四，如果是，说明这个棋型是活三
+     */
+    bool canBecomeLiveFour(const Board& board, LineInfo info, PieceType type);
+    bool isLiveFour(const Board& board, LineInfo info, PieceType type);
+    bool isFour(const Board& board, LineInfo info, PieceType type);
+    bool canBecomeFive(const Board& board, LineInfo info, PieceType type);
+    /**
+     * @brief 检查一个棋型有多少个可以成五的拓展点位
+     * @return 可以成五的点位数量
+     */
+    int canBecomeFiveNum(const Board& board, LineInfo info, PieceType type);
+    bool isFive(const Board& board, LineInfo info, PieceType type);
+    bool isOverLine(const Board& board, LineInfo info, PieceType type);
+    std::string chessPatternTypeToString(ChessPatternType type);
+
 private:
     /**
      * @brief 根据给定的棋型，检查所属的类型
