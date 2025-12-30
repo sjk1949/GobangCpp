@@ -2,6 +2,11 @@
 
 #include <sstream>
 #include <utility>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#include "ui/backend/ConsoleBackend.hpp"
 #include "core/Game.hpp"
 #include "core/Board.hpp"
 #include "core/GameConfig.hpp"
@@ -40,6 +45,9 @@ public:
     void flip();
 
 private:
+    std::unique_ptr<ConsoleBackend> backend;
     bool saveHistoryDraw = false; // 是否保存之前所有的绘制不清屏
     std::stringstream buffer; // 缓冲区
+
+    void detectBackend();
 };
