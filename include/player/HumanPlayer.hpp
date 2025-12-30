@@ -7,7 +7,6 @@ class HumanPlayer : public Player
 private:
 
 public:
-    HumanPlayer() = default;
-    ~HumanPlayer() = default;
+    HumanPlayer(std::string name, AIStrategy strategy);
     std::unique_ptr<GameCommand> getCommand(Board& board, PieceType type) override;
 };

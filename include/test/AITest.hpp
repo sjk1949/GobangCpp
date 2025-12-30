@@ -11,7 +11,7 @@ namespace Test
     public:
         static void testRandomAI() {
             Board board = Board::createEmptyBoard();
-            AI ai;
+            AI ai(AIStrategy::SCORE1);
             for (int i = 0; i < 10; i++) {
                 board.setPos(ai.calculateMove(board, PieceType::BLACK), PieceType::BLACK);
                 std::cout << board.toString() << std::endl;

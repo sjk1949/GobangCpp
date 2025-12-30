@@ -6,6 +6,8 @@
 #include <memory>
 #include <functional>
 #include <sstream>
+#include <algorithm>
+#include <cassert>
 
 class Application;
 class Task;
@@ -77,4 +79,50 @@ public:
     using Setter = std::function<void(Application&, const bool&)>;
     MenuBoolItem(std::string text, Getter getter, Setter setter, std::string on, std::string off);
     void onSelected(Application& app) override;
+};
+
+template <typename Enum>
+class MenuEnumItem : public MenuValItem<Enum>
+{
+public:
+    using Getter = std::function<Enum(const Application&)>;
+    using Setter = std::function<void(Application&, const Enum&)>;
+
+    MenuEnumItem(
+        std::string text,
+        Getter getter,
+        Setter setter,
+        std::vector<Enum> values,
+        std::vector<std::string> labels
+    )
+        : MenuValItem<Enum>(std::move(text), getter, setter,
+        [values](const Enum& originVal, int dir) {
+            auto it = std::find(values.begin(), values.end(), originVal);
+            if (it == values.end()) return originVal;;
+
+            size_t idx = std::distance(values.begin(), it);
+            idx = (idx + dir + values.size()) % values.size();
+            return values[idx];
+        },
+        [values, labels](const Enum& val) {
+            auto it = std::find(values.begin(), values.end(), val);
+            if (it == values.end()) return std::string("<?>");
+
+            size_t idx = std::distance(values.begin(), it);
+            return labels[idx];
+        })
+        , values(std::move(values))
+        , labels(std::move(labels))
+    {
+        assert(this->values.size() == this->labels.size());
+    }
+
+    void onSelected(Application& app) override
+    {
+        this->onAdjust(app, +1);
+    }
+
+private:
+    std::vector<Enum> values;
+    std::vector<std::string> labels;
 };

@@ -7,9 +7,9 @@
 class Player
 {
 public:
-    Player() = default;
+    //Player() = default;
     virtual ~Player() =default;
-    Player(std::string name);
+    Player(std::string name, AIStrategy strategy);
     std::string getName() const;
     void push(std::unique_ptr<GameCommand> command);
     virtual std::unique_ptr<GameCommand> getCommand(Board& board, PieceType type) = 0;
@@ -20,5 +20,5 @@ protected:
     AI ai;
     std::unique_ptr<GameCommand> commandBuffer;
     
-    Pos calculateMove(Board& board, PieceType aiPiece);
+    //Pos calculateMove(Board& board, PieceType aiPiece);
 };

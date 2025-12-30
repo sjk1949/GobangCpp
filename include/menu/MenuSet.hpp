@@ -27,6 +27,15 @@ public:
                 [](Application& app, bool val) {
                     app.getGameConfig().player1IsAI = val;
                 }, "AI", "人类"))
+            .addItem(std::make_unique<MenuEnumItem<AIStrategy>>("玩家1 AI: ",
+                [](const Application& app) {
+                    return app.getGameConfig().player1Strategy;
+                },
+                [](Application& app, AIStrategy val) {
+                    app.getGameConfig().player1Strategy = val;
+                },
+                std::vector<AIStrategy>{AIStrategy::RANDOM, AIStrategy::SCORE1, AIStrategy::SCORE2},
+                std::vector<std::string>{"随机", "策略1", "策略2"}))
             .addItem(std::make_unique<MenuBoolItem>("玩家2: ",
                 [](const Application& app) {
                     return app.getGameConfig().player2IsAI;
@@ -34,6 +43,15 @@ public:
                 [](Application& app, bool val) {
                     app.getGameConfig().player2IsAI = val;
                 }, "AI", "人类"))
+            .addItem(std::make_unique<MenuEnumItem<AIStrategy>>("玩家2 AI: ",
+                [](const Application& app) {
+                    return app.getGameConfig().player2Strategy;
+                },
+                [](Application& app, AIStrategy val) {
+                    app.getGameConfig().player2Strategy = val;
+                },
+                std::vector<AIStrategy>{AIStrategy::RANDOM, AIStrategy::SCORE1, AIStrategy::SCORE2},
+                std::vector<std::string>{"随机", "策略1", "策略2"}))
             .addItem(std::make_unique<MenuBoolItem>("计时器: ",
                 [](const Application& app) {
                     return app.getGameConfig().useTimeLimit;

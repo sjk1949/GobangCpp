@@ -17,14 +17,14 @@ Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : b
 
 Game::Game(GameConfig config) : board(Board::createEmptyBoard()), judge(Judge()) {
     if (config.player1IsAI) {
-        player1 = std::make_unique<AIPlayer>();
+        player1 = std::make_unique<AIPlayer>(config.player1Name, config.player1Strategy);
     } else {
-        player1 = std::make_unique<HumanPlayer>();
+        player1 = std::make_unique<HumanPlayer>(config.player1Name, config.player1Strategy);
     }
     if (config.player2IsAI) {
-        player2 = std::make_unique<AIPlayer>();
+        player2 = std::make_unique<AIPlayer>(config.player2Name, config.player2Strategy);
     } else {
-        player2 = std::make_unique<HumanPlayer>();
+        player2 = std::make_unique<HumanPlayer>(config.player2Name, config.player2Strategy);
     }
     useTimeLimit = config.useTimeLimit;
     currentPlayer = this->player1.get();

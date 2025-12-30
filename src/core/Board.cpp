@@ -1,8 +1,10 @@
+#include "core/Board.hpp"
+
 #include <array>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
 
-#include "core/Board.hpp"
 #include "core/GameTypes.hpp"
 
 Board::Board() {
@@ -28,10 +30,12 @@ Board Board::afterDrop(Pos pos, PieceType type) const {
 }
 
 PieceType Board::getPos(Pos pos) const {
+    assert(isOnBoard(pos));
     return board[pos.x][pos.y];
 }
 
 bool Board::setPos(Pos pos, PieceType type) {
+    assert(isOnBoard(pos));
     board[pos.x][pos.y] = type;
     return true;
 }
