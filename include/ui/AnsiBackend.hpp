@@ -16,6 +16,7 @@ public:
 private:
     std::string buffer;
     int lastLineCount = 0;
+    std::vector<std::string> lastLines;
 
     static std::vector<std::string> splitLines(const std::string& s);
 };

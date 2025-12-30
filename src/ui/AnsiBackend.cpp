@@ -46,8 +46,23 @@ void AnsiBackend::endFrame() {
     std::cout << "\033[H";
 
     // 逐行：清行 → 写行
-    for (const auto& line : lines) {
-        std::cout << "\033[K";   // 清除整行
+    for (int i = 0; i < currentLines; i++) {
+        const std::string& line = lines[i];
+
+        bool needClear = false;
+        if (i < static_cast<int>(lastLines.size())) {
+            if (line.size() < lastLines[i].size()) {
+                needClear = true;
+            }
+        } else {
+            // 新增的行，保险起见清一次
+            needClear = true;
+        }
+        
+        if (needClear) {
+            std::cout << "\033[K";   // 清除整行
+        }
+        
         std::cout << line;
         std::cout << '\n';
     }
@@ -58,6 +73,8 @@ void AnsiBackend::endFrame() {
     }
 
     lastLineCount = currentLines;
+    lastLines = std::move(lines);
+
     std::cout.flush();
 }
 
