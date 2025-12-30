@@ -1,6 +1,7 @@
 #include "core/LineInfo.hpp"
 
 #include <iomanip>
+#include <set>
 
 LineInfo LineInfo::getLongestLine(const Board& board, Pos pos) {
     return getLongestLine(board, pos, board.getPos(pos));
@@ -49,11 +50,11 @@ LineInfo LineInfo::checkLineToDir(const Board& board, Pos pos, Dir dir, bool isF
     } else {
         int forward = (isForward) ? 1 : -1;
         Pos currPos = pos; //当前检查的位置
-        info.length += 1;
-        currPos += (Pos::toPos(dir) *= forward);
-        for (; board.isOnBoard(currPos) && board.getPos(currPos) == type; currPos += (Pos::toPos(dir) *= forward)) {
+        do {
+            info.posList.push_back(currPos);
             info.length += 1;
-        }
+            currPos += (Pos::toPos(dir) *= forward);
+        } while (board.isOnBoard(currPos) && board.getPos(currPos) == type);
         if (board.isOnBoard(currPos) && board.getPos(currPos) == PieceType::EMPTY) {
             info.openEnds[0] = true;
             info.openEnds[1] = true;
@@ -120,6 +121,12 @@ LineInfo LineInfo::mergeLineInfo(LineInfo info1, LineInfo info2) {
     info.length = info1.length + info2.length - 1;
     info.openEnds[0] = info1.openEnds[0];
     info.openEnds[1] = info2.openEnds[0];
+    std::vector<Pos> posList;
+    posList.insert(posList.end(), info1.posList.begin(), info1.posList.end());
+    posList.insert(posList.end(), info2.posList.begin(), info2.posList.end());
+    std::set<Pos> posSet(posList.begin(), posList.end()); // 用Set去重
+    posList.assign(posSet.begin(), posSet.end());
+    info.posList = posList;
     std::vector<Pos> extension;
     extension.insert(extension.end(), info1.extension.begin(), info1.extension.end());
     extension.insert(extension.end(), info2.extension.begin(), info2.extension.end());
@@ -130,7 +137,12 @@ LineInfo LineInfo::mergeLineInfo(LineInfo info1, LineInfo info2) {
 std::string LineInfo::toString() const {
     std::string str = "LineInfo@";
     str += "length: " + std::to_string(length) + "\n";
-    str += "openEnds: " + std::to_string(openEnds[0]) + ", " + std::to_string(openEnds[1]) + "\n";
+    str += "Pos List: ";
+    for (Pos pos : posList) {
+        str += pos.toString();
+        str += ", ";
+    }
+    str += "\nopenEnds: " + std::to_string(openEnds[0]) + ", " + std::to_string(openEnds[1]) + "\n";
     str += "Extension Points: ";
     for (Pos pos : extension) {
         str += pos.toString();

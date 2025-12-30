@@ -2,6 +2,7 @@
 
 #include "core/Board.hpp"
 #include "core/LineInfo.hpp"
+#include "core/LinePattern.hpp"
 
 bool Judge::isValidMove(const Board& board, const Pos pos) {
     if (Board::isOnBoard(pos) && board.getPos(pos) == PieceType::EMPTY) {
@@ -58,7 +59,24 @@ bool Judge::canBecomeLiveFour(const Board& board, LineInfo info, PieceType type)
 }
 
 bool Judge::isLiveFour(const Board& board, LineInfo info, PieceType type) {
-    if (canBecomeFiveNum(board, info, type) >= 2) {
+    // 如果能成两个5，一定就是活四吗？不一定，如果两个五除了成五的落子外并不完全相同，那就是(双)冲四了，比如EBEBBBEBE
+    //if (canBecomeFiveNum(board, info, type) >= 2) {
+    int fiveNum = 0;
+    LinePattern lastOldPattern;
+    for (Pos pos : info.extension) {
+        Board newBoard = board.afterDrop(pos, type);
+        LineInfo newInfo = LineInfo::checkLine(newBoard, pos, info.dir);
+        if (isFive(newBoard, newInfo, type)) {
+            LinePattern oldPattern = LinePattern(newInfo).removePos(pos);
+            if (lastOldPattern.isEmpty()) {
+                lastOldPattern = oldPattern;
+            } else if (oldPattern != lastOldPattern) { // 已经出现过五连，但是这次五连的子和上次有区别
+                return false; // 两个冲四的情况
+            }
+            fiveNum++;
+        }
+    }
+    if (fiveNum >= 2) {
         return true;
     }
     return false;

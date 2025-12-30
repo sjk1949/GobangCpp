@@ -59,6 +59,17 @@ namespace Test
             for (auto type : judge.analyse(board, Pos(8, 6), PieceType::BLACK)) {
                 std::cout << judge.chessPatternTypeToString(type) << std::endl;
             }
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(5, 6), PieceType::BLACK);
+            board.setPos(Pos(6, 6), PieceType::BLACK);
+            board.setPos(Pos(8, 6), PieceType::BLACK);
+            board.setPos(Pos(9, 6), PieceType::BLACK);
+            board.setPos(Pos(11, 6), PieceType::BLACK);
+            board.setPos(Pos(12, 6), PieceType::BLACK);
+            std::cout << board.toString() << std::endl;
+            for (auto type : judge.analyse(board, Pos(8, 6), PieceType::BLACK)) {
+                std::cout << judge.chessPatternTypeToString(type) << std::endl;
+            }
         }
     };
 } // Test

@@ -9,15 +9,17 @@
 #include "core/Pos.hpp"
 
 /**
- * 这个类表示连子的结构，如三连，四连以及死活等
+ * 这个类表示连子的结构，如三连，四连以及死活等，它所表示的棋子必须无间隔连成一条线
  */
 class LineInfo : public Object
 {
 public:
     int length = 0;
+    std::vector<Pos> posList; // 线条包含的所有点，不一定有序，为了方便转换成LinePattern
     bool openEnds[2] = {false, false};
     Dir dir;
     std::vector<Pos> extension; // 两端可用的拓展点（不能出棋盘，不能有棋子阻挡，不考虑禁手)
+
     /**
      * @brief 检查给定位置连子数量最多的方向
      */

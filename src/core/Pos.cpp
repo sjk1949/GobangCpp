@@ -20,6 +20,12 @@ bool Pos::operator==(const Pos& other) const {
     return other.x == x && other.y == y;
 }
 
+bool Pos::operator<(const Pos& other) const {
+    if (x < other.x) {return true;}
+    if (x == other.x && y < other.y) {return true;}
+    return false;
+}
+
 Pos& Pos::operator+=(const Pos& other) {
     x += other.x;
     y += other.y;

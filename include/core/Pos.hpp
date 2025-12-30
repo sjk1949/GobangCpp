@@ -35,6 +35,7 @@ public:
     Pos operator-(const Pos& other) const;
     Pos operator*(const int scalar) const;
     bool operator==(const Pos& other) const;
+    bool operator<(const Pos& other) const;
     Pos& operator+=(const Pos& other);
     Pos& operator-=(const Pos& other);
     Pos& operator*=(const int scalar);
