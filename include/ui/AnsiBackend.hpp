@@ -6,6 +6,7 @@
 class AnsiBackend : public ConsoleBackend {
 public:
     AnsiBackend();
+    ~AnsiBackend();
 
     void beginFrame() override;
     void draw(const std::string& utf8Text) override;

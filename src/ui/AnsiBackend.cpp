@@ -3,7 +3,18 @@
 #include <sstream>
 
 AnsiBackend::AnsiBackend() {
+    // 进入 alternate screen
+    std::cout << "\033[?1049h";
+    std::cout << "\033[H\033[2J"; // 清空备用屏幕
     std::cout << "\033[?25l"; // hide cursor
+    std::cout.flush();
+}
+
+AnsiBackend::~AnsiBackend() {
+    // 退出 alternate screen，恢复终端
+    std::cout << "\033[?25h";     // show cursor
+    std::cout << "\033[?1049l";
+    std::cout.flush();
 }
 
 void AnsiBackend::beginFrame() {
