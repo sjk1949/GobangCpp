@@ -6,9 +6,9 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#include "ui/Win32Backend.hpp"
+#include "ui/backend/Win32Backend.hpp"
 #endif
-#include "ui/AnsiBackend.hpp"
+#include "ui/backend/AnsiBackend.hpp"
 #include "core/Game.hpp"
 #include "core/Pos.hpp"
 #include "menu/Menu.hpp"

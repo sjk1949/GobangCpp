@@ -6,7 +6,7 @@
 #include <windows.h>
 #endif
 
-#include "ui/ConsoleBackend.hpp"
+#include "ui/backend/ConsoleBackend.hpp"
 #include "core/Game.hpp"
 #include "core/Board.hpp"
 #include "core/GameConfig.hpp"
