@@ -77,8 +77,6 @@ void Game::placePieceAndCheck(Pos pos) {
             break;
         }
         setMessage("");
-    } else {
-        setMessage("不能在该处落子！");
     }
 }
 
@@ -126,9 +124,33 @@ const bool Game::hasTimeLimit() const {
 }
 
 bool Game::placePiece(Pos pos, Player* player) {
-    if (judge.isValidMove(board, pos)) {
-        board.setPos(pos, getPieceType(player));
+    return placePiece(board, pos, getPieceType(player));
+}
+
+bool Game::placePiece(const Board& board, const Pos pos, PieceType type) {
+    switch (judge.checkValidMove(board, pos, type))
+    {
+    case ForbiddenType::NONE:
+        this->board.setPos(pos, type); //如果没有违规或禁手，落子
         return true;
+    case ForbiddenType::OUT_OF_BOUND:
+        setMessage("落子超出棋盘边界！");
+        break;
+    case ForbiddenType::PIECE_ALREADY_EXIST:
+        setMessage("不能在其他棋子上落子！");
+        break;
+    case ForbiddenType::OVERLINE:
+        setMessage("黑棋长连禁手");
+        break;
+    case ForbiddenType::DOUBLE_FOUR:
+        setMessage("黑棋四四禁手");
+        break;
+    case ForbiddenType::DOUBLE_THREE:
+        setMessage("黑棋三三禁手");
+        break;
+    default:
+        setMessage("触发未知错误");
+        break;
     }
     return false;
 }

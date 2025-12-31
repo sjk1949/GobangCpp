@@ -5,11 +5,17 @@
 #include "core/LineInfo.hpp"
 #include "core/LinePattern.hpp"
 
-bool Judge::isValidMove(const Board& board, const Pos pos) {
-    if (Board::isOnBoard(pos) && board.getPos(pos) == PieceType::EMPTY) {
-        return true;
+ForbiddenType Judge::checkValidMove(const Board& board, const Pos pos, PieceType type) {
+    if (!Board::isOnBoard(pos)) {
+        return ForbiddenType::OUT_OF_BOUND;
+    } else if (board.getPos(pos) != PieceType::EMPTY) {
+        return ForbiddenType::PIECE_ALREADY_EXIST;
     }
-    return false;
+    return checkForbidden(board, pos, type);
+}
+
+bool Judge::isValidMove(const Board& board, const Pos pos, PieceType type) {
+    return checkValidMove(board, pos, type) == ForbiddenType::NONE;
 }
 
 GameResult Judge::ckeckWin(const Board& board, Pos lastDrop) {

@@ -59,6 +59,7 @@ private:
     PieceType getPieceType(Player* player) const;
 
     bool placePiece(const Pos pos, Player* Player);
+    bool placePiece(const Board& board, const Pos pos, PieceType type);
     /**
      * @brief 轮换正在下棋的玩家
      */
