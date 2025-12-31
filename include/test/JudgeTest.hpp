@@ -34,6 +34,7 @@ namespace Test
         }
 
         static void testChessPatternTypeWithoutForbidden() {
+            Judge judge;
             Board board = Board::createEmptyBoard();
             board.setPos(Pos(5, 6), PieceType::BLACK);
             board.setPos(Pos(6, 6), PieceType::BLACK);
@@ -41,8 +42,11 @@ namespace Test
             board.setPos(Pos(5, 5), PieceType::BLACK);
             board.setPos(Pos(8, 8), PieceType::BLACK);
             board.setPos(Pos(6, 7), PieceType::BLACK);
+            board.setPos(Pos(6, 8), PieceType::BLACK);
+            board.setPos(Pos(6, 9), PieceType::BLACK);
+            board.setPos(Pos(6, 10), PieceType::BLACK);
+            board.setPos(Pos(6, 11), PieceType::BLACK);
             std::cout << board.toString() << std::endl;
-            Judge judge;
             for (auto pattern : judge.analyse(board, Pos(6, 6), PieceType::BLACK)) {
                 for (auto type : pattern) {
                     std::cout << judge.chessPatternTypeToString(type) << std::endl;
@@ -75,12 +79,93 @@ namespace Test
             board.setPos(Pos(8, 7), PieceType::BLACK);
             board.setPos(Pos(8, 8), PieceType::BLACK);
             board.setPos(Pos(8, 9), PieceType::BLACK);
+            board.setPos(Pos(9, 7), PieceType::BLACK);
+            board.setPos(Pos(10, 8), PieceType::BLACK);
+            board.setPos(Pos(11, 9), PieceType::BLACK);
+            board.setPos(Pos(12, 10), PieceType::BLACK);
             std::cout << board.toString() << std::endl;
             for (auto pattern : judge.analyse(board, Pos(8, 6), PieceType::BLACK)) {
                 for (auto type : pattern) {
                     std::cout << judge.chessPatternTypeToString(type) << std::endl;
                 }
             }
+        }
+
+        /**
+         * @brief 测试一般的禁手分析
+         */
+        static void testCheckForbidden() {
+            Judge judge;
+            Board board = Board::createEmptyBoard();
+            board.setPos(Pos(5, 6), PieceType::BLACK);
+            board.setPos(Pos(7, 6), PieceType::BLACK);
+            board.setPos(Pos(9, 6), PieceType::BLACK);
+            board.setPos(Pos(11, 6), PieceType::BLACK);
+            Pos pos(8, 6);
+            std::unordered_map<Pos, std::string, PosHash> highlights;
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(2, 2), PieceType::BLACK);
+            board.setPos(Pos(4, 2), PieceType::BLACK);
+            board.setPos(Pos(4, 1), PieceType::BLACK);
+            board.setPos(Pos(1, 4), PieceType::BLACK);
+            pos = {3, 2};
+            highlights.clear();
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(5, 4), PieceType::BLACK);
+            board.setPos(Pos(5, 5), PieceType::BLACK);
+            board.setPos(Pos(5, 6), PieceType::BLACK);
+            board.setPos(Pos(4, 7), PieceType::BLACK);
+            board.setPos(Pos(5, 8), PieceType::BLACK);
+            board.setPos(Pos(5, 9), PieceType::BLACK);
+            pos = {5, 7};
+            highlights.clear();
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(5, 4), PieceType::BLACK);
+            board.setPos(Pos(5, 5), PieceType::BLACK);
+            board.setPos(Pos(5, 6), PieceType::BLACK);
+            board.setPos(Pos(4, 7), PieceType::BLACK);
+            board.setPos(Pos(6, 7), PieceType::BLACK);
+            board.setPos(Pos(7, 7), PieceType::BLACK);
+            board.setPos(Pos(8, 7), PieceType::BLACK);
+            board.setPos(Pos(5, 8), PieceType::BLACK);
+            board.setPos(Pos(5, 9), PieceType::BLACK);
+            pos = {5, 7};
+            highlights.clear();
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(5, 2), PieceType::WHITE);
+            board.setPos(Pos(5, 4), PieceType::BLACK);
+            board.setPos(Pos(5, 6), PieceType::BLACK);
+            board.setPos(Pos(5, 8), PieceType::WHITE);
+            board.setPos(Pos(6, 5), PieceType::BLACK);
+            board.setPos(Pos(7, 5), PieceType::BLACK);
+            pos = {5, 5};
+            highlights.clear();
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+        }
+
+        /**
+         * @brief 测试复杂递归禁手
+         */
+        static void testRecursiveCheckForbidden() {
+            // @todo
         }
     };
 } // Test

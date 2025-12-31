@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include "core/Pos.hpp"
 #include "core/Board.hpp"
 #include "core/ChessPattern.hpp"
@@ -34,8 +35,8 @@ public:
      * @param board 这里的棋盘是已经落上子之后的棋盘
      * @return 返回禁手类型，如果没有禁手，返回ForbiddenType::NONE
      */
-    static ForbiddenType checkForbidden(const Board& board, Pos pos);
-    static bool isForbidden(const Board& board, Pos pos);
+    ForbiddenType checkForbidden(const Board& board, Pos pos, PieceType type);
+    bool isForbidden(const Board& board, Pos pos, PieceType type);
     std::array<std::vector<ChessPatternType>, 4> analyse(const Board& board, Pos pos, PieceType type);
     std::vector<ChessPatternType> analyse(const Board& board, LineInfo info, PieceType type);
     bool isLiveThree(const Board& board, LineInfo info, PieceType type);
@@ -58,12 +59,17 @@ public:
     bool isFive(const Board& board, LineInfo info, PieceType type);
     bool isOverLine(const Board& board, LineInfo info, PieceType type);
     std::string chessPatternTypeToString(ChessPatternType type);
+    std::string forbiddenTypeToString(ForbiddenType type);
 
 private:
     /**
+     * @brief 统计一个落点四个方向棋型信息所含的不同棋型数量
+     */
+    std::map<ChessPatternType, int> countPattern(std::array<std::vector<ChessPatternType>, 4> patternList);
+    /**
      * @brief 根据给定的棋型，检查所属的类型
      */
-    static ChessPatternType checkChessPatternType(const ChessPattern& pattern);
+    ChessPatternType checkChessPatternType(const ChessPattern& pattern);
     static bool checkFive(const Board& board, Pos pos);
     static bool checkOverLine(const Board& board, Pos pos);
     static bool checkDoubleFour(const Board& board, Pos pos);

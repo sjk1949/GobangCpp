@@ -1,5 +1,6 @@
 #include "core/Judge.hpp"
 
+#include <map>
 #include "core/Board.hpp"
 #include "core/LineInfo.hpp"
 #include "core/LinePattern.hpp"
@@ -173,21 +174,44 @@ bool Judge::checkDoubleThree(const Board& board, Pos pos) {
     return false;
 }
 
-ForbiddenType Judge::checkForbidden(const Board& board, Pos pos) {
-    if (checkFive(board, pos)) { // 如果同时出现五连和其他禁手，禁手失效
+ForbiddenType Judge::checkForbidden(const Board& board, Pos pos, PieceType type) {
+    if (type != PieceType::BLACK) {
         return ForbiddenType::NONE;
-    } else if (checkOverLine(board, pos)) {
+    }
+    std::array<std::vector<ChessPatternType>, 4> patternList = analyse(board.afterDrop(pos, type), pos, type); // 分析的是假设落子后的棋盘，注意！
+    std::map<ChessPatternType, int> dict = countPattern(patternList);
+    if (dict[ChessPatternType::FIVE] > 0) { // 如果同时出现五连和其他禁手，禁手失效
+        return ForbiddenType::NONE;
+    } else if (dict[ChessPatternType::OVERLINE] > 0) {
         return ForbiddenType::OVERLINE;
-    } else if (checkDoubleFour(board, pos)) {
+    } else if (dict[ChessPatternType::LIVE_FOUR] + dict[ChessPatternType::SLEEP_FOUR] >= 2) {
         return ForbiddenType::DOUBLE_FOUR;
-    } else if (checkDoubleThree(board, pos)) {
+    } else if (dict[ChessPatternType::LIVE_THREE] >= 2) {
         return ForbiddenType::DOUBLE_THREE;
     }
     return ForbiddenType::NONE;
 }
 
-bool Judge::isForbidden(const Board& board, Pos pos) {
-    return checkForbidden(board, pos) != ForbiddenType::NONE;
+bool Judge::isForbidden(const Board& board, Pos pos, PieceType type) {
+    return checkForbidden(board, pos, type) != ForbiddenType::NONE;
+}
+
+std::map<ChessPatternType, int> Judge::countPattern(std::array<std::vector<ChessPatternType>, 4> patternList) {
+    //生成空字典
+    std::map<ChessPatternType, int> dict = {
+        {ChessPatternType::OVERLINE, 0},
+        {ChessPatternType::FIVE, 0},
+        {ChessPatternType::LIVE_FOUR, 0},
+        {ChessPatternType::SLEEP_FOUR, 0},
+        {ChessPatternType::LIVE_THREE, 0},
+        {ChessPatternType::NONE, 0}
+    };
+    for (const auto& pattern : patternList) {
+        for (auto type : pattern) {
+            dict[type]++;
+        }
+    }
+    return dict;
 }
 
 ChessPatternType Judge::checkChessPatternType(const ChessPattern& pattern) {
@@ -204,7 +228,7 @@ ChessPatternType Judge::checkChessPatternType(const ChessPattern& pattern) {
     if (pattern.pieceNum() == 4) { // 是某种四
         int fiveNumber = 0;
         for (Pos pos : searchForAvailablePos(pattern)) {
-            if (!isForbidden(pattern.board, pos)) {
+            if (!isForbidden(pattern.board, pos, pattern.pieceType)) {
                 ChessPattern newPattern = pattern;
                 newPattern.placePiece(pos);
                 if (checkChessPatternType(newPattern) == ChessPatternType::FIVE) {
@@ -223,7 +247,7 @@ ChessPatternType Judge::checkChessPatternType(const ChessPattern& pattern) {
     }
     if (pattern.pieceNum() == 3) { // 是某种三
         for (Pos pos : searchForAvailablePos(pattern)) {
-            if (!isForbidden(pattern.board, pos)) {
+            if (!isForbidden(pattern.board, pos, pattern.pieceType)) {
                 ChessPattern newPattern = pattern;
                 newPattern.placePiece(pos);
                 if (checkChessPatternType(newPattern) == ChessPatternType::LIVE_FOUR) { // 只要有一种能成活四， 便是活三
@@ -250,6 +274,22 @@ std::string Judge::chessPatternTypeToString(ChessPatternType type) {
         return "LIVE_THREE";
     case ChessPatternType::NONE:
         return "NONE";
+    default:
+        return "?";
+    }
+}
+
+std::string Judge::forbiddenTypeToString(ForbiddenType type) {
+    switch (type)
+    {
+    case ForbiddenType::NONE:
+        return "NONE";
+    case ForbiddenType::OVERLINE:
+        return "OVERLINE";
+    case ForbiddenType::DOUBLE_FOUR:
+        return "DOUBLE_FOUR";
+    case ForbiddenType::DOUBLE_THREE:
+        return "DOUBLE_THREE";
     default:
         return "?";
     }
