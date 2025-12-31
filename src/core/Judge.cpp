@@ -18,8 +18,8 @@ GameResult Judge::ckeckWin(const Board& board, Pos lastDrop) {
     return GameResult::NO_WINNER;
 }
 
-std::array<ChessPatternType, 4> Judge::analyse(const Board& board, Pos pos, PieceType type) {
-    std::array<ChessPatternType, 4> patterns;
+std::array<std::vector<ChessPatternType>, 4> Judge::analyse(const Board& board, Pos pos, PieceType type) {
+    std::array<std::vector<ChessPatternType>, 4> patterns;
     int i = 0;
     for (LineInfo info : LineInfo::getAllLines(board, pos, type)) {
         patterns[i] = analyse(board, info, type);
@@ -28,19 +28,19 @@ std::array<ChessPatternType, 4> Judge::analyse(const Board& board, Pos pos, Piec
     return patterns;
 }
 
-ChessPatternType Judge::analyse(const Board& board, LineInfo info, PieceType type) {
+std::vector<ChessPatternType> Judge::analyse(const Board& board, LineInfo info, PieceType type) {
+    std::vector<ChessPatternType> patternList;
     if (isOverLine(board, info, type)) {
-        return ChessPatternType::OVERLINE;
+        patternList.push_back(ChessPatternType::OVERLINE);
     } else if (isFive(board, info, type)) {
-        return ChessPatternType::FIVE;
-    } else if (isLiveFour(board, info, type)) {
-        return ChessPatternType::LIVE_FOUR;
+        patternList.push_back(ChessPatternType::FIVE);
     } else if (isFour(board, info, type)) {
-        return ChessPatternType::SLEEP_FOUR;
+        std::vector<ChessPatternType> fourList = analyseFour(board, info, type);
+        patternList.insert(patternList.end(), fourList.begin(), fourList.end());
     } else if (isLiveThree(board, info, type)) {
-        return ChessPatternType::LIVE_THREE;
+        patternList.push_back(ChessPatternType::LIVE_THREE);
     }
-    return ChessPatternType::NONE;
+    return patternList;
 }
 
 bool Judge::isLiveThree(const Board& board, LineInfo info, PieceType type) {
@@ -70,7 +70,7 @@ bool Judge::isLiveFour(const Board& board, LineInfo info, PieceType type) {
             LinePattern oldPattern = LinePattern(newInfo).removePos(pos);
             if (lastOldPattern.isEmpty()) {
                 lastOldPattern = oldPattern;
-            } else if (oldPattern != lastOldPattern) { // 已经出现过五连，但是这次五连的子和上次有区别
+            } else if (oldPattern != lastOldPattern) { // 已经出现过五连，但是这次构成五连的四连和上次有区别
                 return false; // 两个冲四的情况
             }
             fiveNum++;
@@ -87,6 +87,33 @@ bool  Judge::isFour(const Board& board, LineInfo info, PieceType type) {
         return true;
     }
     return false;
+}
+
+std::vector<ChessPatternType> Judge::analyseFour(const Board& board, LineInfo info, PieceType type) {
+    std::vector<ChessPatternType> result;
+
+    int fiveNum = 0;
+    LinePattern lastOldPattern;
+    for (Pos pos : info.extension) {
+        Board newBoard = board.afterDrop(pos, type);
+        LineInfo newInfo = LineInfo::checkLine(newBoard, pos, info.dir);
+        if (isFive(newBoard, newInfo, type)) {
+            LinePattern oldPattern = LinePattern(newInfo).removePos(pos);
+            if (lastOldPattern.isEmpty()) {
+                lastOldPattern = oldPattern;
+            } else if (oldPattern != lastOldPattern) { // 已经出现过五连，但是这次构成五连的四连和上次有区别
+                fiveNum = 0; // 这是上一个冲四的Num，将其清空
+                result.push_back(ChessPatternType::SLEEP_FOUR);// 两个冲四的情况
+            }
+            fiveNum++;
+        }
+    }
+    if (fiveNum >= 2) {
+        result.push_back(ChessPatternType::LIVE_FOUR);
+    } else if (fiveNum == 1) {
+        result.push_back(ChessPatternType::SLEEP_FOUR);
+    }
+    return result;
 }
 
 bool Judge::canBecomeFive(const Board& board, LineInfo info, PieceType type) {

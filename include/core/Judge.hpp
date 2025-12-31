@@ -36,8 +36,8 @@ public:
      */
     static ForbiddenType checkForbidden(const Board& board, Pos pos);
     static bool isForbidden(const Board& board, Pos pos);
-    std::array<ChessPatternType, 4> analyse(const Board& board, Pos pos, PieceType type);
-    ChessPatternType analyse(const Board& board, LineInfo info, PieceType type);
+    std::array<std::vector<ChessPatternType>, 4> analyse(const Board& board, Pos pos, PieceType type);
+    std::vector<ChessPatternType> analyse(const Board& board, LineInfo info, PieceType type);
     bool isLiveThree(const Board& board, LineInfo info, PieceType type);
     /**
      * @brief 检查一个棋型在可扩展位置落一子后能否变成活四，如果是，说明这个棋型是活三
@@ -45,6 +45,10 @@ public:
     bool canBecomeLiveFour(const Board& board, LineInfo info, PieceType type);
     bool isLiveFour(const Board& board, LineInfo info, PieceType type);
     bool isFour(const Board& board, LineInfo info, PieceType type);
+    /**
+     * @brief 根据给定的LineInfo，识别出四的类型和数量，比如EBEBBBEBE是两个冲四
+     */
+    std::vector<ChessPatternType> analyseFour(const Board& board, LineInfo info, PieceType type);
     bool canBecomeFive(const Board& board, LineInfo info, PieceType type);
     /**
      * @brief 检查一个棋型有多少个可以成五的拓展点位

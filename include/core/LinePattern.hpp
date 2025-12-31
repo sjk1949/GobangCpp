@@ -18,7 +18,7 @@ public:
     bool operator!=(const LinePattern& other) const;
 
     /**
-     * @brief 加入一颗在棋盘上已有的棋子
+     * @brief 加入一颗在棋盘上已有的棋子，并按照字典序排列
      */
     LinePattern& addPos(Pos pos);
 

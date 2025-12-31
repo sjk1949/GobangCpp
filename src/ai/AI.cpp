@@ -133,11 +133,15 @@ int AI::getPosScore(Board& board, Pos pos, PieceType aiPiece) {
 int AI::getPosScoreV2(Board& board, Pos pos, PieceType aiPiece) {
     Judge judge;
     int score = 0;
-    for (auto type : judge.analyse(board, pos, aiPiece)) { //考虑自己走哪里能赢
-        score += scorePattern(type);
+    for (auto pattern : judge.analyse(board, pos, aiPiece)) { //考虑自己走哪里能赢
+        for (auto type : pattern) {
+            score += scorePattern(type);
+        }
     }
-    for (auto type : judge.analyse(board, pos, Board::opponentOf(aiPiece))) { //考虑如何阻止对方赢
-        score += 0.9 * scorePattern(type);
+    for (auto pattern : judge.analyse(board, pos, Board::opponentOf(aiPiece))) { //考虑如何阻止对方赢
+        for (auto type : pattern) {
+            score += 0.9 * scorePattern(type);
+        }
     }
     return score;
 }
