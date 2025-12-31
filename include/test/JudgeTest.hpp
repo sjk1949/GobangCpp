@@ -166,6 +166,44 @@ namespace Test
          */
         static void testRecursiveCheckForbidden() {
             // @todo
+            Judge judge;
+            Board board = Board::createEmptyBoard();
+            board.setPos(Pos(6, 5), PieceType::BLACK);
+            board.setPos(Pos(7, 6), PieceType::BLACK);
+            board.setPos(Pos(8, 6), PieceType::BLACK);
+            board.setPos(Pos(8, 8), PieceType::BLACK);
+            board.setPos(Pos(9, 7), PieceType::BLACK);
+            board.setPos(Pos(10, 7), PieceType::BLACK);
+            board.setPos(Pos(11, 6), PieceType::BLACK);
+            board.setPos(Pos(11, 8), PieceType::BLACK);
+            board.setPos(Pos(13, 7), PieceType::WHITE);
+            board.setPos(Pos(10, 9), PieceType::WHITE);
+            Pos pos(11, 7);
+            std::unordered_map<Pos, std::string, PosHash> highlights;
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
+
+            board = Board::createEmptyBoard();
+            board.setPos(Pos(3, 4), PieceType::BLACK);
+            board.setPos(Pos(4, 4), PieceType::BLACK);
+            board.setPos(Pos(4, 5), PieceType::BLACK);
+            board.setPos(Pos(6, 3), PieceType::BLACK);
+            board.setPos(Pos(6, 5), PieceType::BLACK);
+            board.setPos(Pos(7, 6), PieceType::BLACK);
+            board.setPos(Pos(8, 6), PieceType::BLACK);
+            board.setPos(Pos(8, 8), PieceType::BLACK);
+            board.setPos(Pos(9, 7), PieceType::BLACK);
+            board.setPos(Pos(10, 7), PieceType::BLACK);
+            board.setPos(Pos(11, 6), PieceType::BLACK);
+            board.setPos(Pos(11, 8), PieceType::BLACK);
+            board.setPos(Pos(13, 7), PieceType::WHITE);
+            board.setPos(Pos(10, 9), PieceType::WHITE);
+            pos = {11, 7};
+            highlights.clear();
+            highlights[pos] = " ▲ ";
+            std::cout << board.toString(&highlights) << std::endl;
+            std::cout << pos.toString() << " forbidden type: " << judge.forbiddenTypeToString(judge.checkForbidden(board, pos, PieceType::BLACK)) << std::endl;
         }
     };
 } // Test

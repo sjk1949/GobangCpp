@@ -9,7 +9,7 @@ using namespace Test;
 
 int main() {
     // ======测试用例======
-    JudgeTest::testCheckForbidden();
+    JudgeTest::testRecursiveCheckForbidden();
     // ======测试用例======
 
     // ======主程序======
