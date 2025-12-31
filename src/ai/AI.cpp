@@ -9,11 +9,11 @@
 
 AI::AI(AIStrategy strategy) : strategy(strategy) {}
 
-Pos AI::calculateMove(Board& board, PieceType aiPiece) {
+Pos AI::calculateMove(const Board& board, PieceType aiPiece) {
     switch (strategy)
     {
     case AIStrategy::RANDOM:
-        return randomMove(board);
+        return randomMove(board, aiPiece);
     case AIStrategy::SCORE1:
         return calculateMoveV1(board, aiPiece);
     case AIStrategy::SCORE2:
@@ -23,44 +23,47 @@ Pos AI::calculateMove(Board& board, PieceType aiPiece) {
     }
 }
 
-Pos AI::calculateMoveV1(Board& board, PieceType aiPiece) {
+Pos AI::calculateMoveV1(const Board& board, PieceType aiPiece) {
     // @todo 根据棋盘分数图取最大值算出最佳位置
     return maxScoreMove(board, aiPiece);
 }
 
-Pos AI::calculateMoveV2(Board& board, PieceType aiPiece) {
+Pos AI::calculateMoveV2(const Board& board, PieceType aiPiece) {
     // @todo 根据棋盘分数图取最大值算出最佳位置
     return maxScoreMoveV2(board, aiPiece);
 }
 
-Pos AI::randomMove(Board& board) {
+Pos AI::randomMove(const Board& board, PieceType aiPiece) {
     std::random_device rd;  // 使用硬件熵源获取随机种子
     std::mt19937 gen(rd()); // 使用Mersenne Twister引擎
     std::uniform_int_distribution<> distrib(0, Board::BOARD_SIZE - 1); // 生成[0,14]的整数
     
     Pos pos;
+    Judge judge;
     do {
         pos = Pos(distrib(gen), distrib(gen));
-    } while (!board.isEmpty(pos));
+    } while (!judge.isValidMove(board, pos, aiPiece));
 
     return pos;
 }
 
-Pos AI::maxScoreMove(Board& board, PieceType aiPiece) {
+Pos AI::maxScoreMove(const Board& board, PieceType aiPiece) {
     return genScoreMap(board, aiPiece).findMax();
 }
 
-Pos AI::maxScoreMoveV2(Board& board, PieceType aiPiece) {
+Pos AI::maxScoreMoveV2(const Board& board, PieceType aiPiece) {
     return genScoreMapV2(board, aiPiece).findMax();
 }
 
-ScoreMap AI::genScoreMap(Board& board, PieceType aiPiece) {
+ScoreMap AI::genScoreMap(const Board& board, PieceType aiPiece) {
     ScoreMap scoreMap;
+    Judge judge;
     scoreMap.initScoreMap();
     for (int x = 0; x < Board::BOARD_SIZE; x++) {
         for (int y = 0; y < Board::BOARD_SIZE; y++) {
             Pos pos(x, y);
-            if (!board.isEmpty(pos)) { //如果位置已经有棋子了，不能重复落子
+             // @todo 检查禁手是个消耗算力的操作，不应该先检查禁手，应该先找出最大值，再检查是不是禁手，减轻工作量
+            if (!judge.isValidMove(board, pos, aiPiece)) { //检查禁手，如果是禁手，不能落子
                 scoreMap.setScore(pos, -1);
             } else {
                 scoreMap.setScore(pos, getPosScore(board, pos, aiPiece) + scoreMap.getScore(pos));
@@ -70,13 +73,15 @@ ScoreMap AI::genScoreMap(Board& board, PieceType aiPiece) {
     return scoreMap;
 }
 
-ScoreMap AI::genScoreMapV2(Board& board, PieceType aiPiece) {
+ScoreMap AI::genScoreMapV2(const Board& board, PieceType aiPiece) {
     ScoreMap scoreMap;
+    Judge judge;
     scoreMap.initScoreMap();
     for (int x = 0; x < Board::BOARD_SIZE; x++) {
         for (int y = 0; y < Board::BOARD_SIZE; y++) {
             Pos pos(x, y);
-            if (!board.isEmpty(pos)) { //如果位置已经有棋子了，不能重复落子
+            // @todo 检查禁手是个消耗算力的操作，不应该先检查禁手，应该先找出最大值，再检查是不是禁手，减轻工作量
+            if (!judge.isValidMove(board, pos, aiPiece)) { //检查禁手，如果是禁手，不能落子
                 scoreMap.setScore(pos, -1);
             } else {
                 scoreMap.setScore(pos, getPosScoreV2(board, pos, aiPiece) + scoreMap.getScore(pos));
@@ -119,7 +124,7 @@ int AI::scorePattern(const PatternType pattern) {
     }
 }
 
-int AI::getPosScore(Board& board, Pos pos, PieceType aiPiece) {
+int AI::getPosScore(const Board& board, Pos pos, PieceType aiPiece) {
     int score = 0;
     for (auto lineInfo : LineInfo::getAllLines(board, pos, aiPiece)) { //考虑自己走哪里能赢
         score += scorePattern(LineInfo::parsePatten(lineInfo));
@@ -130,7 +135,7 @@ int AI::getPosScore(Board& board, Pos pos, PieceType aiPiece) {
     return score;
 }
 
-int AI::getPosScoreV2(Board& board, Pos pos, PieceType aiPiece) {
+int AI::getPosScoreV2(const Board& board, Pos pos, PieceType aiPiece) {
     Judge judge;
     int score = 0;
     for (auto pattern : judge.analyse(board, pos, aiPiece)) { //考虑自己走哪里能赢

@@ -19,9 +19,9 @@ public:
      * @brief 给出下一步棋的位置
      * @param aiPiece   调用方的持子类型，从BLACK, WHITE中选择
      */
-    Pos calculateMove(Board& board, PieceType aiPiece);
-    Pos calculateMoveV1(Board& board, PieceType aiPiece);
-    Pos calculateMoveV2(Board& board, PieceType aiPiece);
+    Pos calculateMove(const Board& board, PieceType aiPiece);
+    Pos calculateMoveV1(const Board& board, PieceType aiPiece);
+    Pos calculateMoveV2(const Board& board, PieceType aiPiece);
 
 private:
     AIStrategy strategy;
@@ -30,17 +30,17 @@ private:
      * @brief 一个完全随机的下棋函数，当场上棋子较多时可能比较费时
      * @see 引自DeepSeek
      */
-    Pos randomMove(Board& board);
+    Pos randomMove(const Board& board, PieceType aiPiece);
     /**
      * @brief 根据分数图选取分数最大的位置落子
      */
-    Pos maxScoreMove(Board& board, PieceType aiPiece);
-    Pos maxScoreMoveV2(Board& board, PieceType aiPiece);
+    Pos maxScoreMove(const Board& board, PieceType aiPiece);
+    Pos maxScoreMoveV2(const Board& board, PieceType aiPiece);
     /**
      * @brief 根据给定棋盘和持子方生成分数图
      */
-    ScoreMap genScoreMap(Board& board, PieceType aiPiece);
-    ScoreMap genScoreMapV2(Board& board, PieceType aiPiece);
+    ScoreMap genScoreMap(const Board& board, PieceType aiPiece);
+    ScoreMap genScoreMapV2(const Board& board, PieceType aiPiece);
     /**
      * @brief 事实上，当AI下棋的时候，它不需要每次都更新所有的ScoreMap，而只需要更新新落子附近的即可
      * @todo
@@ -48,6 +48,6 @@ private:
     void updateScoreMap(ScoreMap& scoreMap);
     static int scorePattern(const PatternType pattern);
     static int scorePattern(const ChessPatternType pattern);
-    static int getPosScore(Board& board, Pos pos, PieceType aiPiece);
-    static int getPosScoreV2(Board& board, Pos pos, PieceType aiPiece);
+    static int getPosScore(const Board& board, Pos pos, PieceType aiPiece);
+    static int getPosScoreV2(const Board& board, Pos pos, PieceType aiPiece);
 };
