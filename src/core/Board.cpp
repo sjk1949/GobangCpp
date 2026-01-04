@@ -84,7 +84,7 @@ std::string Board::pieceToString(const PieceType type) const {
     switch (type)
     {
     case PieceType::EMPTY:
-        return " . ";
+        return " ∙ ";
     case PieceType::BLACK:
         return " ● ";
     case PieceType::WHITE:

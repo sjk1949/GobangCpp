@@ -19,6 +19,8 @@ public:
     ConsoleUI();
     /* 清屏 */
     void clear();
+    /* 展示标题 */
+    void displayTitle();
     /* 展示菜单 */
     void displayMenu(Menu& menu);
     /* 展示给定的棋盘 */

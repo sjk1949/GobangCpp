@@ -12,11 +12,7 @@ public:
     static Menu createMainMenu() {
         Menu menu;
         std::stringstream ss;
-        ss << "======================================\n";
-        ss << "=             五子棋小游戏            =\n";
-        ss << "=               @copyright           =\n";
-        ss << "======================================\n";
-        ss << "==============开始菜单================\n";
+        ss << "==================开始菜单====================\n";
         menu.setTitle(ss.str())
             .addItem(std::make_unique<MenuTaskItem>("开始游戏", std::make_unique<StartGameTask>()))
             .addItem(std::make_unique<MenuTaskItem>("加载游戏"))

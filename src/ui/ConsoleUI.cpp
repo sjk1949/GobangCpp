@@ -36,7 +36,15 @@ void ConsoleUI::clear() {
     buffer.clear();
 }
 
+void ConsoleUI::displayTitle() {
+    print("==============================================\n");
+    print("*               五子棋小游戏                 *\n");
+    print("*               @Copyright (c) 2026 Sjk1949  *\n");
+    print("==============================================\n");
+}
+
 void ConsoleUI::displayMenu(Menu& menu) {
+    displayTitle();
     print(menu.toString(), "\n");
     print("\'w\'\'s\'键上下滚动，\'a\'\'d\'键修改值\n");
 }
@@ -46,6 +54,7 @@ void ConsoleUI::displayBoard(const Board& board) {
 }
 
 void ConsoleUI::displayGame(Game& game) {
+    displayTitle();
     displayBoard(game.getBoard());
     print("Current Player: ");
     if (game.getCurrentPieceType() == PieceType::BLACK) {

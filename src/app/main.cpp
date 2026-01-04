@@ -10,6 +10,7 @@ using namespace Test;
 int main() {
     // ======测试用例======
     //JudgeTest::testRecursiveCheckForbidden();
+    //std::cout << "┌─┬─┬─┬─┬─┐\n├─┼─┼─┼─●─┤\n├─┼─┼─○─●─┤\n├─┼─┼─○─●─┤\n├─┼─┼─○─●─┤\n└─┴─┴─┴─┴─┘" << std::endl;
     // ======测试用例======
 
     // ======主程序======
