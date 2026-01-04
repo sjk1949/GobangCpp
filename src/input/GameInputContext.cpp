@@ -62,6 +62,8 @@ std::unique_ptr<Command> GameInputContext::parseSingleChar(char c) {
         return std::make_unique<QuitGameCommand>();
     case 'u':
         return std::make_unique<UndoCommand>();
+    case 'h':
+        return std::make_unique<HelpCommand>();
     default:
         return std::make_unique<InvalidGameCommand>();
     }

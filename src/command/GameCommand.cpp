@@ -8,4 +8,6 @@ void UndoCommand::execute(Game& game) {game.undoLastMove();}
 
 void QuitGameCommand::execute(Game& game) {game.quit();}
 
+void HelpCommand::execute(Game& game) {game.showHelp();}
+
 void InvalidGameCommand::execute(Game& game) {game.recievedInvalidCommand();}

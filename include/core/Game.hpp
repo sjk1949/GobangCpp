@@ -41,6 +41,7 @@ public:
     void placePieceAndCheck(Pos pos);
     void undoLastMove();
     void quit();
+    void showHelp();
     void recievedInvalidCommand();
 
 private:

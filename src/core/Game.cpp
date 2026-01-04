@@ -100,6 +100,10 @@ void Game::quit() {
     state = GameState::QUIT;
 }
 
+void Game::showHelp() {
+    setMessage("h-获取帮助 u-悔棋 q-退出");
+}
+
 void Game::recievedInvalidCommand() {
     setMessage("非法输入");
 }

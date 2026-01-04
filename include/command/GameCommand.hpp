@@ -33,6 +33,12 @@ public:
     void execute(Game& game) override;
 };
 
+class HelpCommand : public GameCommand
+{
+public:
+    void execute(Game& game) override;
+};
+
 class InvalidGameCommand : public GameCommand
 {
 public:
