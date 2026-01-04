@@ -5,16 +5,6 @@
 #include "player/HumanPlayer.hpp"
 #include "player/AIPlayer.hpp"
 
-/*
-Game::Game(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2) : board(Board::createEmptyBoard()), judge(Judge()) {
-    this->player1 = std::move(player1);
-    this->player2 = std::move(player2);
-    currentPlayer = this->player1.get();
-    state = GameState::PLAYING;
-    startTurnTime = std::chrono::steady_clock::now();
-}
-*/
-
 Game::Game(GameConfig config) : board(Board::createEmptyBoard()), judge(Judge()) {
     if (config.player1IsAI) {
         player1 = std::make_unique<AIPlayer>(config.player1Name, config.player1Strategy);
