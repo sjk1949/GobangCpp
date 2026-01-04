@@ -57,6 +57,7 @@ private:
     GameHistory history;
 
     bool useTimeLimit;
+    bool allowUndo;
     
     /**
      * @brief player1执黑棋，player2执白棋

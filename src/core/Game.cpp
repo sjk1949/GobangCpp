@@ -27,6 +27,7 @@ Game::Game(GameConfig config) : board(Board::createEmptyBoard()), judge(Judge())
         player2 = std::make_unique<HumanPlayer>(config.player2Name, config.player2Strategy);
     }
     useTimeLimit = config.useTimeLimit;
+    allowUndo = config.allowUndo;
     currentPlayer = this->player1.get();
     state = GameState::PLAYING;
     startTurnTime = std::chrono::steady_clock::now();
@@ -82,6 +83,10 @@ void Game::placePieceAndCheck(Pos pos) {
 }
 
 void Game::undoLastMove() {
+    if (!allowUndo) {
+        setMessage("不允许悔棋！");
+        return;
+    }
     if (!history.canUndo()) {
         setMessage("不能撤销！");
         return;

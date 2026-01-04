@@ -55,6 +55,13 @@ public:
                 [](Application& app, bool val) {
                     app.getGameConfig().useTimeLimit = val;
                 }, "开", "关"))
+            .addItem(std::make_unique<MenuBoolItem>("允许悔棋: ",
+                [](const Application& app) {
+                    return app.getGameConfig().allowUndo;
+                },
+                [](Application& app, bool val) {
+                    app.getGameConfig().allowUndo = val;
+                }, "开", "关"))
             .addItem(std::make_unique<MenuTaskItem>("退出游戏", std::make_unique<ExitTask>()));
         return menu;
     }
