@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <array>
-#include "core/ChessPattern.hpp"
 #include "core/LineInfo.hpp"
 #include "core/Board.hpp"
 

@@ -3,7 +3,7 @@
 #include <map>
 #include "core/Pos.hpp"
 #include "core/Board.hpp"
-#include "core/ChessPattern.hpp"
+#include "core/GameTypes.hpp"
 #include "core/LineInfo.hpp"
 
 /**
@@ -71,21 +71,4 @@ private:
      * @brief 统计一个落点四个方向棋型信息所含的不同棋型数量
      */
     std::map<ChessPatternType, int> countPattern(std::array<std::vector<ChessPatternType>, 4> patternList);
-    /**
-     * @brief 根据给定的棋型，检查所属的类型
-     */
-    ChessPatternType checkChessPatternType(const ChessPattern& pattern);
-    static bool checkFive(const Board& board, Pos pos);
-    static bool checkOverLine(const Board& board, Pos pos);
-    static bool checkDoubleFour(const Board& board, Pos pos);
-    static bool checkDoubleThree(const Board& board, Pos pos);
-    /**
-     * @brief 获取给定棋盘给定位置在给定方向组成的全部棋型
-     * @param pos 返回的棋型一定包含这个位置的棋子
-     * @return 返回值是个可变数组，这是因为同一个棋子可能在给定位置同时构成多种棋型，比如--B-BXB-B--黑棋落在X处时同时构成两个冲四
-     */
-    static std::vector<ChessPattern> getChessPatternInDir(const Board& board, Pos pos, Dir dir);
-    static std::vector<ChessPattern> getChessPattern(const Board& board, Pos pos);
-    static std::vector<ChessPatternType> getChessPatternType(const Board& board, Pos pos);
-    static std::vector<Pos> searchForAvailablePos(ChessPattern pattern) {return std::vector<Pos>();};
 };

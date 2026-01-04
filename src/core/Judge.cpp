@@ -158,30 +158,6 @@ bool Judge::isOverLine(const Board& board, LineInfo info, PieceType type) {
     return false;
 }
 
-bool Judge::checkFive(const Board& board, Pos pos) {
-    for (auto lineInfo : LineInfo::getAllLines(board, pos)) {
-        if (lineInfo.length == 5) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Judge::checkOverLine(const Board& board, Pos pos) {
-    if (LineInfo::getLongestLine(board, pos).length > 5) {
-        return true;
-    }
-    return false;
-}
-
-bool Judge::checkDoubleFour(const Board& board, Pos pos) {
-    return false;
-}
-
-bool Judge::checkDoubleThree(const Board& board, Pos pos) {
-    return false;
-}
-
 ForbiddenType Judge::checkForbidden(const Board& board, Pos pos, PieceType type) {
     if (type != PieceType::BLACK) {
         return ForbiddenType::NONE;
@@ -223,51 +199,6 @@ std::map<ChessPatternType, int> Judge::countPattern(std::array<std::vector<Chess
         }
     }
     return dict;
-}
-
-ChessPatternType Judge::checkChessPatternType(const ChessPattern& pattern) {
-    if (pattern.maxDist() >= 5) {
-        if (pattern.maxDist() + 1 == pattern.pieceNum()) {
-            return ChessPatternType::OVERLINE;
-        } else { // 按理来说不会出现这种情况
-            return ChessPatternType::NONE;
-        }
-    } else if (pattern.maxDist() == 4 && pattern.pieceNum() == 5) {
-        return ChessPatternType::FIVE;
-    }
-    // @todo
-    if (pattern.pieceNum() == 4) { // 是某种四
-        int fiveNumber = 0;
-        for (Pos pos : searchForAvailablePos(pattern)) {
-            if (!isForbidden(pattern.board, pos, pattern.pieceType)) {
-                ChessPattern newPattern = pattern;
-                newPattern.placePiece(pos);
-                if (checkChessPatternType(newPattern) == ChessPatternType::FIVE) {
-                    fiveNumber++;
-                }
-            }
-        }
-        switch (fiveNumber) {
-            case 2:
-                return ChessPatternType::LIVE_FOUR;
-            case 1:
-                return ChessPatternType::SLEEP_FOUR;
-            case 0:
-                return ChessPatternType::NONE;
-        }
-    }
-    if (pattern.pieceNum() == 3) { // 是某种三
-        for (Pos pos : searchForAvailablePos(pattern)) {
-            if (!isForbidden(pattern.board, pos, pattern.pieceType)) {
-                ChessPattern newPattern = pattern;
-                newPattern.placePiece(pos);
-                if (checkChessPatternType(newPattern) == ChessPatternType::LIVE_FOUR) { // 只要有一种能成活四， 便是活三
-                    return ChessPatternType::LIVE_THREE;
-                }
-            }
-        }
-    }
-    return ChessPatternType::NONE;
 }
 
 std::string Judge::chessPatternTypeToString(ChessPatternType type) {

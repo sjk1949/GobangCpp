@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include "core/GameTypes.hpp"
 #include "core/LineInfo.hpp"
-#include "core/ChessPattern.hpp"
 #include "core/Judge.hpp"
 
 AI::AI(AIStrategy strategy) : strategy(strategy) {}

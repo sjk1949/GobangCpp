@@ -2,7 +2,6 @@
 
 #include "core/Board.hpp"
 #include "core/GameTypes.hpp"
-#include "core/ChessPattern.hpp"
 #include "utils/ScoreMap.hpp"
 
 enum class AIStrategy {
