@@ -89,6 +89,11 @@ void Game::undoLastMove() {
     Move move = history.undoLastMove();
     board.setPos(move.pos, PieceType::EMPTY);
     changePlayer();
+    if (currentPlayer->isAI && history.canUndo()) { // 如果悔棋后对方是AI，且能撤一步，需要再撤一步
+        Move move = history.undoLastMove();
+        board.setPos(move.pos, PieceType::EMPTY);
+        changePlayer();
+    }
 }
 
 void Game::quit() {

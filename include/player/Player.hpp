@@ -7,6 +7,8 @@
 class Player
 {
 public:
+    bool isAI;
+
     //Player() = default;
     virtual ~Player() =default;
     Player(std::string name, AIStrategy strategy);
@@ -16,7 +18,6 @@ public:
 
 protected:
     std::string name;
-    bool isAI;
     AI ai;
     std::unique_ptr<GameCommand> commandBuffer;
     
