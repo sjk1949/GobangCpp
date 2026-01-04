@@ -19,6 +19,7 @@ enum class AppState
 class Application
 {
 private:
+    bool debugMode;
     int frame = 0;
     std::chrono::steady_clock::time_point initTime;
     AppState state;
@@ -42,7 +43,7 @@ public:
     static const int FPS = 20;
     static constexpr std::chrono::milliseconds MS_PER_FRAME = std::chrono::milliseconds(1000 / FPS);
 
-    Application(ConsoleUI& ui, InputDevice& input);
+    Application(ConsoleUI& ui, InputDevice& input, bool debugMode = false);
     ~Application() = default;
     GameConfig& getGameConfig();
     const GameConfig& getGameConfig() const;

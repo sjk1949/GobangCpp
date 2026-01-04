@@ -11,7 +11,7 @@
 #include "input/MenuInputContext.hpp"
 #include "utils/Logger.hpp"
 
-Application::Application(ConsoleUI& ui, InputDevice& input) : ui(ui), input(input) {
+Application::Application(ConsoleUI& ui, InputDevice& input, bool debugMode) : ui(ui), input(input), debugMode(debugMode) {
     state = AppState::MAIN_MENU;
     menu = MenuSet::createMainMenu();
     menu.setApp(*this);
@@ -104,7 +104,9 @@ void Application::render() {
         return;
     }
     ui.print("Frame: ", frame, "\n");
-    ui.drawDebugPanel();
+    if (debugMode) {
+        ui.drawDebugPanel();
+    }
     ui.flip();
 }
 

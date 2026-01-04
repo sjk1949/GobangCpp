@@ -103,8 +103,7 @@ void ConsoleUI::displayGame(Game& game) {
     if (game.hasTimeLimit()) {
         print("              Time Left: ", game.getRemainingTime(), "s");
     }
-    print("\n");
-    print(game.getMessage(), "\n");
+    print("\n输入A1或1A这样的格式来落子，按h打开帮助菜单\n", game.getMessage(), "\n");
     if (game.getGameState() != GameState::PLAYING) {
         displayGameResult(game.getGameState());
         print("按[ENTER]键回到菜单\n");
