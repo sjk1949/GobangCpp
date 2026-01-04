@@ -2,7 +2,7 @@
 
 #include <string>
 
-Player::Player(std::string name, AIStrategy strategy) : name(name), ai(AI(strategy)) {}
+Player::Player(std::string name, AIStrategy strategy, bool isAI) : name(name), ai(AI(strategy)), isAI(isAI) {}
 
 std::string Player::getName() const {
     return name;

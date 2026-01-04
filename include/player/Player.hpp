@@ -11,7 +11,7 @@ public:
 
     //Player() = default;
     virtual ~Player() =default;
-    Player(std::string name, AIStrategy strategy);
+    Player(std::string name, AIStrategy strategy, bool isAI);
     std::string getName() const;
     void push(std::unique_ptr<GameCommand> command);
     virtual std::unique_ptr<GameCommand> getCommand(Board& board, PieceType type) = 0;
