@@ -40,11 +40,6 @@ private:
      */
     ScoreMap genScoreMap(const Board& board, PieceType aiPiece);
     ScoreMap genScoreMapV2(const Board& board, PieceType aiPiece);
-    /**
-     * @brief 事实上，当AI下棋的时候，它不需要每次都更新所有的ScoreMap，而只需要更新新落子附近的即可
-     * @todo
-     */
-    void updateScoreMap(ScoreMap& scoreMap);
     static int scorePattern(const PatternType pattern);
     static int scorePattern(const ChessPatternType pattern);
     static int getPosScore(const Board& board, Pos pos, PieceType aiPiece);

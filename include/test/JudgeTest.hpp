@@ -4,6 +4,7 @@
 #include <array>
 #include "core/LineInfo.hpp"
 #include "core/Board.hpp"
+#include "core/Judge.hpp"
 
 namespace Test
 {
@@ -164,7 +165,6 @@ namespace Test
          * @brief 测试复杂递归禁手
          */
         static void testRecursiveCheckForbidden() {
-            // @todo
             Judge judge;
             Board board = Board::createEmptyBoard();
             board.setPos(Pos(6, 5), PieceType::BLACK);

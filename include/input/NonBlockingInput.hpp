@@ -2,7 +2,6 @@
 /**
  * @brief 这段代码来自deepseek关于非阻塞式跨平台输入读取的生成代码
  * @author DeepSeek
- * @todo 目前这段代码还不能实现Linux转义序列的读取操作
  */
 #include <iostream>
 #include <chrono>

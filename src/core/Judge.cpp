@@ -56,7 +56,6 @@ bool Judge::isLiveThree(const Board& board, LineInfo info, PieceType type) {
 
 bool Judge::canBecomeLiveFour(const Board& board, LineInfo info, PieceType type) {
     for (Pos pos : info.extension) {
-        // @todo 检查落点是否合法 目前会导致死循环
         //if (isForbidden(board, pos, type)) {continue;}
         Board newBoard = board.afterDrop(pos, type);
         LineInfo newInfo = LineInfo::checkLine(newBoard, pos, info.dir);
@@ -163,7 +162,6 @@ ForbiddenType Judge::checkForbidden(const Board& board, Pos pos, PieceType type)
         return ForbiddenType::NONE;
     }
     Board newBoard = board.afterDrop(pos, type);
-    // @todo 简单分析排除
     // 接下来这一步需要大量的分析，以及递归(如果适用的话)，所以如无必要，优先排除简单情况
     std::array<std::vector<ChessPatternType>, 4> patternList = analyse(newBoard, pos, type); // 分析的是假设落子后的棋盘，注意！
     std::map<ChessPatternType, int> dict = countPattern(patternList);

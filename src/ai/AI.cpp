@@ -23,12 +23,10 @@ Pos AI::calculateMove(const Board& board, PieceType aiPiece) {
 }
 
 Pos AI::calculateMoveV1(const Board& board, PieceType aiPiece) {
-    // @todo 根据棋盘分数图取最大值算出最佳位置
     return maxScoreMove(board, aiPiece);
 }
 
 Pos AI::calculateMoveV2(const Board& board, PieceType aiPiece) {
-    // @todo 根据棋盘分数图取最大值算出最佳位置
     return maxScoreMoveV2(board, aiPiece);
 }
 
@@ -61,7 +59,6 @@ ScoreMap AI::genScoreMap(const Board& board, PieceType aiPiece) {
     for (int x = 0; x < Board::BOARD_SIZE; x++) {
         for (int y = 0; y < Board::BOARD_SIZE; y++) {
             Pos pos(x, y);
-             // @todo 检查禁手是个消耗算力的操作，不应该先检查禁手，应该先找出最大值，再检查是不是禁手，减轻工作量
             if (!judge.isValidMove(board, pos, aiPiece)) { //检查禁手，如果是禁手，不能落子
                 scoreMap.setScore(pos, -1);
             } else {
@@ -79,7 +76,6 @@ ScoreMap AI::genScoreMapV2(const Board& board, PieceType aiPiece) {
     for (int x = 0; x < Board::BOARD_SIZE; x++) {
         for (int y = 0; y < Board::BOARD_SIZE; y++) {
             Pos pos(x, y);
-            // @todo 检查禁手是个消耗算力的操作，不应该先检查禁手，应该先找出最大值，再检查是不是禁手，减轻工作量
             if (!judge.isValidMove(board, pos, aiPiece)) { //检查禁手，如果是禁手，不能落子
                 scoreMap.setScore(pos, -1);
             } else {
