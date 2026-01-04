@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -53,9 +54,46 @@ void ConsoleUI::displayBoard(const Board& board) {
     print(board.toString(), "\n");
 }
 
+void ConsoleUI::displayBoard(const Board& board, std::vector<Pos> highlights) {
+    for (int i = Board::BOARD_SIZE; i >= 1; i--) {
+        print(std::setw(2), i);
+        displayBoardRow(board, i, highlights);
+        print("\n");
+    }
+    print("  ");
+    for (int i = 0; i < Board::BOARD_SIZE; i++) {
+        print(" ", char('A' + i), " ");
+    }
+    print("\n");
+}
+
+void ConsoleUI::displayBoardRow(const Board& board, int row, std::vector<Pos> highlights) {
+    static const int BLINK_INTERVAL = 400;// 闪动时间间隔，单位ms
+    static bool blink = false; // 如果为真，需要闪烁的图形消失
+    static int timeElapsed = 0;
+    static auto lastChangeTime = std::chrono::steady_clock::now();
+
+    // 更新是否在这一帧闪烁
+    if (timeElapsed > BLINK_INTERVAL) {
+        timeElapsed = 0;
+        blink = !blink;
+        lastChangeTime = std::chrono::steady_clock::now();
+    } else {
+        timeElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - lastChangeTime).count();
+    }
+    for (int i = 0; i < Board::BOARD_SIZE; i++) {
+        Pos pos(i, Board::BOARD_SIZE - row);
+        if (std::find(highlights.begin(), highlights.end(), pos) != highlights.end() && blink) {
+            print(board.pieceToString(PieceType::EMPTY));
+        } else {
+            print(board.pieceToString(board.getPos(pos)));
+        }
+    }
+}
+
 void ConsoleUI::displayGame(Game& game) {
     displayTitle();
-    displayBoard(game.getBoard());
+    displayBoard(game.getBoard(), game.getHighlights());
     print("Current Player: ");
     if (game.getCurrentPieceType() == PieceType::BLACK) {
         print("BLACK ●");

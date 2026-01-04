@@ -25,6 +25,8 @@ public:
     void displayMenu(Menu& menu);
     /* 展示给定的棋盘 */
     void displayBoard(const Board& board);
+    /* 展示给定的棋盘 */
+    void displayBoard(const Board& board, std::vector<Pos> highlights);
     /* 展示游戏 */
     void displayGame(Game& game);
     /* 展示游戏结果 */
@@ -52,4 +54,9 @@ private:
     std::stringstream buffer; // 缓冲区
 
     void detectBackend();
+
+    /**
+     * @brief 展示给定棋盘的一行
+     */
+    void displayBoardRow(const Board& board, int row, std::vector<Pos> highlights);
 };

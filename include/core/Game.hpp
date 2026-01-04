@@ -32,6 +32,7 @@ public:
     const std::string& getMessage() const;
     const GameState& getGameState() const;
     PieceType getCurrentPieceType() const;
+    const std::vector<Pos> getHighlights() const;
     /**
      * @brief 获得以秒为单位表示的当前回合剩余时间
      */
@@ -49,12 +50,13 @@ private:
     Judge judge;
     std::unique_ptr<Player> player1;
     std::unique_ptr<Player> player2;
-
+    
     Player* currentPlayer;
     std::chrono::steady_clock::time_point startTurnTime;
     GameState state;
     std::string message;
     GameHistory history;
+    std::vector<Pos> highlights;
 
     bool useTimeLimit;
     bool allowUndo;

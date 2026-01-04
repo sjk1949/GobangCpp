@@ -63,6 +63,7 @@ void Game::update() {
 void Game::placePieceAndCheck(Pos pos) {
     if (placePiece(pos, currentPlayer)) {
         history.addMove({pos, getPieceType(currentPlayer)});
+        std::vector<Pos> posList;
         switch (judge.ckeckWin(board, pos))
         {
         case GameResult::NO_WINNER:
@@ -70,9 +71,13 @@ void Game::placePieceAndCheck(Pos pos) {
             break;
         case GameResult::BLACK_WIN:
             state = GameState::BLACK_WIN;
+            posList = LineInfo::getLongestLine(board, pos).posList;
+            highlights.insert(highlights.end(), posList.begin(), posList.end());
             break;
         case GameResult::WHITE_WIN:
             state = GameState::WHITE_WIN;
+            posList = LineInfo::getLongestLine(board, pos).posList;
+            highlights.insert(highlights.end(), posList.begin(), posList.end());
             break;
         case GameResult::DRAW:
             state = GameState::DRAW;
@@ -133,6 +138,10 @@ PieceType Game::getCurrentPieceType() const {
     return getPieceType(currentPlayer);
 }
 
+const std::vector<Pos> Game::getHighlights() const {
+    return highlights;
+}
+
 int Game::getRemainingTime() const {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTurnTime).count();
@@ -149,7 +158,12 @@ const bool Game::hasTimeLimit() const {
 }
 
 bool Game::placePiece(Pos pos, Player* player) {
-    return placePiece(board, pos, getPieceType(player));
+    if (placePiece(board, pos, getPieceType(player))) {
+        highlights.clear();
+        highlights.push_back(pos);
+        return true;
+    }
+    return false;
 }
 
 bool Game::placePiece(const Board& board, const Pos pos, PieceType type) {

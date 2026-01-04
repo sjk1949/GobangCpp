@@ -31,6 +31,8 @@ public:
     bool isEmpty(Pos pos);
     
     static PieceType opponentOf(PieceType type);
+    std::string pieceToString(const PieceType type) const;
+    
     std::string toString() const override;
     std::string toString(const std::unordered_map<Pos, std::string, PosHash>* highlights) const;
 
@@ -40,7 +42,7 @@ private:
     Board();
     /* 清空棋盘 */
     void clearBoard();
-    std::string pieceToString(const PieceType type) const;
+
     //std::string toStringRow(int row) const;
     std::string toStringRow(int row, const std::unordered_map<Pos, std::string, PosHash>* highlights = nullptr) const;
 };
