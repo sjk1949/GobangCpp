@@ -108,6 +108,10 @@ PieceType Game::getCurrentPieceType() const {
     return getPieceType(currentPlayer);
 }
 
+const std::vector<Pos> Game::getHighlights() const {
+    return highlights;
+}
+
 int Game::getRemainingTime() const {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTurnTime).count();
@@ -124,7 +128,11 @@ const bool Game::hasTimeLimit() const {
 }
 
 bool Game::placePiece(Pos pos, Player* player) {
-    return placePiece(board, pos, getPieceType(player));
+    if (placePiece(board, pos, getPieceType(player))) {
+        highlights.push_back(pos);
+        return true;
+    }
+    return false;
 }
 
 bool Game::placePiece(const Board& board, const Pos pos, PieceType type) {

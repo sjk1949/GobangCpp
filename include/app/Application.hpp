@@ -39,7 +39,7 @@ private:
     void sleep(std::chrono::milliseconds milliseconds);
 
 public:
-    static const int FPS = 5;
+    static const int FPS = 20;
     static constexpr std::chrono::milliseconds MS_PER_FRAME = std::chrono::milliseconds(1000 / FPS);
 
     Application(ConsoleUI& ui, InputDevice& input);
