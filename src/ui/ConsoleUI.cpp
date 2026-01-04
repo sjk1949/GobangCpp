@@ -56,10 +56,11 @@ void ConsoleUI::displayBoard(const Board& board, std::vector<Pos> highlights) {
     for (int i = 0; i < Board::BOARD_SIZE; i++) {
         print(" ", char('A' + i), " ");
     }
+    print("\n");
 }
 
 void ConsoleUI::displayBoardRow(const Board& board, int row, std::vector<Pos> highlights) {
-    static const int BLINK_INTERVAL = 200;// 闪动时间间隔，单位ms
+    static const int BLINK_INTERVAL = 400;// 闪动时间间隔，单位ms
     static bool blink = false; // 如果为真，需要闪烁的图形消失
     static int timeElapsed = 0;
     static auto lastChangeTime = std::chrono::steady_clock::now();
@@ -75,7 +76,7 @@ void ConsoleUI::displayBoardRow(const Board& board, int row, std::vector<Pos> hi
     for (int i = 0; i < Board::BOARD_SIZE; i++) {
         Pos pos(i, Board::BOARD_SIZE - row);
         if (std::find(highlights.begin(), highlights.end(), pos) != highlights.end() && blink) {
-            print("   ");
+            print(board.pieceToString(PieceType::EMPTY));
         } else {
             print(board.pieceToString(board.getPos(pos)));
         }

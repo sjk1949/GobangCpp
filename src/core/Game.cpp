@@ -61,6 +61,7 @@ void Game::update() {
 
 void Game::placePieceAndCheck(Pos pos) {
     if (placePiece(pos, currentPlayer)) {
+        std::vector<Pos> posList;
         switch (judge.ckeckWin(board, pos))
         {
         case GameResult::NO_WINNER:
@@ -68,9 +69,13 @@ void Game::placePieceAndCheck(Pos pos) {
             break;
         case GameResult::BLACK_WIN:
             state = GameState::BLACK_WIN;
+            posList = LineInfo::getLongestLine(board, pos).posList;
+            highlights.insert(highlights.end(), posList.begin(), posList.end());
             break;
         case GameResult::WHITE_WIN:
             state = GameState::WHITE_WIN;
+            posList = LineInfo::getLongestLine(board, pos).posList;
+            highlights.insert(highlights.end(), posList.begin(), posList.end());
             break;
         case GameResult::DRAW:
             state = GameState::DRAW;
@@ -129,6 +134,7 @@ const bool Game::hasTimeLimit() const {
 
 bool Game::placePiece(Pos pos, Player* player) {
     if (placePiece(board, pos, getPieceType(player))) {
+        highlights.clear();
         highlights.push_back(pos);
         return true;
     }
