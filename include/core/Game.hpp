@@ -6,6 +6,7 @@
 #include "core/GameConfig.hpp"
 #include "core/Board.hpp"
 #include "core/Judge.hpp"
+#include "core/GameHistory.hpp"
 #include "command/GameCommand.hpp"
 #include "player/Player.hpp"
 
@@ -38,6 +39,7 @@ public:
     const bool hasTimeLimit() const;
 
     void placePieceAndCheck(Pos pos);
+    void undoLastMove();
     void quit();
     void recievedInvalidCommand();
 
@@ -46,13 +48,15 @@ private:
     Judge judge;
     std::unique_ptr<Player> player1;
     std::unique_ptr<Player> player2;
+
     Player* currentPlayer;
     std::chrono::steady_clock::time_point startTurnTime;
     GameState state;
     std::string message;
+    GameHistory history;
+
     bool useTimeLimit;
     
-
     /**
      * @brief player1执黑棋，player2执白棋
      */

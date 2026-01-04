@@ -9,6 +9,7 @@ class GameCommand : public Command
 {
 public:
     virtual void execute(Game& game) = 0;
+    virtual void undo(Game &game) {};
 };
 
 class PlacePieceCommand : public GameCommand
@@ -18,6 +19,12 @@ public:
     void execute(Game& game) override;
 private:
     Pos pos;
+};
+
+class UndoCommand : public GameCommand
+{
+public:
+    void execute(Game& game) override;
 };
 
 class QuitGameCommand : public GameCommand

@@ -2,8 +2,10 @@
 
 #include "core/Game.hpp"
 
-void PlacePieceCommand::execute(Game& game) {game.placePieceAndCheck(pos);};
+void PlacePieceCommand::execute(Game& game) {game.placePieceAndCheck(pos);}
 
-void QuitGameCommand::execute(Game& game) {game.quit();};
+void UndoCommand::execute(Game& game) {game.undoLastMove();}
 
-void InvalidGameCommand::execute(Game& game) {game.recievedInvalidCommand();};
+void QuitGameCommand::execute(Game& game) {game.quit();}
+
+void InvalidGameCommand::execute(Game& game) {game.recievedInvalidCommand();}

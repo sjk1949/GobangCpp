@@ -61,6 +61,7 @@ void Game::update() {
 
 void Game::placePieceAndCheck(Pos pos) {
     if (placePiece(pos, currentPlayer)) {
+        history.addMove({pos, getPieceType(currentPlayer)});
         switch (judge.ckeckWin(board, pos))
         {
         case GameResult::NO_WINNER:
@@ -78,6 +79,16 @@ void Game::placePieceAndCheck(Pos pos) {
         }
         setMessage("");
     }
+}
+
+void Game::undoLastMove() {
+    if (!history.canUndo()) {
+        setMessage("不能撤销！");
+        return;
+    }
+    Move move = history.undoLastMove();
+    board.setPos(move.pos, PieceType::EMPTY);
+    changePlayer();
 }
 
 void Game::quit() {

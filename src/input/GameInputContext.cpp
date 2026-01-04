@@ -34,8 +34,8 @@ std::unique_ptr<Command> GameInputContext::parseInput(const std::string& input) 
     }
 
     std::string lowerInput = toLower(input);
-    if (lowerInput == "quit" || lowerInput == "q") {
-        return std::make_unique<QuitGameCommand>();
+    if (lowerInput.size() == 1) {
+        return parseSingleChar(lowerInput[0]);
     } else  if (parseStringRegex(lowerInput, c, n)) {
         return std::make_unique<PlacePieceCommand>(parsePos(c, n));
     } else {
@@ -54,6 +54,17 @@ std::string GameInputContext::toLower(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); });
     return lower;
+}
+
+std::unique_ptr<Command> GameInputContext::parseSingleChar(char c) {
+    switch(c) {
+    case 'q':
+        return std::make_unique<QuitGameCommand>();
+    case 'u':
+        return std::make_unique<UndoCommand>();
+    default:
+        return std::make_unique<InvalidGameCommand>();
+    }
 }
 
 bool GameInputContext::parseStringRegex(const std::string& str, char& c, int& num) {
