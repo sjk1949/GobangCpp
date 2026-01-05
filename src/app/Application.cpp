@@ -1,3 +1,11 @@
+/**
+ * @file Application.cpp
+ * @brief Core application logic implementation.
+ *
+ * Copyright (c) 2026 Sjk1949
+ * Licensed under the MIT License.
+ */
+
 #include "app/Application.hpp"
 
 #include <chrono>

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "app/Application.hpp"
 #include "input/ConsoleInput.hpp"
 
